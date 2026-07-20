@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// =================================================================
-/// 1. HALAMAN UTAMA: FRATRES
+/// HALAMAN UTAMA: MENU UTAMA DATA FRATRES
 /// =================================================================
 class HalamanFratres extends StatelessWidget {
   const HalamanFratres({super.key});
@@ -9,66 +10,64 @@ class HalamanFratres extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("FRATRES")),
+      appBar: AppBar(
+        title: const Text("Direktori Fratres"),
+      ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20.0),
         children: [
-          _buildCategoryCard(context, "PROVINCIA", "Daftar Provinsi"),
-          _buildCategoryCard(context, "COMMISSARIATUS GENERALIS", "Daftar Komisariat Jenderal"),
-          _buildCategoryCard(context, "DELEGATIO GENERALIS", "Daftar Delegatus Jenderal"),
+          _buildMenuCard(
+            context,
+            title: "Provincia / Entities",
+            icon: Icons.domain,
+            subtitle: "Daftar Provinsi, Sejarah, Website, & Konsilium",
+            page: const HalamanFratresEntities(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Conventus (Biara)",
+            icon: Icons.holiday_village,
+            subtitle: "Daftar Rumah Biara, Alamat Lengkap, & Kontak",
+            page: const HalamanFratresConventus(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Sodales (Anggota)",
+            icon: Icons.people,
+            subtitle: "Daftar Anggota, Tanggal Kaul, & Tahbisan",
+            page: const HalamanFratresSodales(),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCategoryCard(BuildContext context, String title, String subtitle) {
+  Widget _buildMenuCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required String subtitle,
+    required Widget page,
+  }) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        leading: CircleAvatar(
+          backgroundColor: Colors.brown,
+          child: Icon(icon, color: Colors.white),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+        ),
         subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () => Navigator.push(context, MaterialPageRoute(
-          builder: (context) => HalamanDaftarEntitasFratres(kategori: title)
-        )),
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// 2. HALAMAN DAFTAR NAMA ENTITAS (Dinamis sesuai kategori)
-/// =================================================================
-class HalamanDaftarEntitasFratres extends StatelessWidget {
-  final String kategori;
-  const HalamanDaftarEntitasFratres({super.key, required this.kategori});
-
-  @override
-  Widget build(BuildContext context) {
-    // Menyiapkan variabel daftar nama kosong
-    List<String> daftarNama = [];
-
-    // Logika untuk mengubah isi daftar berdasarkan kategori yang diklik
-    if (kategori == "PROVINCIA") {
-      daftarNama = ["Provinsi Indonesia", "Provinsi Belanda", "Provinsi Amerika"];
-    } else if (kategori == "COMMISSARIATUS GENERALIS") {
-      daftarNama = ["Commissariatus 1", "Commissariatus 2", "Commissariatus 3"];
-    } else if (kategori == "DELEGATIO GENERALIS") {
-      daftarNama = ["Delegatio 1", "Delegatio 2", "Delegatio 3"];
-    }
-
-    return Scaffold(
-      appBar: AppBar(title: Text(kategori)),
-      body: ListView.builder(
-        itemCount: daftarNama.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(daftarNama[index], style: const TextStyle(fontWeight: FontWeight.w500)),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
-            onTap: () => Navigator.push(context, MaterialPageRoute(
-              builder: (context) => HalamanDetailEntitasFratres(namaEntitas: daftarNama[index])
-            )),
-          );
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
       ),
     );
@@ -76,131 +75,306 @@ class HalamanDaftarEntitasFratres extends StatelessWidget {
 }
 
 /// =================================================================
-/// 3. HALAMAN DETAIL ENTITAS (Tab Bar dengan warna terang)
+/// SUB-HALAMAN 1: DATA FRATRES – PROVINCIA / ENTITIES
 /// =================================================================
-class HalamanDetailEntitasFratres extends StatelessWidget {
-  final String namaEntitas;
-  const HalamanDetailEntitasFratres({super.key, required this.namaEntitas});
+class HalamanFratresEntities extends StatefulWidget {
+  const HalamanFratresEntities({super.key});
+
+  @override
+  State<HalamanFratresEntities> createState() => _HalamanFratresEntitiesState();
+}
+
+class _HalamanFratresEntitiesState extends State<HalamanFratresEntities> {
+  final TextEditingController _searchController = TextEditingController();
+  String _query = "";
+
+  Future<List<dynamic>> _fetchEntities() async {
+    final response = await Supabase.instance.client
+        .from('entities')
+        .select('*, addresses(*)')
+        .eq('entity_category', 'Fratres')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 6,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(namaEntitas, style: const TextStyle(fontSize: 18)),
-          bottom: const TabBar(
-            isScrollable: true,
-            // --- PENGATURAN WARNA TAB BAR TERANG ---
-            labelColor: Colors.yellowAccent, // Warna teks saat tab dipilih (Terang)
-            unselectedLabelColor: Colors.white70, // Warna teks tab lain (Sedikit pudar)
-            indicatorColor: Colors.yellowAccent, // Warna garis bawah tab (Terang)
-            indicatorWeight: 3.0, // Ketebalan garis bawah
-            tabs: [
-              Tab(text: "Historia"),
-              Tab(text: "Website"),
-              Tab(text: "Consilium"),
-              Tab(text: "Domus"),
-              Tab(text: "Conventus"),
-              Tab(text: "Sodales"),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            _buildHistoria(),
-            _buildWebsite(),
-            _buildConsilium(context),
-            _buildDomus(),
-            _buildConventus(context),
-            _buildSodales(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- Masing-masing Tab Content ---
-
-  Widget _buildHistoria() {
-    return const Padding(
-      padding: EdgeInsets.all(16),
-      child: Text("Sejarah lengkap entitas terkait akan muncul di sini..."),
-    );
-  }
-
-  Widget _buildWebsite() {
-    return Center(
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
-        onPressed: () {}, 
-        icon: const Icon(Icons.language),
-        label: const Text("Buka Website Resmi")
-      ),
-    );
-  }
-
-  Widget _buildConsilium(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.person, color: Colors.brown),
-          title: const Text("P. Nama Pimpinan"),
-          subtitle: const Text("Prior Provincialis"),
-          onTap: () => _bukaDetailOrang(context, "P. Nama Pimpinan"),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDomus() {
-    return const Padding(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(title: const Text("Provincia & Entities")),
+      body: Column(
         children: [
-          Text("Alamat Pimpinan:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
-          SizedBox(height: 8),
-          Text("Nama Biara, Nama Jalan, Kota, Negara, Kodepos..."),
+          _buildSearchBar("Cari Provinsi / Entitas...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchEntities(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Entitas Fratres.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final entity = filtered[index];
+                    final address = entity['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        title: Text(entity['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(entity['website_url'] ?? 'Tidak ada Website'),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Historia:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                Text(entity['historia'] ?? 'Belum ada data sejarah.'),
+                                const Divider(),
+                                Text("Domus/Kantor Pusat:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                if (address != null) ...[
+                                  Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}"),
+                                  Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})"),
+                                  Text("Telp: ${address['telephone'] ?? '-'} • Email: ${address['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Alamat tidak tersedia."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// SUB-HALAMAN 2: DATA FRATER – CONVENTUS (RUMAH BIARA)
+/// =================================================================
+class HalamanFratresConventus extends StatefulWidget {
+  const HalamanFratresConventus({super.key});
+
+  @override
+  State<HalamanFratresConventus> createState() => _HalamanFratresConventusState();
+}
+
+class _HalamanFratresConventusState extends State<HalamanFratresConventus> {
+  final TextEditingController _searchController = TextEditingController();
+  String _query = "";
+
+  Future<List<dynamic>> _fetchConventus() async {
+    // Menggunakan Inner Join agar memuat conventus yang parent_entity-nya berkategori 'Fratres'
+    final response = await Supabase.instance.client
+        .from('conventus')
+        .select('*, addresses(*), entities!inner(*)')
+        .eq('entities.entity_category', 'Fratres')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Conventus (Biara)")),
+      body: Column(
+        children: [
+          _buildSearchBar("Cari Nama Biara / Kota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchConventus(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Biara Fratres.");
+
+                final filtered = snapshot.data!.where((item) {
+                  final name = (item['name'] ?? '').toString().toLowerCase();
+                  final city = (item['addresses']?['city'] ?? '').toString().toLowerCase();
+                  return name.contains(_query) || city.contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final conv = filtered[index];
+                    final addr = conv['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        leading: const Icon(Icons.church, color: Colors.brown),
+                        title: Text(conv['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Entity: ${conv['entities']?['name'] ?? '-'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Detail Lokasi Biara:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                if (addr != null) ...[
+                                  Text("Jalan/No: ${addr['street'] ?? '-'}"),
+                                  Text("Kota: ${addr['city'] ?? '-'}"),
+                                  Text("Negara: ${addr['country'] ?? '-'}"),
+                                  Text("Kode Pos: ${addr['postal_code'] ?? '-'}"),
+                                  Text("Telepon: ${addr['telephone'] ?? '-'}"),
+                                  Text("Fax: ${addr['faxcimile'] ?? '-'}"),
+                                  Text("Email: ${addr['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Data alamat kosong."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// SUB-HALAMAN 3: DATA FRATRES – SODALES (ANGGOTA)
+/// =================================================================
+class HalamanFratresSodales extends StatefulWidget {
+  const HalamanFratresSodales({super.key});
+
+  @override
+  State<HalamanFratresSodales> createState() => _HalamanFratresSodalesState();
+}
+
+class _HalamanFratresSodalesState extends State<HalamanFratresSodales> {
+  final TextEditingController _searchController = TextEditingController();
+  String _query = "";
+
+  Future<List<dynamic>> _fetchSodales() async {
+    // Menarik data members yang terikat ke entitas kategori 'Fratres'
+    final response = await Supabase.instance.client
+        .from('members')
+        .select('*, entities!inner(*), conventus(*)')
+        .eq('entities.entity_category', 'Fratres')
+        .order('full_name', ascending: true);
+    return response as List<dynamic>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Sodales (Anggota Fratres)")),
+      body: Column(
+        children: [
+          _buildSearchBar("Cari Nama Anggota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchSodales(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Anggota Fratres.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final member = filtered[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      child: ExpansionTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.brown,
+                          child: Icon(Icons.person, color: Colors.white),
+                        ),
+                        title: Text(member['full_name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Biara: ${member['conventus']?['name'] ?? 'Belum ditentukan'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDetailRow("Kategori/Peran", member['role']),
+                                _buildDetailRow("Tempat Lahir", member['city_of_birth']),
+                                _buildDetailRow("Negara Lahir", member['country_of_birth']),
+                                _buildDetailRow("Tanggal Lahir", member['date_of_birth']),
+                                const Divider(),
+                                _buildDetailRow("Kaul Perdana", member['first_profession_date']),
+                                _buildDetailRow("Kaul Kekal", member['solemn_profession_date']),
+                                _buildDetailRow("Tanggal Tahbisan", member['ordination_date']),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildConventus(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.location_city, color: Colors.brown),
-          title: const Text("Biara Titus Brandsma"),
-          subtitle: const Text("Malang"),
-          trailing: const Icon(Icons.info_outline),
-          onTap: () {}, // Buka alamat lengkap biara
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSodales(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const CircleAvatar(backgroundColor: Colors.brown, child: Icon(Icons.person, color: Colors.white)),
-          title: const Text("Fr. Nama Anggota"),
-          subtitle: const Text("Kaul Perdana: 01-01-2020"),
-          onTap: () => _bukaDetailOrang(context, "Fr. Nama Anggota"),
-        ),
-      ],
-    );
-  }
-
-  void _bukaDetailOrang(BuildContext context, String nama) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(
-      appBar: AppBar(title: Text(nama)),
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("Data Lengkap: Foto, Kota Lahir, Tanggal Lahir, Kaul, Tahbisan..."),
+  Widget _buildDetailRow(String label, dynamic value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(value?.toString() ?? '-'),
+        ],
       ),
-    )));
+    );
   }
+}
+
+/// =================================================================
+/// WIDGET HELPER GLOBAL UNTUK MENGURANGI REPETISI KODE
+/// =================================================================
+Widget _buildSearchBar(String hint, ValueChanged<String> onChanged) {
+  return Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: TextField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: hint,
+        prefixIcon: const Icon(Icons.search, color: Colors.brown),
+        border: const OutlineInputBorder(),
+      ),
+    ),
+  );
+}
+
+Widget _buildLoading() {
+  return const Center(child: CircularProgressIndicator(color: Colors.brown));
+}
+
+Widget _buildError(Object? error) {
+  return Center(child: Text("Terjadi kesalahan database: $error", style: const TextStyle(color: Colors.red)));
+}
+
+Widget _buildEmpty(String message) {
+  return Center(child: Text(message, style: const TextStyle(color: Colors.grey)));
 }

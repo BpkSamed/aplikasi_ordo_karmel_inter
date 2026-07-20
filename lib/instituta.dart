@@ -1,36 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// =================================================================
-/// 1. HALAMAN UTAMA: INSTITUTA
-/// Berdasarkan alur: Menampilkan daftar kongregasi yang berafiliasi
+/// HALAMAN UTAMA: MENU UTAMA DATA INSTITUTA
 /// =================================================================
 class HalamanInstituta extends StatelessWidget {
   const HalamanInstituta({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Contoh daftar kongregasi berafiliasi berdasarkan dokumen flow
-    final List<String> daftarKongregasi = [
-      "Congregatio Carmelitarum (Indonesia)",
-      "Congregatio Sororum Carmelitarum",
-      "Instituta Berafiliasi Lainnya"
-    ];
-
     return Scaffold(
-      appBar: AppBar(title: const Text("INSTITUTA")),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: daftarKongregasi.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(daftarKongregasi[index], style: const TextStyle(fontWeight: FontWeight.bold)),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () => Navigator.push(context, MaterialPageRoute(
-                builder: (context) => HalamanDetailInstituta(namaInstituta: daftarKongregasi[index])
-              )),
-            ),
-          );
+      appBar: AppBar(
+        title: const Text("Direktori Instituta"),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20.0),
+        children: [
+          _buildMenuCard(
+            context,
+            title: "Entities / Institutan",
+            icon: Icons.corporate_fare,
+            subtitle: "Daftar Nama Institut, Sejarah, & Website Resmi",
+            page: const HalamanInstitutaEntities(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Conventus / Rumah Komunitas",
+            icon: Icons.home_work_outlined,
+            subtitle: "Daftar Rumah Komunitas Instituta dan Alamat Kontak",
+            page: const HalamanInstitutaConventus(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Sodales (Anggota Instituta)",
+            icon: Icons.groups_outlined,
+            subtitle: "Daftar Anggota, Biodata, & Tanggal Kaul",
+            page: const HalamanInstitutaMembers(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required String subtitle,
+    required Widget page,
+  }) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        leading: CircleAvatar(
+          backgroundColor: Colors.brown,
+          child: Icon(icon, color: Colors.white),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
       ),
     );
@@ -38,174 +75,305 @@ class HalamanInstituta extends StatelessWidget {
 }
 
 /// =================================================================
-/// 2. HALAMAN DETAIL INSTITUTA (Tab Bar)
-/// Menampilkan: Historia, Website, Consilium Generalis, Domus Generalis, Conventus
+/// SUB-HALAMAN 1: DATA INSTITUTA – ENTITIES / INSTITUTAN
 /// =================================================================
-class HalamanDetailInstituta extends StatelessWidget {
-  final String namaInstituta;
-  const HalamanDetailInstituta({super.key, required this.namaInstituta});
+class HalamanInstitutaEntities extends StatefulWidget {
+  const HalamanInstitutaEntities({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5, // Sesuai pilihan di dokumen flow
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(namaInstituta, style: const TextStyle(fontSize: 16)),
-          bottom: const TabBar(
-            isScrollable: true,
-            labelColor: Colors.yellowAccent, // Warna teks saat tab dipilih (Terang)
-            unselectedLabelColor: Colors.white70, // Warna teks tab lain (Sedikit pudar)
-            indicatorColor: Colors.yellowAccent, // Warna garis bawah tab (Terang)
-            indicatorWeight: 3.0, // Ketebalan garis bawah
-            tabs: [
-              Tab(text: "Historia"),
-              Tab(text: "Website"),
-              Tab(text: "Consilium Generalis"),
-              Tab(text: "Domus Generalis"),
-              Tab(text: "Conventus"),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            _buildHistoria(),
-            _buildWebsite(),
-            _buildConsilium(),
-            _buildDomusGeneralis(),
-            _buildConventus(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- Konten Tab Berdasarkan Dokumen ---
-
-  // Tab Historia [cite: 150]
-  Widget _buildHistoria() {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Text("Sejarah kongregasi terkait akan dimuat di sini sesuai data dari dokumen."),
-    );
-  }
-
-  // Tab Website [cite: 151]
-  Widget _buildWebsite() {
-    return Center(
-      child: ElevatedButton.icon(
-        icon: const Icon(Icons.language),
-        label: const Text("Kunjungi Website Kongregasi"),
-        onPressed: () {},
-      ),
-    );
-  }
-
-  // Tab Consilium Generalis [cite: 152]
-  Widget _buildConsilium() {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: const [
-        Text("Dewan Pimpinan Provinsi:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
-        SizedBox(height: 10),
-        ListTile(
-          leading: Icon(Icons.person),
-          title: Text("Nama Pimpinan 1"),
-          subtitle: Text("Jabatan"),
-        ),
-        ListTile(
-          leading: Icon(Icons.person),
-          title: Text("Nama Pimpinan 2"),
-          subtitle: Text("Jabatan"),
-        ),
-      ],
-    );
-  }
-
-  // Tab Domus Generalis [cite: 153]
-  Widget _buildDomusGeneralis() {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: const [
-        _InfoField(label: "Nama Biara", value: "Domus Generalis Instituta"),
-        _InfoField(label: "Nama Jalan dan Nomor", value: "Jl. Jenderal No. 1"),
-        _InfoField(label: "Nama Kota", value: "Kota Pimpinan"),
-        _InfoField(label: "Nama Negara", value: "Indonesia"),
-        _InfoField(label: "Kode Pos", value: "54321"),
-        _InfoField(label: "Nomor Telepon", value: "+62 21 000000"),
-        _InfoField(label: "Nomor Faxcimile", value: "+62 21 000001"),
-        _InfoField(label: "Alamat Email", value: "general@instituta.org"),
-      ],
-    );
-  }
-
-  // Tab Conventus 
-  Widget _buildConventus(BuildContext context) {
-    // Daftar biara dalam provinsi terkait
-    final List<String> daftarBiara = ["Biara Santo Yosef", "Biara Maria Imakulata"];
-
-    return ListView.builder(
-      padding: const EdgeInsets.all(12),
-      itemCount: daftarBiara.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(daftarBiara[index]),
-          subtitle: const Text("Nama Kota"),
-          trailing: const Icon(Icons.info_outline),
-          onTap: () => Navigator.push(context, MaterialPageRoute(
-            builder: (context) => HalamanDetailConventusInstituta(namaBiara: daftarBiara[index])
-          )),
-        );
-      },
-    );
-  }
+  State<HalamanInstitutaEntities> createState() => _HalamanInstitutaEntitiesState();
 }
 
-/// =================================================================
-/// 3. HALAMAN DETAIL CONVENTUS (ALAMAT LENGKAP BIARA)
-/// Berdasarkan tabel: DATA CONVENTUS INSTITUTA [cite: 224]
-/// =================================================================
-class HalamanDetailConventusInstituta extends StatelessWidget {
-  final String namaBiara;
-  const HalamanDetailConventusInstituta({super.key, required this.namaBiara});
+class _HalamanInstitutaEntitiesState extends State<HalamanInstitutaEntities> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchEntities() async {
+    final response = await Supabase.instance.client
+        .from('entities')
+        .select('*, addresses(*)')
+        .eq('entity_category', 'Instituta')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Detail Alamat Biara")),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      appBar: AppBar(title: const Text("Entities & Institut Induk")),
+      body: Column(
         children: [
-          _InfoField(label: "Nama Biara", value: namaBiara),
-          const _InfoField(label: "Nama Jalan dan Nomor", value: "Jl. Biara No. 123"),
-          const _InfoField(label: "Nama Kota", value: "Kota Biara"),
-          const _InfoField(label: "Nama Negara", value: "Indonesia"),
-          const _InfoField(label: "Kode Pos", value: "11223"),
-          const _InfoField(label: "Nomor Telepon", value: "+62 31 111111"),
-          const _InfoField(label: "Nomor Faxcimile", value: "+62 31 111112"),
-          const _InfoField(label: "Alamat Email", value: "biara@instituta.org"),
+          _buildSearchBar("Cari Nama Institut...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchEntities(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Entitas Instituta.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final entity = filtered[index];
+                    final address = entity['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        title: Text(entity['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(entity['website_url'] ?? 'Tidak ada Website'),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Historia / Deskripsi:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                Text(entity['historia'] ?? 'Belum ada data catatan sejarah.'),
+                                const Divider(),
+                                Text("Kantor Pusat / Domus:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                if (address != null) ...[
+                                  Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}"),
+                                  Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})"),
+                                  Text("Telp: ${address['telephone'] ?? '-'} • Email: ${address['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Alamat tidak tersedia."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _InfoField extends StatelessWidget {
-  final String label;
-  final String value;
-  const _InfoField({required this.label, required this.value});
+/// =================================================================
+/// SUB-HALAMAN 2: DATA INSTITUTA – CONVENTUS (RUMAH KOMUNITAS)
+/// =================================================================
+class HalamanInstitutaConventus extends StatefulWidget {
+  const HalamanInstitutaConventus({super.key});
+
+  @override
+  State<HalamanInstitutaConventus> createState() => _HalamanInstitutaConventusState();
+}
+
+class _HalamanInstitutaConventusState extends State<HalamanInstitutaConventus> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchConventus() async {
+    final response = await Supabase.instance.client
+        .from('conventus')
+        .select('*, addresses(*), entities!inner(*)')
+        .eq('entities.entity_category', 'Instituta')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(title: const Text("Rumah Komunitas")),
+      body: Column(
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+          _buildSearchBar("Cari Nama Komunitas / Kota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchConventus(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Komitas Instituta.");
+
+                final filtered = snapshot.data!.where((item) {
+                  final name = (item['name'] ?? '').toString().toLowerCase();
+                  final city = (item['addresses']?['city'] ?? '').toString().toLowerCase();
+                  return name.contains(_query) || city.contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final conv = filtered[index];
+                    final addr = conv['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        leading: const Icon(Icons.bungalow_outlined, color: Colors.brown),
+                        title: Text(conv['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Institut: ${conv['entities']?['name'] ?? '-'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Detail Alamat Komunitas:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                if (addr != null) ...[
+                                  Text("Gedung/Rumah: ${addr['house_name'] ?? '-'}"),
+                                  Text("Jalan/No: ${addr['street'] ?? '-'}"),
+                                  Text("Kota: ${addr['city'] ?? '-'}"),
+                                  Text("Negara: ${addr['country'] ?? '-'}"),
+                                  Text("Kode Pos: ${addr['postal_code'] ?? '-'}"),
+                                  Text("Telepon: ${addr['telephone'] ?? '-'}"),
+                                  Text("Fax: ${addr['faxcimile'] ?? '-'}"),
+                                  Text("Email: ${addr['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Data alamat belum dilengkapi."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+/// =================================================================
+/// SUB-HALAMAN 3: DATA INSTITUTA – SODALES (ANGGOTA)
+/// =================================================================
+class HalamanInstitutaMembers extends StatefulWidget {
+  const HalamanInstitutaMembers({super.key});
+
+  @override
+  State<HalamanInstitutaMembers> createState() => _HalamanInstitutaMembersState();
+}
+
+class _HalamanInstitutaMembersState extends State<HalamanInstitutaMembers> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchMembers() async {
+    final response = await Supabase.instance.client
+        .from('members')
+        .select('*, entities!inner(*), conventus(*)')
+        .eq('entities.entity_category', 'Instituta')
+        .order('full_name', ascending: true);
+    return response as List<dynamic>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Sodales (Anggota Instituta)")),
+      body: Column(
+        children: [
+          _buildSearchBar("Cari Nama Anggota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchMembers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Anggota Instituta.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final member = filtered[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      child: ExpansionTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.brown,
+                          child: Icon(Icons.person_outline, color: Colors.white),
+                        ),
+                        title: Text(member['full_name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Komunitas: ${member['conventus']?['name'] ?? 'Belum ditentukan'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDetailRow("Kategori/Peran", member['role']),
+                                _buildDetailRow("Kota Kelahiran", member['city_of_birth']),
+                                _buildDetailRow("Negara Kelahiran", member['country_of_birth']),
+                                _buildDetailRow("Tanggal Lahir", member['date_of_birth']),
+                                const Divider(),
+                                _buildDetailRow("Tanggal Kaul Perdana", member['first_profession_date']),
+                                _buildDetailRow("Tanggal Kaul Kekal", member['solemn_profession_date']),
+                                if (member['ordination_date'] != null)
+                                  _buildDetailRow("Tanggal Tahbisan (Jika Ada)", member['ordination_date']),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, dynamic value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(value?.toString() ?? '-'),
+        ],
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// WIDGET HELPER GLOBAL (REUSABLE)
+/// =================================================================
+Widget _buildSearchBar(String hint, ValueChanged<String> onChanged) {
+  return Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: TextField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: hint,
+        prefixIcon: const Icon(Icons.search, color: Colors.brown),
+        border: const OutlineInputBorder(),
+      ),
+    ),
+  );
+}
+
+Widget _buildLoading() {
+  return const Center(child: CircularProgressIndicator(color: Colors.brown));
+}
+
+Widget _buildError(Object? error) {
+  return Center(child: Text("Terjadi kesalahan database: $error", style: const TextStyle(color: Colors.red)));
+}
+
+Widget _buildEmpty(String message) {
+  return Center(child: Text(message, style: const TextStyle(color: Colors.grey)));
 }

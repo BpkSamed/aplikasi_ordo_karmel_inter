@@ -1,36 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// =================================================================
-/// 1. HALAMAN UTAMA: HEREMITAE
-/// Berdasarkan alur: Menampilkan daftar nama pertapaan
+/// HALAMAN UTAMA: MENU UTAMA DATA HEREMITAE
 /// =================================================================
 class HalamanHeremitae extends StatelessWidget {
   const HalamanHeremitae({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Dummy daftar nama pertapaan kategori Heremitae
-    final List<String> daftarPertapaan = [
-      "Eremo della Madonna del Granato",
-      "Hermitage of St. Mary Magdalene",
-      "Pertapaan Karmelit Heremitae"
-    ];
-
     return Scaffold(
-      appBar: AppBar(title: const Text("HEREMITAE")),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: daftarPertapaan.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(daftarPertapaan[index], style: const TextStyle(fontWeight: FontWeight.bold)),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () => Navigator.push(context, MaterialPageRoute(
-                builder: (context) => HalamanDetailHeremitae(namaPertapaan: daftarPertapaan[index])
-              )),
-            ),
-          );
+      appBar: AppBar(
+        title: const Text("Direktori Heremitae"),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20.0),
+        children: [
+          _buildMenuCard(
+            context,
+            title: "Entities / Wilayah",
+            icon: Icons.map,
+            subtitle: "Daftar Entitas Wilayah Heremitae, Sejarah, & Website",
+            page: const HalamanHeremitaeEntities(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Conventus / Pertapaan",
+            icon: Icons.holiday_village,
+            subtitle: "Daftar Rumah Pertapaan dan Informasi Kontak Resmi",
+            page: const HalamanHeremitaeConventus(),
+          ),
+          const SizedBox(height: 15),
+          _buildMenuCard(
+            context,
+            title: "Eremita (Anggota)",
+            icon: Icons.self_improvement,
+            subtitle: "Daftar Anggota Pertapa, Asal, & Tanggal Kaul",
+            page: const HalamanHeremitaeMembers(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required String subtitle,
+    required Widget page,
+  }) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        leading: CircleAvatar(
+          backgroundColor: Colors.brown,
+          child: Icon(icon, color: Colors.white),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
       ),
     );
@@ -38,157 +75,303 @@ class HalamanHeremitae extends StatelessWidget {
 }
 
 /// =================================================================
-/// 2. HALAMAN DETAIL HEREMITAE (Tab Bar)
-/// Menampilkan: Historia, Website, Domus Heremiti, Consilium Heremiti, Sodales
+/// SUB-HALAMAN 1: DATA HEREMITAE – ENTITIES / WILAYAH
 /// =================================================================
-class HalamanDetailHeremitae extends StatelessWidget {
-  final String namaPertapaan;
-  const HalamanDetailHeremitae({super.key, required this.namaPertapaan});
+class HalamanHeremitaeEntities extends StatefulWidget {
+  const HalamanHeremitaeEntities({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5, 
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(namaPertapaan, style: const TextStyle(fontSize: 16)),
-          bottom: const TabBar(
-            isScrollable: true,
-            labelColor: Colors.yellowAccent, // Warna teks saat tab dipilih (Terang)
-            unselectedLabelColor: Colors.white70, // Warna teks tab lain (Sedikit pudar)
-            indicatorColor: Colors.yellowAccent, // Warna garis bawah tab (Terang)
-            indicatorWeight: 3.0, // Ketebalan garis bawah
-            tabs: [
-              Tab(text: "Historia"),
-              Tab(text: "Website"),
-              Tab(text: "Domus Heremiti"),
-              Tab(text: "Consilium Heremiti"),
-              Tab(text: "Sodales"),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            _buildHistoria(),
-            _buildWebsite(),
-            _buildDomus(),
-            _buildConsilium(context),
-            _buildSodales(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- Konten Tab Berdasarkan Dokumen ---
-
-  // Tab Historia [cite: 144]
-  Widget _buildHistoria() {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Text("Sejarah pertapaan Heremitae terkait akan dimuat di sini..."),
-    );
-  }
-
-  // Tab Website [cite: 145]
-  Widget _buildWebsite() {
-    return Center(
-      child: ElevatedButton.icon(
-        icon: const Icon(Icons.language),
-        label: const Text("Kunjungi Website Pertapaan"),
-        onPressed: () {},
-      ),
-    );
-  }
-
-  // Tab Domus Heremiti [cite: 146]
-  Widget _buildDomus() {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: const [
-        _InfoField(label: "Nama Biara", value: "Eremo della Madonna"),
-        _InfoField(label: "Diosis", value: "Keuskupan Setempat"),
-        _InfoField(label: "Federasi", value: "Federasi Heremitae"),
-        _InfoField(label: "Nama Jalan dan Nomor", value: "Via dell'Eremo 12"),
-        _InfoField(label: "Nama Kota", value: "Capaccio"),
-        _InfoField(label: "Nama Negara", value: "Italy"),
-        _InfoField(label: "Kode Pos", value: "84047"),
-        _InfoField(label: "Nomor Telepon", value: "+39 0828 123456"),
-        _InfoField(label: "Nomor Faxcimile", value: "+39 0828 123457"),
-        _InfoField(label: "Alamat Email", value: "eremo@heremitae.org"),
-      ],
-    );
-  }
-
-  // Tab Consilium Heremiti [cite: 147]
-  Widget _buildConsilium(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: const Text("P. Antonio, O.Carm"),
-          subtitle: const Text("Prior"),
-          onTap: () => _bukaDetailPerson(context, "P. Antonio, O.Carm"),
-        ),
-      ],
-    );
-  }
-
-  // Tab Sodales (Urut tanggal kaul perdana) [cite: 148]
-  Widget _buildSodales(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const CircleAvatar(child: Text("G")),
-          title: const Text("Fr. Giovanni"),
-          subtitle: const Text("Kaul Perdana: 12-10-2012"),
-          onTap: () => _bukaDetailPerson(context, "Fr. Giovanni"),
-        ),
-      ],
-    );
-  }
-
-  // Halaman Detail Person (Mencakup Tanggal Tahbisan) 
-  void _bukaDetailPerson(BuildContext context, String nama) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(
-      appBar: AppBar(title: const Text("Detail Anggota")),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
-            const SizedBox(height: 20),
-            Text(nama, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            const Divider(),
-            const _InfoField(label: "Kota Kelahiran", value: "Naples"),
-            const _InfoField(label: "Negara Kelahiran", value: "Italy"),
-            const _InfoField(label: "Tanggal Lahir", value: "10-05-1985"),
-            const _InfoField(label: "Tanggal Kaul Perdana", value: "12-10-2012"),
-            const _InfoField(label: "Tanggal Kaul Kekal", value: "12-10-2015"),
-            const _InfoField(label: "Tanggal Tahbisan", value: "24-06-2016"),
-          ],
-        ),
-      ),
-    )));
-  }
+  State<HalamanHeremitaeEntities> createState() => _HalamanHeremitaeEntitiesState();
 }
 
-class _InfoField extends StatelessWidget {
-  final String label;
-  final String value;
-  const _InfoField({required this.label, required this.value});
+class _HalamanHeremitaeEntitiesState extends State<HalamanHeremitaeEntities> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchEntities() async {
+    final response = await Supabase.instance.client
+        .from('entities')
+        .select('*, addresses(*)')
+        .eq('entity_category', 'Heremitae')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(title: const Text("Entities & Wilayah Heremitae")),
+      body: Column(
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+          _buildSearchBar("Cari Entitas...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchEntities(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Entitas Heremitae.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final entity = filtered[index];
+                    final address = entity['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        title: Text(entity['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(entity['website_url'] ?? 'Tidak ada Website'),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Historia:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                Text(entity['historia'] ?? 'Belum ada data sejarah.'),
+                                const Divider(),
+                                Text("Lokasi Pusat Wilayah:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                if (address != null) ...[
+                                  Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}"),
+                                  Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})"),
+                                  Text("Telp: ${address['telephone'] ?? '-'} • Email: ${address['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Alamat tidak tersedia."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+/// =================================================================
+/// SUB-HALAMAN 2: DATA HEREMITAE – CONVENTUS (PERTAPAAN)
+/// =================================================================
+class HalamanHeremitaeConventus extends StatefulWidget {
+  const HalamanHeremitaeConventus({super.key});
+
+  @override
+  State<HalamanHeremitaeConventus> createState() => _HalamanHeremitaeConventusState();
+}
+
+class _HalamanHeremitaeConventusState extends State<HalamanHeremitaeConventus> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchConventus() async {
+    final response = await Supabase.instance.client
+        .from('conventus')
+        .select('*, addresses(*), entities!inner(*)')
+        .eq('entities.entity_category', 'Heremitae')
+        .order('name', ascending: true);
+    return response as List<dynamic>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Pertapaan (Conventus)")),
+      body: Column(
+        children: [
+          _buildSearchBar("Cari Nama Pertapaan / Kota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchConventus(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Pertapaan Heremitae.");
+
+                final filtered = snapshot.data!.where((item) {
+                  final name = (item['name'] ?? '').toString().toLowerCase();
+                  final city = (item['addresses']?['city'] ?? '').toString().toLowerCase();
+                  return name.contains(_query) || city.contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final conv = filtered[index];
+                    final addr = conv['addresses'];
+                    return Card(
+                      child: ExpansionTile(
+                        leading: const Icon(Icons.nature_people, color: Colors.brown),
+                        title: Text(conv['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Afiliasi: ${conv['entities']?['name'] ?? '-'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Detail Informasi Lokasi Pertapaan:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                const SizedBox(height: 4),
+                                if (addr != null) ...[
+                                  Text("Gedung/Rumah: ${addr['house_name'] ?? '-'}"),
+                                  Text("Jalan/No: ${addr['street'] ?? '-'}"),
+                                  Text("Kota: ${addr['city'] ?? '-'}"),
+                                  Text("Negara: ${addr['country'] ?? '-'}"),
+                                  Text("Kode Pos: ${addr['postal_code'] ?? '-'}"),
+                                  Text("Telepon: ${addr['telephone'] ?? '-'}"),
+                                  Text("Fax: ${addr['faxcimile'] ?? '-'}"),
+                                  Text("Email: ${addr['email'] ?? '-'}"),
+                                ] else
+                                  const Text("Data alamat belum dilengkapi."),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// SUB-HALAMAN 3: DATA HEREMITAE – EREMITA (ANGGOTA)
+/// =================================================================
+class HalamanHeremitaeMembers extends StatefulWidget {
+  const HalamanHeremitaeMembers({super.key});
+
+  @override
+  State<HalamanHeremitaeMembers> createState() => _HalamanHeremitaeMembersState();
+}
+
+class _HalamanHeremitaeMembersState extends State<HalamanHeremitaeMembers> {
+  String _query = "";
+
+  Future<List<dynamic>> _fetchMembers() async {
+    final response = await Supabase.instance.client
+        .from('members')
+        .select('*, entities!inner(*), conventus(*)')
+        .eq('entities.entity_category', 'Heremitae')
+        .order('full_name', ascending: true);
+    return response as List<dynamic>;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Eremita (Anggota Heremitae)")),
+      body: Column(
+        children: [
+          _buildSearchBar("Cari Nama Anggota...", (val) => setState(() => _query = val.toLowerCase())),
+          Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: _fetchMembers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                if (snapshot.hasError) return _buildError(snapshot.error);
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Anggota Heremitae.");
+
+                final filtered = snapshot.data!.where((item) {
+                  return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
+                }).toList();
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12.0),
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final member = filtered[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      child: ExpansionTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.brown,
+                          child: Icon(Icons.spa, color: Colors.white),
+                        ),
+                        title: Text(member['full_name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text("Pertapaan: ${member['conventus']?['name'] ?? 'Belum ditentukan'}"),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDetailRow("Kategori/Peran", member['role']),
+                                _buildDetailRow("Kota Kelahiran", member['city_of_birth']),
+                                _buildDetailRow("Negara Kelahiran", member['country_of_birth']),
+                                _buildDetailRow("Tanggal Lahir", member['date_of_birth']),
+                                const Divider(),
+                                _buildDetailRow("Tanggal Kaul Perdana", member['first_profession_date']),
+                                _buildDetailRow("Tanggal Kaul Kekal", member['solemn_profession_date']),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, dynamic value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(value?.toString() ?? '-'),
+        ],
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// WIDGET HELPER GLOBAL (REUSABLE)
+/// =================================================================
+Widget _buildSearchBar(String hint, ValueChanged<String> onChanged) {
+  return Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: TextField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: hint,
+        prefixIcon: const Icon(Icons.search, color: Colors.brown),
+        border: const OutlineInputBorder(),
+      ),
+    ),
+  );
+}
+
+Widget _buildLoading() {
+  return const Center(child: CircularProgressIndicator(color: Colors.brown));
+}
+
+Widget _buildError(Object? error) {
+  return Center(child: Text("Terjadi kesalahan database: $error", style: const TextStyle(color: Colors.red)));
+}
+
+Widget _buildEmpty(String message) {
+  return Center(child: Text(message, style: const TextStyle(color: Colors.grey)));
 }

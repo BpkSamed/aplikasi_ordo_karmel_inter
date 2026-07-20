@@ -12,6 +12,11 @@ import 'monasteria_ordinis.dart';
 import 'moniales.dart';
 import 'statistica.dart';
 import 'ministries.dart';
+import 'tambah_admin.dart';
+import 'tambah_anggota.dart';
+import 'daftar_admin.dart';
+import 'daftar_anggota.dart';
+import 'data_non_anggota.dart'; // Tambahkan baris ini // Tambahkan baris ini
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
@@ -137,6 +142,8 @@ class HalamanLogin extends StatelessWidget {
               decoration: InputDecoration(labelText: "Password", border: OutlineInputBorder()),
             ),
             const SizedBox(height: 30),
+            
+            // Tombol Login sebagai Anggota
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
@@ -144,9 +151,27 @@ class HalamanLogin extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
+                // Tetap mengarah ke HalamanUtama
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanUtama()));
               },
-              child: const Text("LOGIN"),
+              child: const Text("Login sebagai Anggota"),
+            ),
+            
+            const SizedBox(height: 15),
+
+            // Tombol Login sebagai Admin
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 50),
+                backgroundColor: Colors.white, // Warna dibedakan agar kontras
+                foregroundColor: Colors.brown,
+                side: const BorderSide(color: Colors.brown, width: 2), // Efek outline
+              ),
+              onPressed: () {
+                // Mengarah ke HalamanAdmin
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanAdmin()));
+              },
+              child: const Text("Login sebagai Admin", style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -276,7 +301,7 @@ class HalamanUtama extends StatelessWidget {
       else if (title.contains("MONASTERIA ORDINIS")) {
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (context) => const HalamanMonasteriaOrdinis()));
+          MaterialPageRoute(builder: (context) => const HalamanMonasteriaOrdiniss()));
       }
       else if (title == "HEREMITAE") {
         Navigator.push(
@@ -299,7 +324,97 @@ class HalamanUtama extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const HalamanMinistries()),
   );
 }
+      
       },
+    );
+  }
+}
+
+class HalamanAdmin extends StatelessWidget {
+  const HalamanAdmin({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Dasbor Admin"),
+        actions: [
+          // Tambahan tombol logout untuk admin
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanLogin()));
+            },
+          )
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20.0),
+        children: [
+          const Text(
+            "Menu Pengelolaan",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.brown),
+          ),
+          const SizedBox(height: 20),
+          
+          // Menu 1: Edit Data Admin
+          Card(
+            elevation: 3,
+            child: ListTile(
+              leading: const Icon(Icons.admin_panel_settings, color: Colors.brown),
+              title: const Text("Edit Data Admin", style: TextStyle(fontWeight: FontWeight.bold)),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                // TODO: Arahkan ke halaman form edit data admin nantinya
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Membuka menu Edit Data Admin..."))
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HalamanDaftarAdmin()),
+                );
+              },
+            ),
+          ),
+          
+          const SizedBox(height: 10),
+
+          // Menu 2: Edit Data Anggota
+          Card(
+            elevation: 3,
+            child: ListTile(
+              leading: const Icon(Icons.people, color: Colors.brown),
+              title: const Text("Edit Data Anggota", style: TextStyle(fontWeight: FontWeight.bold)),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                // TODO: Arahkan ke halaman form edit data anggota nantinya
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Membuka menu Edit Data Anggota..."))
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()),
+                );
+              },
+            ),
+          ),
+          Card(
+            elevation: 3,
+            child: ListTile(
+              leading: const Icon(Icons.dvr, color: Colors.brown),
+              title: const Text("Edit Data Non Anggota", style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text("Kelola Provinsi, Rumah Biara, Uskup, & Alamat"),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HalamanDataNonAnggota()),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
