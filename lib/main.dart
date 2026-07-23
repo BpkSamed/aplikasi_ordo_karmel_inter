@@ -16,7 +16,12 @@ import 'tambah_admin.dart';
 import 'tambah_anggota.dart';
 import 'daftar_admin.dart';
 import 'daftar_anggota.dart';
-import 'data_non_anggota.dart'; // Tambahkan baris ini // Tambahkan baris ini
+import 'data_non_anggota.dart';
+import 'daftar_data_non_anggota.dart';
+import 'kelola_pejabat_pusat.dart';
+import 'daftar_episcopi.dart';
+import 'kelola_komisi.dart';
+import 'kelola_citoc.dart'; // Tambahkan baris ini // Tambahkan baris ini
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
@@ -338,82 +343,114 @@ class HalamanAdmin extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dasbor Admin"),
-        actions: [
-          // Tambahan tombol logout untuk admin
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanLogin()));
-            },
-          )
-        ],
+        // Tambahkan tombol logout di sini jika diperlukan nanti
       ),
       body: ListView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           const Text(
-            "Menu Pengelolaan",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.brown),
+            "Menu Pengelolaan Direktori",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
           ),
-          const SizedBox(height: 20),
-          
-          // Menu 1: Edit Data Admin
-          Card(
-            elevation: 3,
-            child: ListTile(
-              leading: const Icon(Icons.admin_panel_settings, color: Colors.brown),
-              title: const Text("Edit Data Admin", style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                // TODO: Arahkan ke halaman form edit data admin nantinya
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Membuka menu Edit Data Admin..."))
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HalamanDaftarAdmin()),
-                );
-              },
-            ),
-          ),
-          
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
 
-          // Menu 2: Edit Data Anggota
-          Card(
-            elevation: 3,
-            child: ListTile(
-              leading: const Icon(Icons.people, color: Colors.brown),
-              title: const Text("Edit Data Anggota", style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                // TODO: Arahkan ke halaman form edit data anggota nantinya
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Membuka menu Edit Data Anggota..."))
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()),
-                );
-              },
-            ),
+          // 1. MENU DATA MASTER (Non-Anggota)
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Data Master",
+            subtitle: "Alamat, Entitas, dan Biara",
+            icon: Icons.domain,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarDataNonAnggota()));
+            },
           ),
-          Card(
-            elevation: 3,
-            child: ListTile(
-              leading: const Icon(Icons.dvr, color: Colors.brown),
-              title: const Text("Edit Data Non Anggota", style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: const Text("Kelola Provinsi, Rumah Biara, Uskup, & Alamat"),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HalamanDataNonAnggota()),
-                );
-              },
-            ),
+
+          // 2. MENU DATA ANGGOTA (Sodales)
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Data Anggota",
+            subtitle: "Tambah, Edit, dan Hapus Personalia",
+            icon: Icons.people,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()));
+            },
+          ),
+
+          // 3. MENU PEJABAT PUSAT (Curia & Sub Immediata)
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Pejabat Pusat & Curia",
+            subtitle: "Tunjuk pejabat Curia Generalis & Sub Immediata",
+            icon: Icons.assignment_ind,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaPejabatPusat()));
+            },
+          ),
+
+          // 4. MENU DATA USKUP (Episcopi)
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Data Uskup",
+            subtitle: "Kelola daftar Uskup Ex Ordines Assumpti",
+            icon: Icons.shield,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarEpiscopi()));
+            },
+          ),
+
+          // 4. MENU BERITA CITOC (Yang sudah kita bahas sebelumnya)
+         // 4. MENU BERITA CITOC
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Berita CITOC",
+            subtitle: "Tambahkan tautan berita terbaru",
+            icon: Icons.newspaper,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaCitoc()));
+            },
+          ),
+          // 5. MENU KELOLA KOMISI JENDERAL (Commissiones Generales)
+          _buildAdminMenuCard(
+            context: context,
+            title: "Kelola Komisi Jenderal",
+            subtitle: "Atur divisi komisi kerja dan anggotanya",
+            icon: Icons.assignment,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaKomisi()));
+            },
           ),
         ],
+      ),
+    );
+  }
+
+  // =================================================================
+  // WIDGET HELPER: CETAKAN KOTAK MENU AGAR UKURANNYA 100% SAMA
+  // =================================================================
+  Widget _buildAdminMenuCard({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 3, // Ketebalan bayangan disamakan
+      margin: const EdgeInsets.symmetric(vertical: 8), // Jarak antar menu
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Lengkungan sudut
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Ukuran tinggi kotak
+        leading: CircleAvatar(
+          backgroundColor: Colors.brown,
+          child: Icon(icon, color: Colors.white),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+        ),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: onTap,
       ),
     );
   }

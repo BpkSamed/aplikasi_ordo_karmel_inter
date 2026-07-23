@@ -4,6 +4,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// =================================================================
 /// HALAMAN UTAMA: MENU DATA MINISTRIES (KARYA KERASULAN)
 /// =================================================================
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+/// =================================================================
+/// HALAMAN UTAMA: MENU DATA MINISTRIES (KARYA KERASULAN)
+/// =================================================================
 class HalamanMinistries extends StatelessWidget {
   const HalamanMinistries({super.key});
 
@@ -17,56 +23,94 @@ class HalamanMinistries extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         children: [
           const Text(
-            "Karya Kerasulan & Pelayanan",
+            "Kategori Karya Kerasulan",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
           ),
           const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Lembaga / Karya (Entities)",
-            icon: Icons.volunteer_activism,
-            subtitle: "Daftar Paroki, Sekolah, Rumah Bina, & Yayasan",
-            page: const HalamanMinistriesEntities(),
+          
+          _buildMenuCard(context, "Parishes", Icons.church, 'Parishes'),
+          
+          // Menu Schools menggunakan ExpansionTile karena memiliki sub-kategori
+          Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: ExpansionTile(
+              leading: const CircleAvatar(
+                backgroundColor: Colors.brown, 
+                child: Icon(Icons.school, color: Colors.white)
+              ),
+              title: const Text("Schools", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+              children: [
+                _buildSubMenuCard(context, "Elementary School", 'Elementary School'),
+                _buildSubMenuCard(context, "Secondary School", 'Secondary School'),
+                _buildSubMenuCard(context, "Academy", 'Academy'),
+                _buildSubMenuCard(context, "University / Institute", 'University / Institute'),
+              ],
+            ),
           ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Personalia / Anggota (Sodales)",
-            icon: Icons.group_work,
-            subtitle: "Daftar Anggota yang Berkarya di Lembaga Pelayanan",
-            page: const HalamanMinistriesMembers(),
+
+          _buildMenuCard(context, "Retreat Centers", Icons.holiday_village, 'Retreat Centers'),
+          _buildMenuCard(context, "Spirituality Institute", Icons.self_improvement, 'Spirituality Institute'),
+          _buildMenuCard(context, "Social Ministries", Icons.volunteer_activism, 'Social Ministries'),
+          _buildMenuCard(context, "Libraries", Icons.local_library, 'Libraries'),
+          _buildMenuCard(context, "Hospitals / Clinics", Icons.local_hospital, 'Hospitals / Clinics'),
+
+          const SizedBox(height: 20),
+          const Divider(),
+          const SizedBox(height: 10),
+          
+          // Menu tambahan untuk melihat daftar keseluruhan personalia (anggota) yang berkarya di semua lembaga
+          Card(
+            elevation: 3,
+            color: Colors.brown.shade50,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Colors.brown, 
+                child: Icon(Icons.group_work, color: Colors.white)
+              ),
+              title: const Text("Seluruh Personalia Ministries", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+              subtitle: const Text("Daftar anggota yang berkarya di semua lembaga"),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMinistriesMembers()));
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMenuCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required String subtitle,
-    required Widget page,
-  }) {
+  Widget _buildMenuCard(BuildContext context, String title, IconData icon, String filterKategori) {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         leading: CircleAvatar(
-          backgroundColor: Colors.brown,
-          child: Icon(icon, color: Colors.white),
+          backgroundColor: Colors.brown, 
+          child: Icon(icon, color: Colors.white)
         ),
         title: Text(
           title,
           style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
         ),
-        subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HalamanMinistriesEntities(kategori: filterKategori)));
         },
       ),
+    );
+  }
+
+  Widget _buildSubMenuCard(BuildContext context, String title, String filterKategori) {
+    return ListTile(
+      contentPadding: const EdgeInsets.only(left: 70, right: 16),
+      title: Text(title),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HalamanMinistriesEntities(kategori: filterKategori)));
+      },
     );
   }
 }
@@ -75,7 +119,9 @@ class HalamanMinistries extends StatelessWidget {
 /// SUB-HALAMAN 1: DATA MINISTRIES – LEMBAGA / KARYA (ENTITIES)
 /// =================================================================
 class HalamanMinistriesEntities extends StatefulWidget {
-  const HalamanMinistriesEntities({super.key});
+  final String kategori; // Menangkap filter tipe karya dari halaman sebelumnya
+
+  const HalamanMinistriesEntities({super.key, required this.kategori});
 
   @override
   State<HalamanMinistriesEntities> createState() => _HalamanMinistriesEntitiesState();
@@ -85,10 +131,12 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
   String _query = "";
 
   Future<List<dynamic>> _fetchEntities() async {
+    // PASTIKAN: Anda sudah menambahkan kolom 'ministry_type' di tabel 'entities' database Supabase Anda 
     final response = await Supabase.instance.client
         .from('entities')
         .select('*, addresses(*)')
         .eq('entity_category', 'Ministries')
+        .eq('ministry_type', widget.kategori) // Memfilter spesifik paroki, sekolah, rumah sakit, dll
         .order('name', ascending: true);
     return response as List<dynamic>;
   }
@@ -96,17 +144,17 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Lembaga & Karya Kerasulan")),
+      appBar: AppBar(title: Text("Daftar ${widget.kategori}")),
       body: Column(
         children: [
-          _buildSearchBar("Cari Nama Lembaga / Karya...", (val) => setState(() => _query = val.toLowerCase())),
+          _buildSearchBar("Cari Nama ${widget.kategori}...", (val) => setState(() => _query = val.toLowerCase())),
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: _fetchEntities(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
                 if (snapshot.hasError) return _buildError(snapshot.error);
-                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Lembaga/Karya Ministries.");
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data untuk ${widget.kategori}.");
 
                 final filtered = snapshot.data!.where((item) {
                   return (item['name'] ?? '').toString().toLowerCase().contains(_query);
@@ -159,7 +207,7 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
 }
 
 /// =================================================================
-/// SUB-HALAMAN 2: DATA MINISTRIES – PERSONALIA (MEMBERS)
+/// SUB-HALAMAN 2: DATA MINISTRIES – PERSONALIA (MEMBERS) GLOBAL
 /// =================================================================
 class HalamanMinistriesMembers extends StatefulWidget {
   const HalamanMinistriesMembers({super.key});

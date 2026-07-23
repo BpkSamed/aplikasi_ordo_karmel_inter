@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
-/// =================================================================
-/// HALAMAN TAMBAH/EDIT DATA ANGGOTA (PERBAIKAN KATEGORI KAPITAL)
-/// =================================================================
 class HalamanTambahAnggota extends StatefulWidget {
   const HalamanTambahAnggota({super.key});
 
@@ -12,265 +10,249 @@ class HalamanTambahAnggota extends StatefulWidget {
 }
 
 class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false; 
+  int _currentStep = 0;
+  final _supabase = Supabase.instance.client;
 
-  // Kategori Peran (Role)
-  String? _kategoriTerpilih;
-  final List<String> _kategoriAnggota = [
-    "FRATRES - SODALES",
-    "HEREMITI",
-    "MONIALES",
-    "HEREMITAE",
-    "INSTITUTA"
-  ];
+  // Controllers untuk Step 1: Biodata
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  DateTime? _dob;
 
-  // Controller Teks
-  final _entityController = TextEditingController();
-  final _conventusController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _kotaKelahiranController = TextEditingController();
-  final _negaraKelahiranController = TextEditingController();
+  // Variabel untuk Step 2: Status Panggilan & Tanggal
+  String? _vocationStatus;
+  final List<String> _vocationList = ['Noviatus', 'Temporaneae', 'Solemniter', 'Sacerdotalis'];
+  DateTime? _firstProfDate;
+  DateTime? _solemnProfDate;
+  DateTime? _ordinationDate;
+
+  // Variabel untuk Step 3: Penempatan & Peran
+  int? _selectedEntityId;
+  int? _selectedConventusId;
+  final TextEditingController _roleController = TextEditingController(text: 'Sodales'); // Default
   
-  final _tglLahirController = TextEditingController();
-  final _tglKaulPerdanaController = TextEditingController();
-  final _tglKaulKekalController = TextEditingController();
-  final _tglTahbisanController = TextEditingController();
+  List<dynamic> _entities = [];
+  List<dynamic> _conventusList = [];
+  bool _isLoading = false;
 
   @override
-  void dispose() {
-    _entityController.dispose();
-    _conventusController.dispose();
-    _nameController.dispose();
-    _passwordController.dispose(); 
-    _kotaKelahiranController.dispose();
-    _negaraKelahiranController.dispose();
-    _tglLahirController.dispose();
-    _tglKaulPerdanaController.dispose();
-    _tglKaulKekalController.dispose();
-    _tglTahbisanController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _fetchEntities(); // Ambil data pangkalan untuk dropdown
   }
 
-  Future<void> _pilihTanggal(BuildContext context, TextEditingController controller) async {
-    DateTime? tanggalTerpilih = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(primary: Colors.brown, onPrimary: Colors.white),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (tanggalTerpilih != null) {
-      setState(() {
-        controller.text = "${tanggalTerpilih.year}-${tanggalTerpilih.month.toString().padLeft(2, '0')}-${tanggalTerpilih.day.toString().padLeft(2, '0')}";
-      });
+  Future<void> _fetchEntities() async {
+    try {
+      final response = await _supabase.from('entities').select('id, name, entity_category').order('name');
+      setState(() => _entities = response);
+    } catch (e) {
+      debugPrint("Gagal mengambil data entitas: $e");
     }
   }
 
-  // FUNGSI UTAMA: MENYIMPAN DATA
-  Future<void> _simpanKeDatabase() async {
-    final nama = _nameController.text.trim();
-    if (nama.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Mohon lengkapi Nama terlebih dahulu!")),
-      );
+  Future<void> _fetchConventus(int entityId) async {
+    try {
+      final response = await _supabase.from('conventus').select('id, name').eq('parent_entity_id', entityId).order('name');
+      setState(() => _conventusList = response);
+    } catch (e) {
+      debugPrint("Gagal mengambil data biara: $e");
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context, Function(DateTime) onPicked) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2000),
+      firstDate: DateTime(1920),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() => onPicked(picked));
+    }
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) return "Pilih Tanggal";
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  Future<void> _submitData() async {
+    if (_nameController.text.isEmpty || _selectedEntityId == null || _vocationStatus == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama, Status, dan Entitas harus diisi!")));
       return;
     }
 
     setState(() => _isLoading = true);
-
     try {
-      final supabase = Supabase.instance.client;
-
-      // 1. Tangani Entitas (Pencocokan & Normalisasi Huruf Kapital)
-      int? idEntitas;
-      final namaEntitas = _entityController.text.trim();
-      if (namaEntitas.isNotEmpty) {
-        final entitasRes = await supabase
-            .from('entities')
-            .select('id')
-            .ilike('name', namaEntitas) 
-            .maybeSingle();
-        
-        if (entitasRes != null) {
-          idEntitas = entitasRes['id'] as int;
-        } else {
-          // PERBAIKAN: Pemetaan string kategori agar sesuai dengan pencarian halaman direktori
-          String kategoriNormal = 'Umum';
-          if (_kategoriTerpilih == "FRATRES - SODALES") kategoriNormal = "Fratres";
-          else if (_kategoriTerpilih == "HEREMITI") kategoriNormal = "Heremiti";
-          else if (_kategoriTerpilih == "MONIALES") kategoriNormal = "Moniales";
-          else if (_kategoriTerpilih == "HEREMITAE") kategoriNormal = "Heremitae";
-          else if (_kategoriTerpilih == "INSTITUTA") kategoriNormal = "Instituta";
-
-          final newEntity = await supabase.from('entities').insert({
-            'name': namaEntitas,
-            'entity_category': kategoriNormal, // Menyimpan dengan format standar (Ex: 'Fratres')
-          }).select('id').single();
-          
-          idEntitas = newEntity['id'] as int;
-        }
-      }
-
-      // 2. Tangani Conventus / Biara
-      int? idConventus;
-      final namaConventus = _conventusController.text.trim();
-      if (namaConventus.isNotEmpty) {
-        final conventusRes = await supabase
-            .from('conventus')
-            .select('id')
-            .ilike('name', namaConventus)
-            .maybeSingle();
-
-        if (conventusRes != null) {
-          idConventus = conventusRes['id'] as int;
-        } else {
-          final newConventus = await supabase.from('conventus').insert({
-            'name': namaConventus,
-            'parent_entity_id': idEntitas 
-          }).select('id').single();
-
-          idConventus = newConventus['id'] as int;
-        }
-      }
-
-      String? parsingTanggal(String teks) => teks.isEmpty ? null : teks;
-
-      // 3. Simpan Profil Anggota Baru
-      await supabase.from('members').insert({
-        'full_name': nama,
-        'role': _kategoriTerpilih,
-        'entity_id': idEntitas, 
-        'conventus_id': idConventus, 
-        'city_of_birth': _kotaKelahiranController.text.trim(),
-        'country_of_birth': _negaraKelahiranController.text.trim(),
-        'date_of_birth': parsingTanggal(_tglLahirController.text),
-        'first_profession_date': parsingTanggal(_tglKaulPerdanaController.text),
-        'solemn_profession_date': parsingTanggal(_tglKaulKekalController.text),
-        'ordination_date': parsingTanggal(_tglTahbisanController.text),
+      await _supabase.from('members').insert({
+        'full_name': _nameController.text,
+        'city_of_birth': _cityController.text,
+        'country_of_birth': _countryController.text,
+        'date_of_birth': _dob != null ? _formatDate(_dob) : null,
+        'vocation_status': _vocationStatus,
+        'first_profession_date': _firstProfDate != null ? _formatDate(_firstProfDate) : null,
+        'solemn_profession_date': _solemnProfDate != null ? _formatDate(_solemnProfDate) : null,
+        'ordination_date': _ordinationDate != null ? _formatDate(_ordinationDate) : null,
+        'entity_id': _selectedEntityId,
+        'conventus_id': _selectedConventusId,
+        'role': _roleController.text,
       });
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Data anggota '$nama' berhasil disimpan ke database!")),
-        );
-        Navigator.pop(context); 
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Anggota Berhasil Ditambahkan!")));
+        Navigator.pop(context, true); // Kembali dan beri sinyal refresh
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Gagal menyimpan data: $e"), backgroundColor: Colors.red),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Form Data Anggota")),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Lengkapi Biodata & Akun Anggota",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
-              ),
-              const SizedBox(height: 20),
-
-              // Dropdown Kategori Peran
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: "Kategori Data / Peran", border: OutlineInputBorder(), prefixIcon: Icon(Icons.category)),
-                value: _kategoriTerpilih,
-                items: _kategoriAnggota.map((kategori) => DropdownMenuItem(value: kategori, child: Text(kategori))).toList(),
-                onChanged: (val) => setState(() => _kategoriTerpilih = val),
-              ),
-              const SizedBox(height: 15),
-
-              // Input ENTITAS
-              TextFormField(
-                controller: _entityController,
-                decoration: const InputDecoration(
-                  labelText: "Entity / Provinsi Induk", 
-                  border: OutlineInputBorder(), 
-                  prefixIcon: Icon(Icons.domain),
-                  helperText: "Ketik lokasi/entitas (Akan dibuat otomatis jika belum ada)"
+      appBar: AppBar(title: const Text("Pendaftaran Anggota Baru")),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+        : Stepper(
+            currentStep: _currentStep,
+            onStepContinue: () {
+              if (_currentStep < 2) {
+                setState(() => _currentStep += 1);
+              } else {
+                _submitData(); // Simpan jika di step terakhir
+              }
+            },
+            onStepCancel: () {
+              if (_currentStep > 0) setState(() => _currentStep -= 1);
+            },
+            controlsBuilder: (context, details) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
+                      onPressed: details.onStepContinue,
+                      child: Text(_currentStep == 2 ? 'Simpan Data' : 'Lanjut'),
+                    ),
+                    const SizedBox(width: 10),
+                    if (_currentStep > 0)
+                      TextButton(onPressed: details.onStepCancel, child: const Text("Kembali")),
+                  ],
                 ),
+              );
+            },
+            steps: [
+              // --- STEP 1: BIODATA ---
+              Step(
+                isActive: _currentStep >= 0,
+                title: const Text("Biodata Pribadi"),
+                content: Column(
+                  children: [
+                    TextField(controller: _nameController, decoration: const InputDecoration(labelText: "Nama Lengkap")),
+                    Row(
+                      children: [
+                        Expanded(child: TextField(controller: _cityController, decoration: const InputDecoration(labelText: "Kota Kelahiran"))),
+                        const SizedBox(width: 10),
+                        Expanded(child: TextField(controller: _countryController, decoration: const InputDecoration(labelText: "Negara"))),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text("Tanggal Lahir"),
+                      subtitle: Text(_formatDate(_dob)),
+                      trailing: const Icon(Icons.calendar_today, color: Colors.brown),
+                      onTap: () => _selectDate(context, (d) => _dob = d),
+                    ),
+                  ],
+                )
               ),
-              const SizedBox(height: 15),
-
-              // Input CONVENTUS
-              TextFormField(
-                controller: _conventusController,
-                decoration: const InputDecoration(
-                  labelText: "Rumah Biara / Komunitas", 
-                  border: OutlineInputBorder(), 
-                  prefixIcon: Icon(Icons.holiday_village),
-                  helperText: "Ketik nama biara (Akan dibuat otomatis jika belum ada)"
-                ),
+              // --- STEP 2: STATUS PANGGILAN ---
+              Step(
+                isActive: _currentStep >= 1,
+                title: const Text("Status & Tanggal Panggilan"),
+                content: Column(
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: _vocationStatus,
+                      decoration: const InputDecoration(labelText: "Status Panggilan (Wajib)"),
+                      items: _vocationList.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                      onChanged: (val) => setState(() => _vocationStatus = val),
+                    ),
+                    // Tampilkan form tanggal berdasarkan status yang dipilih
+                    if (_vocationStatus != 'Noviatus' && _vocationStatus != null)
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text("Tanggal Kaul Perdana"),
+                        subtitle: Text(_formatDate(_firstProfDate)),
+                        trailing: const Icon(Icons.calendar_today),
+                        onTap: () => _selectDate(context, (d) => _firstProfDate = d),
+                      ),
+                    if (_vocationStatus == 'Solemniter' || _vocationStatus == 'Sacerdotalis')
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text("Tanggal Kaul Kekal"),
+                        subtitle: Text(_formatDate(_solemnProfDate)),
+                        trailing: const Icon(Icons.calendar_today),
+                        onTap: () => _selectDate(context, (d) => _solemnProfDate = d),
+                      ),
+                    if (_vocationStatus == 'Sacerdotalis')
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text("Tanggal Tahbisan"),
+                        subtitle: Text(_formatDate(_ordinationDate)),
+                        trailing: const Icon(Icons.calendar_today),
+                        onTap: () => _selectDate(context, (d) => _ordinationDate = d),
+                      ),
+                  ],
+                )
               ),
-              const SizedBox(height: 15),
-
-              // Input NAMA
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: "Name (Nama Lengkap)", border: OutlineInputBorder(), prefixIcon: Icon(Icons.person)),
-              ),
-              const SizedBox(height: 15),
-
-              // Input PASSWORD
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true, 
-                decoration: const InputDecoration(labelText: "Password Akun", border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock), helperText: "Opsional untuk login."),
-              ),
-              const SizedBox(height: 15),
-
-              // Row KOTA & NEGARA
-              Row(
-                children: [
-                  Expanded(child: TextFormField(controller: _kotaKelahiranController, decoration: const InputDecoration(labelText: "Kota Lahir", border: OutlineInputBorder(), prefixIcon: Icon(Icons.location_city)))),
-                  const SizedBox(width: 10),
-                  Expanded(child: TextFormField(controller: _negaraKelahiranController, decoration: const InputDecoration(labelText: "Negara Lahir", border: OutlineInputBorder(), prefixIcon: Icon(Icons.flag)))),
-                ],
-              ),
-              const SizedBox(height: 15),
-
-              // TANGGAL-TANGGAL
-              TextFormField(controller: _tglLahirController, readOnly: true, decoration: const InputDecoration(labelText: "Tanggal Lahir", border: OutlineInputBorder(), prefixIcon: Icon(Icons.calendar_today)), onTap: () => _pilihTanggal(context, _tglLahirController)),
-              const SizedBox(height: 15),
-              TextFormField(controller: _tglKaulPerdanaController, readOnly: true, decoration: const InputDecoration(labelText: "Tanggal Kaul Perdana", border: OutlineInputBorder(), prefixIcon: Icon(Icons.event)), onTap: () => _pilihTanggal(context, _tglKaulPerdanaController)),
-              const SizedBox(height: 15),
-              TextFormField(controller: _tglKaulKekalController, readOnly: true, decoration: const InputDecoration(labelText: "Tanggal Kaul Kekal", border: OutlineInputBorder(), prefixIcon: Icon(Icons.event_available)), onTap: () => _pilihTanggal(context, _tglKaulKekalController)),
-              const SizedBox(height: 15),
-              TextFormField(controller: _tglTahbisanController, readOnly: true, decoration: const InputDecoration(labelText: "Tanggal Tahbisan (Bila ada)", border: OutlineInputBorder(), prefixIcon: Icon(Icons.church)), onTap: () => _pilihTanggal(context, _tglTahbisanController)),
-              const SizedBox(height: 30),
-
-              // TOMBOL SIMPAN
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50), backgroundColor: Colors.brown, foregroundColor: Colors.white),
-                onPressed: _isLoading ? null : _simpanKeDatabase,
-                child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text("SIMPAN DATA ANGGOTA", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              // --- STEP 3: PENEMPATAN LOKASI ---
+              Step(
+                isActive: _currentStep >= 2,
+                title: const Text("Penempatan Wilayah"),
+                content: Column(
+                  children: [
+                    DropdownButtonFormField<int>(
+                      value: _selectedEntityId,
+                      isExpanded: true,
+                      decoration: const InputDecoration(labelText: "Entitas / Provinsi (Wajib)"),
+                      items: _entities.map((e) => DropdownMenuItem<int>(
+                        value: e['id'], 
+                        child: Text("${e['name']} (${e['entity_category']})")
+                      )).toList(),
+                      onChanged: (val) {
+                        setState(() {
+                          _selectedEntityId = val;
+                          _selectedConventusId = null; // Reset biara jika provinsi ganti
+                        });
+                        if (val != null) _fetchConventus(val);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<int>(
+                      value: _selectedConventusId,
+                      isExpanded: true,
+                      decoration: const InputDecoration(labelText: "Biara / Komunitas (Opsional)"),
+                      items: _conventusList.map((c) => DropdownMenuItem<int>(
+                        value: c['id'], 
+                        child: Text(c['name'])
+                      )).toList(),
+                      onChanged: (val) => setState(() => _selectedConventusId = val),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _roleController, 
+                      decoration: const InputDecoration(labelText: "Peran Pribadi", hintText: "Contoh: Sodales, Prior, dll")
+                    ),
+                  ],
+                )
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 }

@@ -1,308 +1,222 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// =================================================================
-/// HALAMAN UTAMA: CURIA GENERALIS (MENU PILIHAN)
-/// =================================================================
-class HalamanCuriaGeneralis extends StatelessWidget {
+class HalamanCuriaGeneralis extends StatefulWidget {
   const HalamanCuriaGeneralis({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Curia Generalis"),
+  State<HalamanCuriaGeneralis> createState() => _HalamanCuriaGeneralisState();
+}
+
+class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
+  final _supabase = Supabase.instance.client;
+  bool _isLoading = true;
+
+  List<dynamic> _pejabatCuria = [];
+  List<dynamic> _daftarKomisi = [];
+
+  // Struktur Jabatan Resmi Sesuai Dokumen Induk
+  final List<String> _consiliumRoles = [
+    'Prior Generalis', 'Vice Prior Generalis', 'Procurator Generalis', 
+    'Oeconomus Generalis', 'Consiliarius pro Ambitu Americarum', 
+    'Consiliarius pro Ambitu Africae', 'Consiliarius pro Ambitu Asiae, Australiae et Oceaniae', 
+    'Consiliarius pro Ambitu Europae'
+  ];
+
+  final List<String> _officiaRoles = [
+    'Oeconomatus Generalis', 'Secretariatus Generalis', 
+    'Delegatus Monacorum, Heremiti et Instituta', 'Delegatus Formationis', 
+    'Delegatus Iuvenibus', 'Delegatus TOC', 'Delegatus Laicorum', 
+    'Postulatura Generalis', 'Legale Rappresentante'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCuriaData();
+  }
+
+  Future<void> _loadCuriaData() async {
+    setState(() => _isLoading = true);
+    try {
+      // 1. Ambil data pejabat Curia & Sub Immediata
+      final curiaResponse = await _supabase
+          .from('curia_officers')
+          .select('*, members(*, conventus(name))');
+
+      // 2. Kueri Spesifik Menggunakan Kolom ID untuk Menghindari Ambiguitas Relasi
+      final commissionsResponse = await _supabase
+          .from('commissions')
+          .select('*, praeses:praeses_id(full_name), commission_members(*, member:member_id(full_name))');
+
+      setState(() {
+        _pejabatCuria = curiaResponse as List<dynamic>;
+        _daftarKomisi = commissionsResponse as List<dynamic>;
+      });
+    } catch (e) {
+      debugPrint("Gagal mengambil data Curia: $e");
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Widget _buildRoleTile(String roleTitle) {
+    final match = _pejabatCuria.where((p) => p['office_title'] == roleTitle).toList();
+    
+    if (match.isNotEmpty && match.first['members'] != null) {
+      final member = match.first['members'];
+      final conventusName = member['conventus']?['name'] ?? 'Biara belum diatur';
+
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        child: ExpansionTile(
+          leading: const CircleAvatar(
+            backgroundColor: Colors.brown,
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+          title: Text(roleTitle, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+          subtitle: Text(member['full_name'] ?? '-', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87)),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildDetailRow("Asal Komunitas", conventusName),
+                  _buildDetailRow("Tempat Lahir", member['city_of_birth']),
+                  _buildDetailRow("Negara Lahir", member['country_of_birth']),
+                  _buildDetailRow("Tanggal Lahir", member['date_of_birth']),
+                  const Divider(),
+                  _buildDetailRow("Kaul Perdana", member['first_profession_date']),
+                  _buildDetailRow("Kaul Kekal", member['solemn_profession_date']),
+                  if (member['ordination_date'] != null)
+                    _buildDetailRow("Tahbisan Imam", member['ordination_date']),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      color: Colors.grey.shade100,
+      child: ListTile(
+        leading: CircleAvatar(backgroundColor: Colors.grey.shade400, child: const Icon(Icons.person_outline, color: Colors.white)),
+        title: Text(roleTitle, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
+        subtitle: const Text("Belum ada pejabat yang ditunjuk", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey)),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20.0),
+    );
+  }
+
+  Widget _buildDetailRow(String label, dynamic value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
         children: [
-          _buildMenuCard(
-            context,
-            title: "Consilium Generale",
-            icon: Icons.gavel,
-            subtitle: "Prior Generalis, Vice Prior, Sekjen, & Penasihat Ambitu",
-            page: const HalamanConsiliumGenerale(),
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Officia Generalia et Sectores Laborum",
-            icon: Icons.business_center,
-            subtitle: "Oeconomatus, Sekretariat, Delegatus, & Postulatura",
-            page: const HalamanOfficiaGeneralia(),
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Commisiones Generales",
-            icon: Icons.assignment,
-            subtitle: "Komisi Formasi, Pemuda, Liturgi, Keadilan, & Kedamaian",
-            page: const HalamanCommisionesGenerales(),
-          ),
+          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Text(value?.toString() ?? '-'),
         ],
       ),
     );
   }
 
-  Widget _buildMenuCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required String subtitle,
-    required Widget page,
-  }) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        leading: CircleAvatar(
-          backgroundColor: Colors.brown,
-          child: Icon(icon, color: Colors.white),
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Curia Generalis"),
+          actions: [
+            IconButton(icon: const Icon(Icons.refresh), onPressed: _loadCuriaData),
+          ],
+          bottom: const TabBar(
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white54,
+            indicatorColor: Colors.white,
+            isScrollable: true,
+            tabs: [
+              Tab(text: "Consilium Generale"),
+              Tab(text: "Officia Generalia"),
+              Tab(text: "Commissiones Generales"),
+            ],
+          ),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-        },
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// SUB-HALAMAN 1: CONSILIUM GENERALE (KONEKSI DATABASE MEMBERS)
-/// =================================================================
-class HalamanConsiliumGenerale extends StatefulWidget {
-  const HalamanConsiliumGenerale({super.key});
-
-  @override
-  State<HalamanConsiliumGenerale> createState() => _HalamanConsiliumGeneraleState();
-}
-
-class _HalamanConsiliumGeneraleState extends State<HalamanConsiliumGenerale> {
-  // Fungsi untuk mengambil data dari tabel 'members' yang memiliki role Dewan Umum
-  Future<List<dynamic>> _fetchConsiliumData() async {
-    final response = await Supabase.instance.client
-        .from('members')
-        .select('*, entities(*)')
-        .ilike('role', '%Prior%') // Mengambil role seperti Prior Generalis, Vice Prior, dsb.
-        .order('id', ascending: true);
-    return response as List<dynamic>;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Consilium Generale")),
-      body: FutureBuilder<List<dynamic>>(
-        future: _fetchConsiliumData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Colors.brown));
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text("Terjadi kesalahan: ${snapshot.error}"));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Tidak ada data Consilium Generale."));
-          }
-
-          final data = snapshot.data!;
-          return ListView.builder(
-            padding: const EdgeInsets.all(15.0),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final member = data[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: Colors.brown,
-                    child: Icon(Icons.person, color: Colors.white),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+            : TabBarView(
+                children: [
+                  // TAB 1: CONSILIUM GENERALE
+                  ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: _consiliumRoles.length,
+                    itemBuilder: (context, index) => _buildRoleTile(_consiliumRoles[index]),
                   ),
-                  title: Text(
-                    member['full_name'] ?? '-',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+
+                  // TAB 2: OFFICIA GENERALIA
+                  ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: _officiaRoles.length,
+                    itemBuilder: (context, index) => _buildRoleTile(_officiaRoles[index]),
                   ),
-                  subtitle: Text(
-                    "Jabatan: ${member['role'] ?? '-'}\nEntity: ${member['entities']?['name'] ?? '-'}",
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
 
-/// =================================================================
-/// SUB-HALAMAN 2: OFFICIA GENERALIA (KONEKSI DATABASE MEMBERS)
-/// =================================================================
-class HalamanOfficiaGeneralia extends StatefulWidget {
-  const HalamanOfficiaGeneralia({super.key});
+                  // TAB 3: COMMISSIONES GENERALES
+                  _daftarKomisi.isEmpty
+                      ? const Center(child: Text("Belum ada data Komisi terdaftar."))
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: _daftarKomisi.length,
+                          itemBuilder: (context, index) {
+                            final komisi = _daftarKomisi[index];
+                            final praeses = komisi['praeses']; 
+                            final membersList = komisi['commission_members'] as List<dynamic>? ?? []; 
 
-  @override
-  State<HalamanOfficiaGeneralia> createState() => _HalamanOfficiaGeneraliaState();
-}
-
-class _HalamanOfficiaGeneraliaState extends State<HalamanOfficiaGeneralia> {
-  // Fungsi mengambil data pejabat struktural umum dari tabel 'members'
-  Future<List<dynamic>> _fetchOfficiaData() async {
-    final response = await Supabase.instance.client
-        .from('members')
-        .select('*, entities(*)')
-        .or('role.ilike.%Delegatus%,role.ilike.%Secretariatus%,role.ilike.%Oeconomatus%,role.ilike.%Postulatura%')
-        .order('id', ascending: true);
-    return response as List<dynamic>;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Officia Generalia")),
-      body: FutureBuilder<List<dynamic>>(
-        future: _fetchOfficiaData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Colors.brown));
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text("Terjadi kesalahan: ${snapshot.error}"));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Tidak ada data Officia Generalia."));
-          }
-
-          final data = snapshot.data!;
-          return ListView.builder(
-            padding: const EdgeInsets.all(15.0),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final member = data[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: Colors.brown,
-                    child: Icon(Icons.assignment_ind, color: Colors.white),
-                  ),
-                  title: Text(
-                    member['full_name'] ?? '-',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    "Bidang/Jabatan: ${member['role'] ?? '-'}\nKantor: ${member['entities']?['name'] ?? '-'}",
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// SUB-HALAMAN 3: COMMISSIONES GENERALES (KONEKSI DATABASE ENTITIES)
-/// =================================================================
-class HalamanCommisionesGenerales extends StatefulWidget {
-  const HalamanCommisionesGenerales({super.key});
-
-  @override
-  State<HalamanCommisionesGenerales> createState() => _HalamanCommisionesGeneralesState();
-}
-
-class _HalamanCommisionesGeneralesState extends State<HalamanCommisionesGenerales> {
-  // Fungsi mengambil data daftar komisi dari tabel 'entities' dengan kategori terkait
-  Future<List<dynamic>> _fetchCommisionesData() async {
-    final response = await Supabase.instance.client
-        .from('entities')
-        .select('*, addresses(*)')
-        .eq('entity_category', 'Commisiones Generales') // Menyesuaikan kolom entity_category pada skema SQL
-        .order('name', ascending: true);
-    return response as List<dynamic>;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Commisiones Generales")),
-      body: FutureBuilder<List<dynamic>>(
-        future: _fetchCommisionesData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Colors.brown));
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text("Terjadi kesalahan: ${snapshot.error}"));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Tidak ada data Komisi ditemukan."));
-          }
-
-          final data = snapshot.data!;
-          return ListView.builder(
-            padding: const EdgeInsets.all(15.0),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final komisi = data[index];
-              final alamat = komisi['addresses'];
-
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ExpansionTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: Colors.brown,
-                    child: Icon(Icons.group, color: Colors.white),
-                  ),
-                  title: Text(
-                    komisi['name'] ?? '-',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(komisi['website_url'] ?? 'Tidak ada tautan website'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Historia / Deskripsi:",
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(komisi['historia'] ?? 'Deskripsi tidak tersedia.'),
-                          const Divider(),
-                          Text(
-                            "Informasi Kontak & Alamat:",
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700),
-                          ),
-                          const SizedBox(height: 4),
-                          if (alamat != null) ...[
-                            Text("Rumah/Gedung: ${alamat['house_name'] ?? '-'}"),
-                            Text("Jalan: ${alamat['street'] ?? '-'}"),
-                            Text("Kota/Negara: ${alamat['city'] ?? '-'}, ${alamat['country'] ?? '-'}"),
-                            Text("Telepon: ${alamat['telephone'] ?? '-'}"),
-                            Text("Email: ${alamat['email'] ?? '-'}"),
-                          ] else
-                            const Text("Detail alamat belum diisi."),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          );
-        },
+                            return Card(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              elevation: 3,
+                              child: ExpansionTile(
+                                leading: const Icon(Icons.assignment, color: Colors.brown),
+                                title: Text(komisi['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+                                subtitle: Text("Praeses: ${praeses != null ? praeses['full_name'] : 'Belum ditentukan'}"),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Mission / Tugas Kerasulan:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                        const SizedBox(height: 4),
+                                        Text(komisi['mission'] ?? 'Belum ada deskripsi misi.', style: const TextStyle(height: 1.4)),
+                                        const Divider(height: 24),
+                                        Text("Sodales (Anggota Komisi):", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
+                                        const SizedBox(height: 6),
+                                        if (membersList.isEmpty)
+                                          const Text("Belum ada anggota komisi yang ditambahkan.", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey))
+                                        else
+                                          Column(
+                                            children: membersList.map((cm) {
+                                              final namaAnggota = cm['member']?['full_name'] ?? 'Tidak diketahui';
+                                              final jabatanDiKomisi = cm['position'] ?? 'Anggota';
+                                              return ListTile(
+                                                contentPadding: EdgeInsets.zero,
+                                                leading: const Icon(Icons.fiber_manual_record, size: 12, color: Colors.brown),
+                                                title: Text(namaAnggota, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                                subtitle: Text("Jabatan: $jabatanDiKomisi"),
+                                              );
+                                            }).toList(),
+                                          ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                ],
+              ),
       ),
     );
   }
