@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'data_non_anggota.dart'; // Import form tambah data
+import 'data_non_anggota.dart'; // Import form tambah/edit data
 
 class HalamanDaftarDataNonAnggota extends StatefulWidget {
   const HalamanDaftarDataNonAnggota({super.key});
@@ -11,7 +11,7 @@ class HalamanDaftarDataNonAnggota extends StatefulWidget {
 
 class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggota> {
   final _supabase = Supabase.instance.client;
-  int _refreshKey = 0; // Kunci untuk me-refresh FutureBuilder saat data dihapus
+  int _refreshKey = 0; // Kunci untuk me-refresh FutureBuilder saat data dihapus/diubah
 
   void _refreshData() {
     setState(() {
@@ -49,6 +49,24 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal menghapus data: $e")));
         }
       }
+    }
+  }
+
+  // Navigasi ke Halaman Edit dengan membawa Data dan TabIndex yang sesuai
+  Future<void> _navigateToEdit(Map<String, dynamic> data, int tabIndex) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HalamanDataNonAnggota(
+          initialData: data,
+          initialTabIndex: tabIndex,
+        ),
+      ),
+    );
+
+    // Refresh daftar jika admin menyimpan/update data
+    if (result == true) {
+      _refreshData();
     }
   }
 
@@ -93,7 +111,9 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
               MaterialPageRoute(builder: (context) => const HalamanDataNonAnggota()),
             );
             // Otomatis refresh jika admin kembali dari halaman tambah
-            _refreshData();
+            if (result == true) {
+               _refreshData();
+            }
           },
         ),
       ),
@@ -119,7 +139,7 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
             return _buildListItem(
               title: title,
               subtitle: "${addr['street'] ?? '-'} • ${addr['house_name'] ?? ''}",
-              onEdit: () => _showEditPlaceholder(),
+              onEdit: () => _navigateToEdit(addr, 0), // TabIndex 0 untuk Alamat
               onDelete: () => _deleteData('addresses', addr['id'], title),
             );
           },
@@ -146,7 +166,7 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
             return _buildListItem(
               title: entity['name'] ?? 'Tanpa Nama',
               subtitle: "${entity['entity_category']} ${entity['ministry_type'] != null ? '(${entity['ministry_type']})' : ''}\nPusat: ${entity['addresses']?['city'] ?? '-'}",
-              onEdit: () => _showEditPlaceholder(),
+              onEdit: () => _navigateToEdit(entity, 1), // TabIndex 1 untuk Entitas
               onDelete: () => _deleteData('entities', entity['id'], entity['name']),
             );
           },
@@ -173,7 +193,7 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
             return _buildListItem(
               title: conventus['name'] ?? 'Tanpa Nama',
               subtitle: "Induk: ${conventus['entities']?['name'] ?? '-'}\nLokasi: ${conventus['addresses']?['city'] ?? '-'}",
-              onEdit: () => _showEditPlaceholder(),
+              onEdit: () => _navigateToEdit(conventus, 2), // TabIndex 2 untuk Biara
               onDelete: () => _deleteData('conventus', conventus['id'], conventus['name']),
             );
           },
@@ -186,10 +206,15 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
   Widget _buildListItem({required String title, required String subtitle, required VoidCallback onEdit, required VoidCallback onDelete}) {
     return Card(
       elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 6),
+      margin: const EdgeInsets.symmetric(vertical: 8), // Margin diperlebar sedikit agar tidak terlalu berdempetan
       child: ListTile(
+        // --- INI ADALAH KODE UNTUK MEMPERBESAR KOTAK 50% ---
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(subtitle),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4.0), // Memberi sedikit jarak antara judul dan subjudul
+          child: Text(subtitle),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -207,10 +232,6 @@ class _HalamanDaftarDataNonAnggotaState extends State<HalamanDaftarDataNonAnggot
         ),
       ),
     );
-  }
-
-  void _showEditPlaceholder() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fitur form Edit akan diimplementasikan menyusul.")));
   }
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator(color: Colors.brown));

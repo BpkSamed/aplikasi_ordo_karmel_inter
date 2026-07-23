@@ -44,10 +44,9 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
   Future<void> _fetchPejabat() async {
     setState(() => _isLoading = true);
     try {
-      // Ambil data pejabat beserta nama anggota yang menjabat
       final response = await _supabase
           .from('curia_officers')
-          .select('*, members(full_name, conventus(name))');
+          .select('*, members:members!member_id(full_name, conventus(name))');
       setState(() {
         _pejabatAktif = response as List<dynamic>;
       });
@@ -69,9 +68,14 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
     return "Belum ditentukan";
   }
 
-  // Fungsi saat Admin menekan tombol "Pilih / Ganti Pejabat"
+  // Memeriksa apakah suatu jabatan saat ini sedang terisi atau tidak
+  bool _isJabatanTerisi(String officeTitle) {
+    final pejabat = _pejabatAktif.where((p) => p['office_title'] == officeTitle).toList();
+    return pejabat.isNotEmpty && pejabat.first['member_id'] != null;
+  }
+
+  // Fungsi menunjuk/mengubah pejabat
   Future<void> _tunjukPejabat(String category, String title) async {
-    // Membuka halaman pencarian anggota
     final int? selectedMemberId = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const HalamanPilihAnggota()),
@@ -80,7 +84,6 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
     if (selectedMemberId != null) {
       setState(() => _isLoading = true);
       try {
-        // Cek apakah jabatan ini sudah ada yang menempati di database
         final cekJabatan = await _supabase
             .from('curia_officers')
             .select()
@@ -88,13 +91,11 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
             .maybeSingle();
 
         if (cekJabatan != null) {
-          // Jika sudah ada, UPDATE (ganti orang)
           await _supabase
               .from('curia_officers')
               .update({'member_id': selectedMemberId})
               .eq('office_title', title);
         } else {
-          // Jika belum ada, INSERT data baru
           await _supabase
               .from('curia_officers')
               .insert({
@@ -104,11 +105,31 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
               });
         }
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Jabatan '$title' berhasil diperbarui!")));
-        _fetchPejabat(); // Refresh data
+        _fetchPejabat();
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal: $e")));
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  // ==========================================
+  // FUNGSI BARU: MENGOSONGKAN JABATAN (SET NULL)
+  // ==========================================
+  Future<void> _kosongkanJabatan(String title) async {
+    setState(() => _isLoading = true);
+    try {
+      // Mengubah member_id menjadi null pada jabatan yang dipilih
+      await _supabase
+          .from('curia_officers')
+          .update({'member_id': null})
+          .eq('office_title', title);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Jabatan '$title' berhasil dikosongkan.")));
+      _fetchPejabat();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal mengkosongkan: $e")));
+      setState(() => _isLoading = false);
     }
   }
 
@@ -132,19 +153,42 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
                   title: Text(category, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
                   children: titles.map((title) {
                     final namaPejabat = _getNamaPejabat(title);
-                    final isKosong = namaPejabat == "Belum ditentukan";
+                    final isKosong = !_isJabatanTerisi(title);
                     
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-                      subtitle: Text(
-                        namaPejabat, 
-                        style: TextStyle(color: isKosong ? Colors.red : Colors.green.shade800, fontWeight: isKosong ? FontWeight.normal : FontWeight.bold)
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          namaPejabat, 
+                          style: TextStyle(
+                            color: isKosong ? Colors.red : Colors.green.shade800, 
+                            fontWeight: isKosong ? FontWeight.normal : FontWeight.bold
+                          )
+                        ),
                       ),
-                      trailing: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.brown.shade100, elevation: 0),
-                        onPressed: () => _tunjukPejabat(category, title),
-                        child: const Text("Pilih / Ganti", style: TextStyle(color: Colors.brown)),
+                      // Menampilkan dua opsi tombol berdampingan (Pilih/Ganti & Kosongkan)
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown.shade100, elevation: 0),
+                            onPressed: () => _tunjukPejabat(category, title),
+                            child: const Text("Pilih/Ganti", style: TextStyle(color: Colors.brown, fontSize: 13)),
+                          ),
+                          if (!isKosong) ...[
+                            const SizedBox(width: 8),
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Colors.red),
+                                foregroundColor: Colors.red,
+                              ),
+                              onPressed: () => _kosongkanJabatan(title),
+                              child: const Icon(Icons.clear, size: 18),
+                            ),
+                          ]
+                        ],
                       ),
                     );
                   }).toList(),
@@ -181,7 +225,7 @@ class _HalamanPilihAnggotaState extends State<HalamanPilihAnggota> {
     try {
       final response = await Supabase.instance.client
           .from('members')
-          .select('id, full_name, entities(name)')
+          .select('id, full_name, conventus(name)')
           .order('full_name');
       setState(() => _members = response as List<dynamic>);
     } finally {
@@ -214,10 +258,9 @@ class _HalamanPilihAnggotaState extends State<HalamanPilihAnggota> {
                     return ListTile(
                       leading: const CircleAvatar(child: Icon(Icons.person)),
                       title: Text(member['full_name']),
-                      subtitle: Text("Asal: ${member['entities']?['name'] ?? '-'}"),
+                      subtitle: Text("Asal: ${member['conventus']?['name'] ?? '-'}"),
                       trailing: const Icon(Icons.check_circle_outline),
                       onTap: () {
-                        // Mengembalikan ID Anggota ke halaman sebelumnya
                         Navigator.pop(context, member['id']);
                       },
                     );
