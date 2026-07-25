@@ -73,14 +73,20 @@ class _HalamanCitocState extends State<HalamanCitoc> {
                     final berita = _beritaCitoc[index];
                     return Card(
                       elevation: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      margin: const EdgeInsets.symmetric(vertical: 8), // Margin card diperbesar sedikit
                       child: ListTile(
+                        // --- MEMPERBESAR UKURAN KOTAK 50% ---
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
                         leading: const CircleAvatar(
                           backgroundColor: Colors.brown,
-                          child: Icon(Icons.public, color: Colors.white),
+                          radius: 25, // Icon diperbesar menyesuaikan padding
+                          child: Icon(Icons.public, color: Colors.white, size: 28),
                         ),
-                        title: Text(berita['title'] ?? 'Berita Terbaru', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: const Text("Ketuk untuk membaca selengkapnya...", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                        title: Text(berita['title'] ?? 'Berita Terbaru', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        subtitle: const Padding(
+                          padding: EdgeInsets.only(top: 6.0),
+                          child: Text("Ketuk untuk membaca selengkapnya...", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                        ),
                         trailing: const Icon(Icons.open_in_browser, color: Colors.blue),
                         onTap: () {
                           if (berita['url'] != null) {

@@ -106,17 +106,43 @@ class _HalamanDaftarEpiscopiState extends State<HalamanDaftarEpiscopi> {
                           final bishop = filtered[index];
                           final addr = bishop['addresses'];
                           return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            elevation: 2,
                             child: ExpansionTile(
+                              // --- KODE MEMPERBESAR KOTAK (+50% padding) ---
+                              tilePadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
                               leading: const CircleAvatar(
                                 backgroundColor: Colors.brown,
-                                child: Icon(Icons.shield, color: Colors.white),
+                                radius: 25, // Memperbesar icon
+                                child: Icon(Icons.shield, color: Colors.white, size: 28),
                               ),
-                              title: Text(bishop['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
-                              subtitle: Text("Keuskupan: ${bishop['diocese'] ?? '-'}"),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () => _deleteBishop(bishop['id'], bishop['name']),
+                              title: Text(bishop['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text("Keuskupan: ${bishop['diocese'] ?? '-'}"),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // --- TOMBOL EDIT ---
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () async {
+                                      final refresh = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HalamanTambahEpiscopi(initialData: bishop),
+                                        ),
+                                      );
+                                      if (refresh == true) _fetchBishops();
+                                    },
+                                  ),
+                                  // --- TOMBOL HAPUS ---
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () => _deleteBishop(bishop['id'], bishop['name']),
+                                  ),
+                                ],
                               ),
                               children: [
                                 Padding(

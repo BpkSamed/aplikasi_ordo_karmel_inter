@@ -78,13 +78,43 @@ class _HalamanKelolaCitocState extends State<HalamanKelolaCitoc> {
                   itemBuilder: (context, index) {
                     final berita = _beritaCitoc[index];
                     return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8), // Margin antar kotak
+                      elevation: 2,
                       child: ListTile(
-                        leading: const Icon(Icons.newspaper, color: Colors.brown),
-                        title: Text(berita['title'] ?? 'Tanpa Judul', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(berita['url'] ?? '-', maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.blue)),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _deleteCitoc(berita['id']),
+                        // --- MEMPERBESAR UKURAN KOTAK 50% ---
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.brown,
+                          radius: 25, // Icon diperbesar sedikit
+                          child: Icon(Icons.newspaper, color: Colors.white, size: 28),
+                        ),
+                        title: Text(berita['title'] ?? 'Tanpa Judul', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 6.0),
+                          child: Text(berita['url'] ?? '-', maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.blue)),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // --- TOMBOL EDIT ---
+                            IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.blue),
+                              onPressed: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HalamanFormCitoc(initialData: berita),
+                                  ),
+                                );
+                                if (result == true) _fetchCitoc();
+                              },
+                            ),
+                            // --- TOMBOL HAPUS ---
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _deleteCitoc(berita['id']),
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -105,10 +135,12 @@ class _HalamanKelolaCitocState extends State<HalamanKelolaCitoc> {
 }
 
 /// =================================================================
-/// FORM TAMBAH BERITA CITOC
+/// FORM TAMBAH / EDIT BERITA CITOC
 /// =================================================================
 class HalamanFormCitoc extends StatefulWidget {
-  const HalamanFormCitoc({super.key});
+  final Map<String, dynamic>? initialData; // Tambahkan untuk Edit
+
+  const HalamanFormCitoc({super.key, this.initialData});
 
   @override
   State<HalamanFormCitoc> createState() => _HalamanFormCitocState();
@@ -119,6 +151,18 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
   final _titleCtrl = TextEditingController();
   final _urlCtrl = TextEditingController();
   bool _isLoading = false;
+
+  bool get _isEdit => widget.initialData != null;
+
+  @override
+  void initState() {
+    super.initState();
+    // Mengisi data awal jika mode Edit
+    if (_isEdit) {
+      _titleCtrl.text = widget.initialData!['title'] ?? '';
+      _urlCtrl.text = widget.initialData!['url'] ?? '';
+    }
+  }
 
   Future<void> _submit() async {
     if (_titleCtrl.text.isEmpty || _urlCtrl.text.isEmpty) {
@@ -134,13 +178,32 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
 
     setState(() => _isLoading = true);
     try {
-      await _supabase.from('citoc_news').insert({
-        'title': _titleCtrl.text,
-        'url': finalUrl,
-      });
-      if (mounted) Navigator.pop(context, true);
+      if (_isEdit) {
+        // Proses Update Data
+        await _supabase.from('citoc_news').update({
+          'title': _titleCtrl.text,
+          'url': finalUrl,
+        }).eq('id', widget.initialData!['id']);
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Berita berhasil diperbarui!")));
+          Navigator.pop(context, true);
+        }
+      } else {
+        // Proses Tambah Data Baru
+        await _supabase.from('citoc_news').insert({
+          'title': _titleCtrl.text,
+          'url': finalUrl,
+        });
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Berita berhasil ditambahkan!")));
+          Navigator.pop(context, true);
+        }
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+    } finally {
       setState(() => _isLoading = false);
     }
   }
@@ -148,7 +211,7 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Berita Baru")),
+      appBar: AppBar(title: Text(_isEdit ? "Edit Berita CITOC" : "Tambah Berita Baru")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -169,7 +232,7 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
                     onPressed: _submit,
-                    child: const Text("SIMPAN BERITA", style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(_isEdit ? "SIMPAN PERUBAHAN" : "SIMPAN BERITA", style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
           ],
         ),
