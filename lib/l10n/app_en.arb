@@ -1,0 +1,8 @@
+{
+    "appTitle": "Carmelite Order App",
+    "loginTitle": "Username / Email",
+    "passwordTitle": "Password",
+    "loginMemberButton": "Login as Member",
+    "loginAdminButton": "Login as Admin",
+    "selectLanguage": "Select Language"
+}

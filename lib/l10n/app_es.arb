@@ -1,0 +1,8 @@
+{
+    "appTitle": "App Orden Carmelita",
+    "loginTitle": "Usuario / Correo electrónico",
+    "passwordTitle": "Contraseña",
+    "loginMemberButton": "Iniciar sesión como Miembro",
+    "loginAdminButton": "Iniciar sesión como Administrador",
+    "selectLanguage": "Seleccionar Idioma"
+}
