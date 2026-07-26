@@ -501,19 +501,19 @@ abstract class AppLocalizations {
   /// No description provided for @unassignedMonastery.
   ///
   /// In la, this message translates to:
-  /// **'Monasterium nondum constitutum'**
+  /// **'Monasterium non assignatum'**
   String get unassignedMonastery;
 
   /// No description provided for @unassignedOfficial.
   ///
   /// In la, this message translates to:
-  /// **'Nemo officialis adhuc designatus'**
+  /// **'Officialis non assignatus'**
   String get unassignedOfficial;
 
   /// No description provided for @communityOrigin.
   ///
   /// In la, this message translates to:
-  /// **'Origo Communitatis'**
+  /// **'Communitas Originis'**
   String get communityOrigin;
 
   /// No description provided for @birthPlace.
@@ -549,7 +549,7 @@ abstract class AppLocalizations {
   /// No description provided for @ordinationDate.
   ///
   /// In la, this message translates to:
-  /// **'Dies Ordinationis Sacrae'**
+  /// **'Dies Ordinationis'**
   String get ordinationDate;
 
   /// No description provided for @noCommissionData.
@@ -791,6 +791,684 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Tange ut plura legas...'**
   String get tapToReadMore;
+
+  /// No description provided for @fratresDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Fratrum'**
+  String get fratresDirectoryTitle;
+
+  /// No description provided for @selectFratresCategory.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Categoriam Fratrum'**
+  String get selectFratresCategory;
+
+  /// No description provided for @provincia.
+  ///
+  /// In la, this message translates to:
+  /// **'PROVINCIA'**
+  String get provincia;
+
+  /// No description provided for @commissariatusGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'COMMISSARIATUS GENERALIS'**
+  String get commissariatusGeneralis;
+
+  /// No description provided for @delegatioGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'DELEGATIO GENERALIS'**
+  String get delegatioGeneralis;
+
+  /// No description provided for @listCategoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index {category}'**
+  String listCategoryTitle(Object category);
+
+  /// No description provided for @searchCategoryName.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Nomen {category}...'**
+  String searchCategoryName(Object category);
+
+  /// No description provided for @noCategoryData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data {category} inventa sunt.'**
+  String noCategoryData(Object category);
+
+  /// No description provided for @locationNotSet.
+  ///
+  /// In la, this message translates to:
+  /// **'Locus non constitutus'**
+  String get locationNotSet;
+
+  /// No description provided for @detail.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula'**
+  String get detail;
+
+  /// No description provided for @historia.
+  ///
+  /// In la, this message translates to:
+  /// **'Historia'**
+  String get historia;
+
+  /// No description provided for @noHistory.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla historia adhuc relata est.'**
+  String get noHistory;
+
+  /// No description provided for @website.
+  ///
+  /// In la, this message translates to:
+  /// **'Website'**
+  String get website;
+
+  /// No description provided for @officialWebsite.
+  ///
+  /// In la, this message translates to:
+  /// **'Website Publicum'**
+  String get officialWebsite;
+
+  /// No description provided for @webLink.
+  ///
+  /// In la, this message translates to:
+  /// **'Vinculum Web'**
+  String get webLink;
+
+  /// No description provided for @noWebsite.
+  ///
+  /// In la, this message translates to:
+  /// **'Nullum website'**
+  String get noWebsite;
+
+  /// No description provided for @consiliumCouncil.
+  ///
+  /// In la, this message translates to:
+  /// **'Consilium'**
+  String get consiliumCouncil;
+
+  /// No description provided for @leadershipConsilium.
+  ///
+  /// In la, this message translates to:
+  /// **'Consilium Gubernii'**
+  String get leadershipConsilium;
+
+  /// No description provided for @domusAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Domus'**
+  String get domusAddress;
+
+  /// No description provided for @addressNotAvailable.
+  ///
+  /// In la, this message translates to:
+  /// **'Domicilium non praesto est.'**
+  String get addressNotAvailable;
+
+  /// No description provided for @monasteryBuilding.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasterium / Aedificium'**
+  String get monasteryBuilding;
+
+  /// No description provided for @officialDomus.
+  ///
+  /// In la, this message translates to:
+  /// **'Domus Publica'**
+  String get officialDomus;
+
+  /// No description provided for @conventusList.
+  ///
+  /// In la, this message translates to:
+  /// **'Conventus (Index Monasteriorum)'**
+  String get conventusList;
+
+  /// No description provided for @sodalesList.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodales (Index Sodalarum)'**
+  String get sodalesList;
+
+  /// No description provided for @memberListSodales.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sodalarum'**
+  String get memberListSodales;
+
+  /// No description provided for @noMemberData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data sodalarum.'**
+  String get noMemberData;
+
+  /// No description provided for @positionRole.
+  ///
+  /// In la, this message translates to:
+  /// **'Munus / Partes'**
+  String get positionRole;
+
+  /// No description provided for @conventusMonasteriesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Domorum Monasteriorum (Conventus)'**
+  String get conventusMonasteriesTitle;
+
+  /// No description provided for @noRegisteredMonastery.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data monasterii adhuc relata sunt.'**
+  String get noRegisteredMonastery;
+
+  /// No description provided for @completeMonasteryAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Domicilium Monasterii Integrum:'**
+  String get completeMonasteryAddress;
+
+  /// No description provided for @addressNotFilled.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula domicilii nondum expleta sunt.'**
+  String get addressNotFilled;
+
+  /// No description provided for @heremitiDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Heremitarum'**
+  String get heremitiDirectoryTitle;
+
+  /// No description provided for @heremitiTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'HEREMITI'**
+  String get heremitiTitle;
+
+  /// No description provided for @searchHeremiti.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Heremitas...'**
+  String get searchHeremiti;
+
+  /// No description provided for @noHeremitiData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data heremitarum inventa sunt.'**
+  String get noHeremitiData;
+
+  /// No description provided for @heremitiDetailTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula Heremitarum'**
+  String get heremitiDetailTitle;
+
+  /// No description provided for @hermitageName.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Eremiterii'**
+  String get hermitageName;
+
+  /// No description provided for @heremitiPrior.
+  ///
+  /// In la, this message translates to:
+  /// **'Prior / Moderator Heremi'**
+  String get heremitiPrior;
+
+  /// No description provided for @monialesDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Monialium'**
+  String get monialesDirectoryTitle;
+
+  /// No description provided for @federatioEntitiesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Federatio / Entitates'**
+  String get federatioEntitiesTitle;
+
+  /// No description provided for @federatioEntitiesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Federationum Monialium, Historia, et Website Publicum'**
+  String get federatioEntitiesSubtitle;
+
+  /// No description provided for @monialesConventusTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria / Conventus'**
+  String get monialesConventusTitle;
+
+  /// No description provided for @monialesConventusSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Monasteriorum Monialium et Domicilia Contactus'**
+  String get monialesConventusSubtitle;
+
+  /// No description provided for @sororesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sorores'**
+  String get sororesTitle;
+
+  /// No description provided for @sororesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sororum, Locus Nativitatis, et Dies Professionis'**
+  String get sororesSubtitle;
+
+  /// No description provided for @federatioAndEntities.
+  ///
+  /// In la, this message translates to:
+  /// **'Federatio et Entitates'**
+  String get federatioAndEntities;
+
+  /// No description provided for @searchFederation.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Federationem / Entitatem...'**
+  String get searchFederation;
+
+  /// No description provided for @noMonialesEntitiesData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Entitatum Monialium inventa sunt.'**
+  String get noMonialesEntitiesData;
+
+  /// No description provided for @monasteriaTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria'**
+  String get monasteriaTitle;
+
+  /// No description provided for @searchMonasteryCity.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Nomen Monasterii / Civitatis...'**
+  String get searchMonasteryCity;
+
+  /// No description provided for @noMonialesMonasteryData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Monasteriorum Monialium inventa sunt.'**
+  String get noMonialesMonasteryData;
+
+  /// No description provided for @federationLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Federatio'**
+  String get federationLabel;
+
+  /// No description provided for @monasteryLocationDetail.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula Loci Monasterii:'**
+  String get monasteryLocationDetail;
+
+  /// No description provided for @searchSisterName.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Nomen Sororis...'**
+  String get searchSisterName;
+
+  /// No description provided for @noSororesData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Sororum inventa sunt.'**
+  String get noSororesData;
+
+  /// No description provided for @sisterMonastery.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasterium'**
+  String get sisterMonastery;
+
+  /// No description provided for @monasteriaOrdinisTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria Ordinis'**
+  String get monasteriaOrdinisTitle;
+
+  /// No description provided for @entitiesCongregatioTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Entitates / Congregatio'**
+  String get entitiesCongregatioTitle;
+
+  /// No description provided for @entitiesCongregatioSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Entitatum Principalium, Historia, et Website Publicum'**
+  String get entitiesCongregatioSubtitle;
+
+  /// No description provided for @monasteriaConventusSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Monasteriorum Sui Iuris et Domicilia Contactus'**
+  String get monasteriaConventusSubtitle;
+
+  /// No description provided for @sororesMonialTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sorores (Moniales)'**
+  String get sororesMonialTitle;
+
+  /// No description provided for @sororesMonialSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sororum, Locus Nativitatis, et Dies Professionis'**
+  String get sororesMonialSubtitle;
+
+  /// No description provided for @searchParentEntity.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Entitatem Principalem...'**
+  String get searchParentEntity;
+
+  /// No description provided for @noMonasteriaEntitiesData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Entitatum Monasteriorum Ordinis inventa sunt.'**
+  String get noMonasteriaEntitiesData;
+
+  /// No description provided for @historiaConstitution.
+  ///
+  /// In la, this message translates to:
+  /// **'Historia / Constitutiones Propriae:'**
+  String get historiaConstitution;
+
+  /// No description provided for @noHistoriaConstitution.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data historiae vel constitutionum adhuc relata sunt.'**
+  String get noHistoriaConstitution;
+
+  /// No description provided for @noMonasteriaConventusData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Monasteriorum inventa sunt.'**
+  String get noMonasteriaConventusData;
+
+  /// No description provided for @affiliation.
+  ///
+  /// In la, this message translates to:
+  /// **'Affiliatio:'**
+  String get affiliation;
+
+  /// No description provided for @contactAndMonasteryDetail.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula Contactus et Domus Monasterii:'**
+  String get contactAndMonasteryDetail;
+
+  /// No description provided for @addressNotCompleteInDb.
+  ///
+  /// In la, this message translates to:
+  /// **'Data domicilii in database nondum expleta sunt.'**
+  String get addressNotCompleteInDb;
+
+  /// No description provided for @sororesMembersTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sorores (Sodales)'**
+  String get sororesMembersTitle;
+
+  /// No description provided for @noSisterDataFound.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Sororum inventa sunt.'**
+  String get noSisterDataFound;
+
+  /// No description provided for @notDetermined.
+  ///
+  /// In la, this message translates to:
+  /// **'Nondum constitutum'**
+  String get notDetermined;
+
+  /// No description provided for @databaseError.
+  ///
+  /// In la, this message translates to:
+  /// **'Error database accidit'**
+  String get databaseError;
+
+  /// No description provided for @domusHeadquarters.
+  ///
+  /// In la, this message translates to:
+  /// **'Domus / Sedes Principalis'**
+  String get domusHeadquarters;
+
+  /// No description provided for @monasteriaConventusTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria / Conventus'**
+  String get monasteriaConventusTitle;
+
+  /// No description provided for @heremitaeDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Heremitarum'**
+  String get heremitaeDirectoryTitle;
+
+  /// No description provided for @heremitaeTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'HEREMITAE'**
+  String get heremitaeTitle;
+
+  /// No description provided for @eremitoriaTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Eremitoria / Conventus'**
+  String get eremitoriaTitle;
+
+  /// No description provided for @eremitoriaSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Eremitoriorum et Domicilia Contactus'**
+  String get eremitoriaSubtitle;
+
+  /// No description provided for @heremitaeEntitiesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Entitatum Heremitarum, Historia, et Website Publicum'**
+  String get heremitaeEntitiesSubtitle;
+
+  /// No description provided for @heremitaeMembersSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sodalarum, Locus Nativitatis, et Dies Professionis'**
+  String get heremitaeMembersSubtitle;
+
+  /// No description provided for @searchHeremitae.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Heremitas / Eremitoria...'**
+  String get searchHeremitae;
+
+  /// No description provided for @searchHeremitaeEntity.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Entitatem Heremitarum...'**
+  String get searchHeremitaeEntity;
+
+  /// No description provided for @noHeremitaeData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Heremitarum inventa sunt.'**
+  String get noHeremitaeData;
+
+  /// No description provided for @eremitoriumDetailTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula Eremitorii'**
+  String get eremitoriumDetailTitle;
+
+  /// No description provided for @institutaDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Institutorum'**
+  String get institutaDirectoryTitle;
+
+  /// No description provided for @institutaTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'INSTITUTA'**
+  String get institutaTitle;
+
+  /// No description provided for @institutaEntitiesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Institutorum, Historia, et Website Publicum'**
+  String get institutaEntitiesSubtitle;
+
+  /// No description provided for @institutaConventusSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Domorum Institutorum et Domicilia Contactus'**
+  String get institutaConventusSubtitle;
+
+  /// No description provided for @institutaMembersSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sodalarum Institutorum, Locus Nativitatis, et Dies Professionis'**
+  String get institutaMembersSubtitle;
+
+  /// No description provided for @searchInstituta.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Instituta...'**
+  String get searchInstituta;
+
+  /// No description provided for @searchInstitutaEntity.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Entitatem Instituti...'**
+  String get searchInstitutaEntity;
+
+  /// No description provided for @noInstitutaData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Institutorum inventa sunt.'**
+  String get noInstitutaData;
+
+  /// No description provided for @institutaDetailTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Singula Instituti'**
+  String get institutaDetailTitle;
+
+  /// No description provided for @statisticaTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Statistica'**
+  String get statisticaTitle;
+
+  /// No description provided for @selectStatisticCategory.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Categoriam Statisticae:'**
+  String get selectStatisticCategory;
+
+  /// No description provided for @statisticaFratres.
+  ///
+  /// In la, this message translates to:
+  /// **'Statistica Fratrum'**
+  String get statisticaFratres;
+
+  /// No description provided for @statisticaFratresSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Per Provinciam / Commissariatum / Delegationem Generalem'**
+  String get statisticaFratresSubtitle;
+
+  /// No description provided for @statisticaMoniales.
+  ///
+  /// In la, this message translates to:
+  /// **'Statistica Monialium'**
+  String get statisticaMoniales;
+
+  /// No description provided for @statisticaMonialesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Moniales in Genere'**
+  String get statisticaMonialesSubtitle;
+
+  /// No description provided for @statisticaHeremiti.
+  ///
+  /// In la, this message translates to:
+  /// **'Statistica Heremitarum'**
+  String get statisticaHeremiti;
+
+  /// No description provided for @statisticaHeremitiSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Heremitae in Genere'**
+  String get statisticaHeremitiSubtitle;
+
+  /// No description provided for @statisticaMonasteria.
+  ///
+  /// In la, this message translates to:
+  /// **'Statistica Monasteriorum Ordinis'**
+  String get statisticaMonasteria;
+
+  /// No description provided for @statisticaMonasteriaSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria in Genere (Sui Iuris)'**
+  String get statisticaMonasteriaSubtitle;
+
+  /// No description provided for @dataRecapitulation.
+  ///
+  /// In la, this message translates to:
+  /// **'Recapitulatio Datorum'**
+  String get dataRecapitulation;
+
+  /// No description provided for @domusHouse.
+  ///
+  /// In la, this message translates to:
+  /// **'Domus'**
+  String get domusHouse;
+
+  /// No description provided for @noviatus.
+  ///
+  /// In la, this message translates to:
+  /// **'Noviatus'**
+  String get noviatus;
+
+  /// No description provided for @profTemporaneae.
+  ///
+  /// In la, this message translates to:
+  /// **'Prof. Temporaneae'**
+  String get profTemporaneae;
+
+  /// No description provided for @solemnProfessus.
+  ///
+  /// In la, this message translates to:
+  /// **'Solemn. Professus'**
+  String get solemnProfessus;
+
+  /// No description provided for @sacerdotalisPriest.
+  ///
+  /// In la, this message translates to:
+  /// **'Sacerdotalis'**
+  String get sacerdotalisPriest;
+
+  /// No description provided for @listCountriesWork.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Nationum ubi Laborant:'**
+  String get listCountriesWork;
+
+  /// No description provided for @noCountriesData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data nationum in domiciliis descripta sunt.'**
+  String get noCountriesData;
 }
 
 class _AppLocalizationsDelegate

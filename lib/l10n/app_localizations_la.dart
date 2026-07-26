@@ -217,13 +217,13 @@ class AppLocalizationsLa extends AppLocalizations {
   String get missio => 'Missio';
 
   @override
-  String get unassignedMonastery => 'Monasterium nondum constitutum';
+  String get unassignedMonastery => 'Monasterium non assignatum';
 
   @override
-  String get unassignedOfficial => 'Nemo officialis adhuc designatus';
+  String get unassignedOfficial => 'Officialis non assignatus';
 
   @override
-  String get communityOrigin => 'Origo Communitatis';
+  String get communityOrigin => 'Communitas Originis';
 
   @override
   String get birthPlace => 'Locus Nativitatis';
@@ -241,7 +241,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get solemnProfession => 'Professio Sollemnis';
 
   @override
-  String get ordinationDate => 'Dies Ordinationis Sacrae';
+  String get ordinationDate => 'Dies Ordinationis';
 
   @override
   String get noCommissionData => 'Nulla data Commissionis adhuc inscripta.';
@@ -364,4 +364,371 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get tapToReadMore => 'Tange ut plura legas...';
+
+  @override
+  String get fratresDirectoryTitle => 'Directorium Fratrum';
+
+  @override
+  String get selectFratresCategory => 'Elige Categoriam Fratrum';
+
+  @override
+  String get provincia => 'PROVINCIA';
+
+  @override
+  String get commissariatusGeneralis => 'COMMISSARIATUS GENERALIS';
+
+  @override
+  String get delegatioGeneralis => 'DELEGATIO GENERALIS';
+
+  @override
+  String listCategoryTitle(Object category) {
+    return 'Index $category';
+  }
+
+  @override
+  String searchCategoryName(Object category) {
+    return 'Quaere Nomen $category...';
+  }
+
+  @override
+  String noCategoryData(Object category) {
+    return 'Nulla data $category inventa sunt.';
+  }
+
+  @override
+  String get locationNotSet => 'Locus non constitutus';
+
+  @override
+  String get detail => 'Singula';
+
+  @override
+  String get historia => 'Historia';
+
+  @override
+  String get noHistory => 'Nulla historia adhuc relata est.';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get officialWebsite => 'Website Publicum';
+
+  @override
+  String get webLink => 'Vinculum Web';
+
+  @override
+  String get noWebsite => 'Nullum website';
+
+  @override
+  String get consiliumCouncil => 'Consilium';
+
+  @override
+  String get leadershipConsilium => 'Consilium Gubernii';
+
+  @override
+  String get domusAddress => 'Domus';
+
+  @override
+  String get addressNotAvailable => 'Domicilium non praesto est.';
+
+  @override
+  String get monasteryBuilding => 'Monasterium / Aedificium';
+
+  @override
+  String get officialDomus => 'Domus Publica';
+
+  @override
+  String get conventusList => 'Conventus (Index Monasteriorum)';
+
+  @override
+  String get sodalesList => 'Sodales (Index Sodalarum)';
+
+  @override
+  String get memberListSodales => 'Index Sodalarum';
+
+  @override
+  String get noMemberData => 'Nulla data sodalarum.';
+
+  @override
+  String get positionRole => 'Munus / Partes';
+
+  @override
+  String get conventusMonasteriesTitle =>
+      'Index Domorum Monasteriorum (Conventus)';
+
+  @override
+  String get noRegisteredMonastery =>
+      'Nulla data monasterii adhuc relata sunt.';
+
+  @override
+  String get completeMonasteryAddress => 'Domicilium Monasterii Integrum:';
+
+  @override
+  String get addressNotFilled => 'Singula domicilii nondum expleta sunt.';
+
+  @override
+  String get heremitiDirectoryTitle => 'Directorium Heremitarum';
+
+  @override
+  String get heremitiTitle => 'HEREMITI';
+
+  @override
+  String get searchHeremiti => 'Quaere Heremitas...';
+
+  @override
+  String get noHeremitiData => 'Nulla data heremitarum inventa sunt.';
+
+  @override
+  String get heremitiDetailTitle => 'Singula Heremitarum';
+
+  @override
+  String get hermitageName => 'Nomen Eremiterii';
+
+  @override
+  String get heremitiPrior => 'Prior / Moderator Heremi';
+
+  @override
+  String get monialesDirectoryTitle => 'Directorium Monialium';
+
+  @override
+  String get federatioEntitiesTitle => 'Federatio / Entitates';
+
+  @override
+  String get federatioEntitiesSubtitle =>
+      'Index Federationum Monialium, Historia, et Website Publicum';
+
+  @override
+  String get monialesConventusTitle => 'Monasteria / Conventus';
+
+  @override
+  String get monialesConventusSubtitle =>
+      'Index Monasteriorum Monialium et Domicilia Contactus';
+
+  @override
+  String get sororesTitle => 'Sorores';
+
+  @override
+  String get sororesSubtitle =>
+      'Index Sororum, Locus Nativitatis, et Dies Professionis';
+
+  @override
+  String get federatioAndEntities => 'Federatio et Entitates';
+
+  @override
+  String get searchFederation => 'Quaere Federationem / Entitatem...';
+
+  @override
+  String get noMonialesEntitiesData =>
+      'Nulla data Entitatum Monialium inventa sunt.';
+
+  @override
+  String get monasteriaTitle => 'Monasteria';
+
+  @override
+  String get searchMonasteryCity => 'Quaere Nomen Monasterii / Civitatis...';
+
+  @override
+  String get noMonialesMonasteryData =>
+      'Nulla data Monasteriorum Monialium inventa sunt.';
+
+  @override
+  String get federationLabel => 'Federatio';
+
+  @override
+  String get monasteryLocationDetail => 'Singula Loci Monasterii:';
+
+  @override
+  String get searchSisterName => 'Quaere Nomen Sororis...';
+
+  @override
+  String get noSororesData => 'Nulla data Sororum inventa sunt.';
+
+  @override
+  String get sisterMonastery => 'Monasterium';
+
+  @override
+  String get monasteriaOrdinisTitle => 'Monasteria Ordinis';
+
+  @override
+  String get entitiesCongregatioTitle => 'Entitates / Congregatio';
+
+  @override
+  String get entitiesCongregatioSubtitle =>
+      'Index Entitatum Principalium, Historia, et Website Publicum';
+
+  @override
+  String get monasteriaConventusSubtitle =>
+      'Index Monasteriorum Sui Iuris et Domicilia Contactus';
+
+  @override
+  String get sororesMonialTitle => 'Sorores (Moniales)';
+
+  @override
+  String get sororesMonialSubtitle =>
+      'Index Sororum, Locus Nativitatis, et Dies Professionis';
+
+  @override
+  String get searchParentEntity => 'Quaere Entitatem Principalem...';
+
+  @override
+  String get noMonasteriaEntitiesData =>
+      'Nulla data Entitatum Monasteriorum Ordinis inventa sunt.';
+
+  @override
+  String get historiaConstitution => 'Historia / Constitutiones Propriae:';
+
+  @override
+  String get noHistoriaConstitution =>
+      'Nulla data historiae vel constitutionum adhuc relata sunt.';
+
+  @override
+  String get noMonasteriaConventusData =>
+      'Nulla data Monasteriorum inventa sunt.';
+
+  @override
+  String get affiliation => 'Affiliatio:';
+
+  @override
+  String get contactAndMonasteryDetail =>
+      'Singula Contactus et Domus Monasterii:';
+
+  @override
+  String get addressNotCompleteInDb =>
+      'Data domicilii in database nondum expleta sunt.';
+
+  @override
+  String get sororesMembersTitle => 'Sorores (Sodales)';
+
+  @override
+  String get noSisterDataFound => 'Nulla data Sororum inventa sunt.';
+
+  @override
+  String get notDetermined => 'Nondum constitutum';
+
+  @override
+  String get databaseError => 'Error database accidit';
+
+  @override
+  String get domusHeadquarters => 'Domus / Sedes Principalis';
+
+  @override
+  String get monasteriaConventusTitle => 'Monasteria / Conventus';
+
+  @override
+  String get heremitaeDirectoryTitle => 'Directorium Heremitarum';
+
+  @override
+  String get heremitaeTitle => 'HEREMITAE';
+
+  @override
+  String get eremitoriaTitle => 'Eremitoria / Conventus';
+
+  @override
+  String get eremitoriaSubtitle => 'Index Eremitoriorum et Domicilia Contactus';
+
+  @override
+  String get heremitaeEntitiesSubtitle =>
+      'Index Entitatum Heremitarum, Historia, et Website Publicum';
+
+  @override
+  String get heremitaeMembersSubtitle =>
+      'Index Sodalarum, Locus Nativitatis, et Dies Professionis';
+
+  @override
+  String get searchHeremitae => 'Quaere Heremitas / Eremitoria...';
+
+  @override
+  String get searchHeremitaeEntity => 'Quaere Entitatem Heremitarum...';
+
+  @override
+  String get noHeremitaeData => 'Nulla data Heremitarum inventa sunt.';
+
+  @override
+  String get eremitoriumDetailTitle => 'Singula Eremitorii';
+
+  @override
+  String get institutaDirectoryTitle => 'Directorium Institutorum';
+
+  @override
+  String get institutaTitle => 'INSTITUTA';
+
+  @override
+  String get institutaEntitiesSubtitle =>
+      'Index Institutorum, Historia, et Website Publicum';
+
+  @override
+  String get institutaConventusSubtitle =>
+      'Index Domorum Institutorum et Domicilia Contactus';
+
+  @override
+  String get institutaMembersSubtitle =>
+      'Index Sodalarum Institutorum, Locus Nativitatis, et Dies Professionis';
+
+  @override
+  String get searchInstituta => 'Quaere Instituta...';
+
+  @override
+  String get searchInstitutaEntity => 'Quaere Entitatem Instituti...';
+
+  @override
+  String get noInstitutaData => 'Nulla data Institutorum inventa sunt.';
+
+  @override
+  String get institutaDetailTitle => 'Singula Instituti';
+
+  @override
+  String get statisticaTitle => 'Statistica';
+
+  @override
+  String get selectStatisticCategory => 'Elige Categoriam Statisticae:';
+
+  @override
+  String get statisticaFratres => 'Statistica Fratrum';
+
+  @override
+  String get statisticaFratresSubtitle =>
+      'Per Provinciam / Commissariatum / Delegationem Generalem';
+
+  @override
+  String get statisticaMoniales => 'Statistica Monialium';
+
+  @override
+  String get statisticaMonialesSubtitle => 'Moniales in Genere';
+
+  @override
+  String get statisticaHeremiti => 'Statistica Heremitarum';
+
+  @override
+  String get statisticaHeremitiSubtitle => 'Heremitae in Genere';
+
+  @override
+  String get statisticaMonasteria => 'Statistica Monasteriorum Ordinis';
+
+  @override
+  String get statisticaMonasteriaSubtitle => 'Monasteria in Genere (Sui Iuris)';
+
+  @override
+  String get dataRecapitulation => 'Recapitulatio Datorum';
+
+  @override
+  String get domusHouse => 'Domus';
+
+  @override
+  String get noviatus => 'Noviatus';
+
+  @override
+  String get profTemporaneae => 'Prof. Temporaneae';
+
+  @override
+  String get solemnProfessus => 'Solemn. Professus';
+
+  @override
+  String get sacerdotalisPriest => 'Sacerdotalis';
+
+  @override
+  String get listCountriesWork => 'Index Nationum ubi Laborant:';
+
+  @override
+  String get noCountriesData =>
+      'Nulla data nationum in domiciliis descripta sunt.';
 }

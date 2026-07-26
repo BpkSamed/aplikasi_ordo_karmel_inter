@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 /// =================================================================
 /// HALAMAN UTAMA: MENU PILIHAN STATISTIKA
@@ -9,50 +10,66 @@ class HalamanStatistica extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Statistica (Data Statistik)"),
+        title: Text(t.statisticaTitle ?? "Statistica (Data Statistik)"),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20.0),
-        children: [
-          const Text(
-            "Pilih Kategori Statistik:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Statistica Fratres",
-            subtitle: "Per Provincia / Commissariatus / Delegatio Generalis",
-            icon: Icons.bar_chart,
-            kategoriDb: "Fratres",
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Statistica Moniales",
-            subtitle: "General Moniales",
-            icon: Icons.pie_chart,
-            kategoriDb: "Moniales",
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Statistica Heremiti",
-            subtitle: "General Heremiti",
-            icon: Icons.stacked_bar_chart,
-            kategoriDb: "Heremiti",
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Statistica Monasteria Ordinis",
-            subtitle: "General Monasteria (Propriis Utuntur)",
-            icon: Icons.donut_large,
-            kategoriDb: "Monasteria Ordinis",
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          return ListView(
+            padding: EdgeInsets.all(baseWidth * 0.05),
+            children: [
+              Text(
+                t.selectStatisticCategory ?? "Pilih Kategori Statistik:",
+                style: TextStyle(
+                  fontSize: baseWidth * 0.045,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.brown,
+                ),
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.statisticaFratres ?? "Statistica Fratres",
+                subtitle: t.statisticaFratresSubtitle ?? "Per Provincia / Commissariatus / Delegatio Generalis",
+                icon: Icons.bar_chart,
+                kategoriDb: "Fratres",
+                baseWidth: baseWidth,
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.statisticaMoniales ?? "Statistica Moniales",
+                subtitle: t.statisticaMonialesSubtitle ?? "General Moniales",
+                icon: Icons.pie_chart,
+                kategoriDb: "Moniales",
+                baseWidth: baseWidth,
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.statisticaHeremiti ?? "Statistica Heremiti",
+                subtitle: t.statisticaHeremitiSubtitle ?? "General Heremiti",
+                icon: Icons.stacked_bar_chart,
+                kategoriDb: "Heremiti",
+                baseWidth: baseWidth,
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.statisticaMonasteria ?? "Statistica Monasteria Ordinis",
+                subtitle: t.statisticaMonasteriaSubtitle ?? "General Monasteria (Propriis Utuntur)",
+                icon: Icons.donut_large,
+                kategoriDb: "Monasteria Ordinis",
+                baseWidth: baseWidth,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -63,22 +80,30 @@ class HalamanStatistica extends StatelessWidget {
     required String subtitle,
     required IconData icon,
     required String kategoriDb,
+    required double baseWidth,
   }) {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: baseWidth * 0.03,
+          horizontal: baseWidth * 0.04,
+        ),
         leading: CircleAvatar(
           backgroundColor: Colors.brown,
-          child: Icon(icon, color: Colors.white),
+          child: Icon(icon, color: Colors.white, size: baseWidth * 0.055),
         ),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.brown,
+            fontSize: baseWidth * 0.038,
+          ),
         ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        subtitle: Text(subtitle, style: TextStyle(fontSize: baseWidth * 0.032)),
+        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
         onTap: () {
           Navigator.push(
             context,
@@ -195,98 +220,169 @@ class _HalamanDetailStatistikaState extends State<HalamanDetailStatistika> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.judul),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-          : _errorMessage != null
-              ? Center(child: Text("Terjadi kesalahan: $_errorMessage", style: const TextStyle(color: Colors.red)))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Rekapitulasi Data",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.brown),
-                      ),
-                      const SizedBox(height: 15),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
 
-                      // Grid Kartu Angka Statistik
-                      GridView.count(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 1.3,
-                        children: [
-                          _buildStatCard("Domus (Rumah)", _jumlahDomus.toString(), Icons.holiday_village),
-                          _buildStatCard("Noviatus", _jumlahNoviatus.toString(), Icons.spa),
-                          _buildStatCard("Prof. Temporaneae\n(Kaul Perdana)", _jumlahTemporaneae.toString(), Icons.event),
-                          _buildStatCard("Solemn. Professus\n(Kaul Kekal)", _jumlahSolemniter.toString(), Icons.event_available),
-                          
-                          // Tampilkan Tahbisan Imam (Sacerdotalis) HANYA untuk Fratres/Heremiti
-                          if (widget.kategoriEntitas == "Fratres" || widget.kategoriEntitas == "Heremiti")
-                            _buildStatCard("Sacerdotalis\n(Imam)", _jumlahSacerdotalis.toString(), Icons.church),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
 
-                      // Daftar Negara Tempat Berkarya
-                      const Text(
-                        "Daftar Negara Tempat Berkarya:",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
-                      ),
-                      const SizedBox(height: 10),
-                      _daftarNegara.isEmpty
-                          ? const Text("Belum ada data negara yang terdaftar pada alamat biara/komunitas.")
-                          : Wrap(
-                              spacing: 8.0,
-                              runSpacing: 8.0,
-                              children: _daftarNegara.map((negara) {
-                                return Chip(
-                                  label: Text(negara, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                  backgroundColor: Colors.brown.shade50,
-                                  side: const BorderSide(color: Colors.brown),
-                                );
-                              }).toList(),
-                            ),
-                    ],
+          if (_errorMessage != null) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(baseWidth * 0.04),
+                child: Text(
+                  "${t.databaseError ?? 'Terjadi kesalahan'}: $_errorMessage",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.red, fontSize: baseWidth * 0.038),
+                ),
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(baseWidth * 0.04),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.dataRecapitulation ?? "Rekapitulasi Data",
+                  style: TextStyle(
+                    fontSize: baseWidth * 0.05,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
                   ),
                 ),
+                SizedBox(height: baseWidth * 0.035),
+
+                // Grid Kartu Angka Statistik
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisSpacing: baseWidth * 0.025,
+                  mainAxisSpacing: baseWidth * 0.025,
+                  childAspectRatio: 1.3,
+                  children: [
+                    _buildStatCard(
+                      t.domusHouse ?? "Domus (Rumah)",
+                      _jumlahDomus.toString(),
+                      Icons.holiday_village,
+                      baseWidth,
+                    ),
+                    _buildStatCard(
+                      t.noviatus ?? "Noviatus",
+                      _jumlahNoviatus.toString(),
+                      Icons.spa,
+                      baseWidth,
+                    ),
+                    _buildStatCard(
+                      t.profTemporaneae ?? "Prof. Temporaneae\n(Kaul Perdana)",
+                      _jumlahTemporaneae.toString(),
+                      Icons.event,
+                      baseWidth,
+                    ),
+                    _buildStatCard(
+                      t.solemnProfessus ?? "Solemn. Professus\n(Kaul Kekal)",
+                      _jumlahSolemniter.toString(),
+                      Icons.event_available,
+                      baseWidth,
+                    ),
+                    
+                    // Tampilkan Tahbisan Imam (Sacerdotalis) HANYA untuk Fratres/Heremiti
+                    if (widget.kategoriEntitas == "Fratres" || widget.kategoriEntitas == "Heremiti")
+                      _buildStatCard(
+                        t.sacerdotalisPriest ?? "Sacerdotalis\n(Imam)",
+                        _jumlahSacerdotalis.toString(),
+                        Icons.church,
+                        baseWidth,
+                      ),
+                  ],
+                ),
+                SizedBox(height: baseWidth * 0.075),
+
+                // Daftar Negara Tempat Berkarya
+                Text(
+                  t.listCountriesWork ?? "Daftar Negara Tempat Berkarya:",
+                  style: TextStyle(
+                    fontSize: baseWidth * 0.045,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
+                  ),
+                ),
+                SizedBox(height: baseWidth * 0.025),
+                _daftarNegara.isEmpty
+                    ? Text(
+                        t.noCountriesData ?? "Belum ada data negara yang terdaftar pada alamat biara/komunitas.",
+                        style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.grey),
+                      )
+                    : Wrap(
+                        spacing: baseWidth * 0.02,
+                        runSpacing: baseWidth * 0.02,
+                        children: _daftarNegara.map((negara) {
+                          return Chip(
+                            label: Text(
+                              negara,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: baseWidth * 0.035,
+                              ),
+                            ),
+                            backgroundColor: Colors.brown.shade50,
+                            side: const BorderSide(color: Colors.brown),
+                          );
+                        }).toList(),
+                      ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
   // Widget Kartu Individual untuk tiap kategori angka
-  Widget _buildStatCard(String title, String count, IconData icon) {
+  Widget _buildStatCard(String title, String count, IconData icon, double baseWidth) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(baseWidth * 0.03),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: Colors.brown, size: 28),
-                const SizedBox(width: 8),
+                Icon(icon, color: Colors.brown, size: baseWidth * 0.065),
+                SizedBox(width: baseWidth * 0.02),
                 Text(
                   count,
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.brown),
+                  style: TextStyle(
+                    fontSize: baseWidth * 0.075,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: baseWidth * 0.02),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+              style: TextStyle(
+                fontSize: baseWidth * 0.03,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade700,
+              ),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 /// =================================================================
 /// HALAMAN UTAMA: MENU UTAMA DATA INSTITUTA
@@ -9,37 +10,48 @@ class HalamanInstituta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Direktori Instituta"),
+        title: Text(t.institutaDirectoryTitle ?? "Direktori Instituta"),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20.0),
-        children: [
-          _buildMenuCard(
-            context,
-            title: "Entities / Institutan",
-            icon: Icons.corporate_fare,
-            subtitle: "Daftar Nama Institut, Sejarah, & Website Resmi",
-            page: const HalamanInstitutaEntities(),
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Conventus / Rumah Komunitas",
-            icon: Icons.home_work_outlined,
-            subtitle: "Daftar Rumah Komunitas Instituta dan Alamat Kontak",
-            page: const HalamanInstitutaConventus(),
-          ),
-          const SizedBox(height: 15),
-          _buildMenuCard(
-            context,
-            title: "Sodales (Anggota Instituta)",
-            icon: Icons.groups_outlined,
-            subtitle: "Daftar Anggota, Biodata, & Tanggal Kaul",
-            page: const HalamanInstitutaMembers(),
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          return ListView(
+            padding: EdgeInsets.all(baseWidth * 0.05),
+            children: [
+              _buildMenuCard(
+                context,
+                title: t.exCarmeliteEntity ?? "Entities / Wilayah",
+                icon: Icons.account_balance,
+                subtitle: t.institutaEntitiesSubtitle ?? "Daftar Institut Terafiliasi, Sejarah, & Website Resmi",
+                page: const HalamanInstitutaEntities(),
+                baseWidth: baseWidth,
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.conventusList ?? "Conventus / Rumah Institut",
+                icon: Icons.gite_rounded,
+                subtitle: t.institutaConventusSubtitle ?? "Daftar Rumah/Gedung Institut dan Kontak Resmi",
+                page: const HalamanInstitutaConventus(),
+                baseWidth: baseWidth,
+              ),
+              SizedBox(height: baseWidth * 0.04),
+              _buildMenuCard(
+                context,
+                title: t.institutaTitle ?? "Instituta (Anggota Institut)",
+                icon: Icons.people_alt,
+                subtitle: t.institutaMembersSubtitle ?? "Daftar Anggota Institut, Tanggal Kaul, & Tahbisan",
+                page: const HalamanInstitutaMembers(),
+                baseWidth: baseWidth,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -50,22 +62,23 @@ class HalamanInstituta extends StatelessWidget {
     required IconData icon,
     required String subtitle,
     required Widget page,
+    required double baseWidth,
   }) {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(vertical: baseWidth * 0.03, horizontal: baseWidth * 0.04),
         leading: CircleAvatar(
           backgroundColor: Colors.brown,
-          child: Icon(icon, color: Colors.white),
+          child: Icon(icon, color: Colors.white, size: baseWidth * 0.055),
         ),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.038),
         ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        subtitle: Text(subtitle, style: TextStyle(fontSize: baseWidth * 0.032)),
+        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
@@ -75,7 +88,7 @@ class HalamanInstituta extends StatelessWidget {
 }
 
 /// =================================================================
-/// SUB-HALAMAN 1: DATA INSTITUTA – ENTITIES / INSTITUTAN
+/// SUB-HALAMAN 1: DATA INSTITUTA – ENTITIES / WILAYAH
 /// =================================================================
 class HalamanInstitutaEntities extends StatefulWidget {
   const HalamanInstitutaEntities({super.key});
@@ -98,70 +111,78 @@ class _HalamanInstitutaEntitiesState extends State<HalamanInstitutaEntities> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Entities & Institut Induk")),
-      body: Column(
-        children: [
-          _buildSearchBar("Cari Nama Institut...", (val) => setState(() => _query = val.toLowerCase())),
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _fetchEntities(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
-                if (snapshot.hasError) return _buildError(snapshot.error);
-                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Entitas Instituta.");
+      appBar: AppBar(title: Text(t.institutaDirectoryTitle ?? "Entities & Wilayah Instituta")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
 
-                final filtered = snapshot.data!.where((item) {
-                  return (item['name'] ?? '').toString().toLowerCase().contains(_query);
-                }).toList();
+          return Column(
+            children: [
+              _buildSearchBar(t.searchInstitutaEntity ?? "Cari Entitas Institut...", (val) => setState(() => _query = val.toLowerCase()), baseWidth),
+              Expanded(
+                child: FutureBuilder<List<dynamic>>(
+                  future: _fetchEntities(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                    if (snapshot.hasError) return _buildError(snapshot.error, t, baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noInstitutaData ?? "Tidak ada data Entitas Instituta.", baseWidth);
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(12.0),
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final entity = filtered[index];
-                    final address = entity['addresses'];
-                    return Card(
-                      child: ExpansionTile(
-                        title: Text(entity['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(entity['website_url'] ?? 'Tidak ada Website'),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Historia / Deskripsi:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
-                                const SizedBox(height: 4),
-                                Text(entity['historia'] ?? 'Belum ada data catatan sejarah.'),
-                                const Divider(),
-                                Text("Kantor Pusat / Domus:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
-                                const SizedBox(height: 4),
-                                if (address != null) ...[
-                                  Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}"),
-                                  Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})"),
-                                  Text("Telp: ${address['telephone'] ?? '-'} • Email: ${address['email'] ?? '-'}"),
-                                ] else
-                                  const Text("Alamat tidak tersedia."),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                    final filtered = snapshot.data!.where((item) {
+                      return (item['name'] ?? '').toString().toLowerCase().contains(_query);
+                    }).toList();
+
+                    return ListView.builder(
+                      padding: EdgeInsets.all(baseWidth * 0.03),
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        final entity = filtered[index];
+                        final address = entity['addresses'];
+                        return Card(
+                          child: ExpansionTile(
+                            title: Text(entity['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
+                            subtitle: Text(entity['website_url'] ?? (t.noWebsite ?? 'Tidak ada Website'), style: TextStyle(fontSize: baseWidth * 0.032)),
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(baseWidth * 0.04),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("${t.historia ?? 'Historia'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    SizedBox(height: baseWidth * 0.01),
+                                    Text(entity['historia'] ?? (t.noHistory ?? 'Belum ada data sejarah.'), style: TextStyle(fontSize: baseWidth * 0.035)),
+                                    const Divider(),
+                                    Text("${t.domusAddress ?? 'Domus/Kantor Wilayah'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    SizedBox(height: baseWidth * 0.01),
+                                    if (address != null) ...[
+                                      Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.telephone ?? 'Telp'}: ${address['telephone'] ?? '-'} • ${t.email ?? 'Email'}: ${address['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                    ] else
+                                      Text(t.addressNotAvailable ?? "Alamat tidak tersedia.", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
 /// =================================================================
-/// SUB-HALAMAN 2: DATA INSTITUTA – CONVENTUS (RUMAH KOMUNITAS)
+/// SUB-HALAMAN 2: DATA INSTITUTA – CONVENTUS / RUMAH INSTITUT
 /// =================================================================
 class HalamanInstitutaConventus extends StatefulWidget {
   const HalamanInstitutaConventus({super.key});
@@ -184,74 +205,82 @@ class _HalamanInstitutaConventusState extends State<HalamanInstitutaConventus> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Rumah Komunitas")),
-      body: Column(
-        children: [
-          _buildSearchBar("Cari Nama Komunitas / Kota...", (val) => setState(() => _query = val.toLowerCase())),
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _fetchConventus(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
-                if (snapshot.hasError) return _buildError(snapshot.error);
-                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Komitas Instituta.");
+      appBar: AppBar(title: Text(t.conventusMonasteriesTitle ?? "Conventus / Rumah Instituta")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
 
-                final filtered = snapshot.data!.where((item) {
-                  final name = (item['name'] ?? '').toString().toLowerCase();
-                  final city = (item['addresses']?['city'] ?? '').toString().toLowerCase();
-                  return name.contains(_query) || city.contains(_query);
-                }).toList();
+          return Column(
+            children: [
+              _buildSearchBar(t.searchInstituta ?? "Cari Nama Rumah / Kota...", (val) => setState(() => _query = val.toLowerCase()), baseWidth),
+              Expanded(
+                child: FutureBuilder<List<dynamic>>(
+                  future: _fetchConventus(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                    if (snapshot.hasError) return _buildError(snapshot.error, t, baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noInstitutaData ?? "Tidak ada data Conventus Instituta.", baseWidth);
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(12.0),
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final conv = filtered[index];
-                    final addr = conv['addresses'];
-                    return Card(
-                      child: ExpansionTile(
-                        leading: const Icon(Icons.bungalow_outlined, color: Colors.brown),
-                        title: Text(conv['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text("Institut: ${conv['entities']?['name'] ?? '-'}"),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Detail Alamat Komunitas:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
-                                const SizedBox(height: 4),
-                                if (addr != null) ...[
-                                  Text("Gedung/Rumah: ${addr['house_name'] ?? '-'}"),
-                                  Text("Jalan/No: ${addr['street'] ?? '-'}"),
-                                  Text("Kota: ${addr['city'] ?? '-'}"),
-                                  Text("Negara: ${addr['country'] ?? '-'}"),
-                                  Text("Kode Pos: ${addr['postal_code'] ?? '-'}"),
-                                  Text("Telepon: ${addr['telephone'] ?? '-'}"),
-                                  Text("Fax: ${addr['faxcimile'] ?? '-'}"),
-                                  Text("Email: ${addr['email'] ?? '-'}"),
-                                ] else
-                                  const Text("Data alamat belum dilengkapi."),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                    final filtered = snapshot.data!.where((item) {
+                      final name = (item['name'] ?? '').toString().toLowerCase();
+                      final city = (item['addresses']?['city'] ?? '').toString().toLowerCase();
+                      return name.contains(_query) || city.contains(_query);
+                    }).toList();
+
+                    return ListView.builder(
+                      padding: EdgeInsets.all(baseWidth * 0.03),
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        final conv = filtered[index];
+                        final addr = conv['addresses'];
+                        return Card(
+                          child: ExpansionTile(
+                            leading: Icon(Icons.gite_outlined, color: Colors.brown, size: baseWidth * 0.06),
+                            title: Text(conv['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
+                            subtitle: Text("Entity: ${conv['entities']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(baseWidth * 0.04),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(t.contactAndMonasteryDetail ?? "Detail Informasi Lokasi Rumah Institut:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    SizedBox(height: baseWidth * 0.01),
+                                    if (addr != null) ...[
+                                      Text("${t.houseName ?? 'Gedung/Rumah'}: ${addr['house_name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.street ?? 'Jalan/No'}: ${addr['street'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.city ?? 'Kota'}: ${addr['city'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.country ?? 'Negara'}: ${addr['country'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.postalCode ?? 'Kode Pos'}: ${addr['postal_code'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.telephone ?? 'Telepon'}: ${addr['telephone'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.faxcimile ?? 'Fax'}: ${addr['faxcimile'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text("${t.email ?? 'Email'}: ${addr['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                    ] else
+                                      Text(t.addressNotFilled ?? "Data alamat belum dilengkapi.", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
 /// =================================================================
-/// SUB-HALAMAN 3: DATA INSTITUTA – SODALES (ANGGOTA)
+/// SUB-HALAMAN 3: DATA INSTITUTA – ANGGOTA
 /// =================================================================
 class HalamanInstitutaMembers extends StatefulWidget {
   const HalamanInstitutaMembers({super.key});
@@ -274,75 +303,84 @@ class _HalamanInstitutaMembersState extends State<HalamanInstitutaMembers> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Sodales (Anggota Instituta)")),
-      body: Column(
-        children: [
-          _buildSearchBar("Cari Nama Anggota...", (val) => setState(() => _query = val.toLowerCase())),
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _fetchMembers(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
-                if (snapshot.hasError) return _buildError(snapshot.error);
-                if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty("Tidak ada data Anggota Instituta.");
+      appBar: AppBar(title: Text(t.institutaTitle ?? "Instituta (Anggota Institut)")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
 
-                final filtered = snapshot.data!.where((item) {
-                  return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
-                }).toList();
+          return Column(
+            children: [
+              _buildSearchBar(t.searchInstituta ?? "Cari Nama Anggota...", (val) => setState(() => _query = val.toLowerCase()), baseWidth),
+              Expanded(
+                child: FutureBuilder<List<dynamic>>(
+                  future: _fetchMembers(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
+                    if (snapshot.hasError) return _buildError(snapshot.error, t, baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noInstitutaData ?? "Tidak ada data Anggota Instituta.", baseWidth);
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(12.0),
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final member = filtered[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      child: ExpansionTile(
-                        leading: const CircleAvatar(
-                          backgroundColor: Colors.brown,
-                          child: Icon(Icons.person_outline, color: Colors.white),
-                        ),
-                        title: Text(member['full_name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text("Komunitas: ${member['conventus']?['name'] ?? 'Belum ditentukan'}"),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildDetailRow("Kategori/Peran", member['role']),
-                                _buildDetailRow("Kota Kelahiran", member['city_of_birth']),
-                                _buildDetailRow("Negara Kelahiran", member['country_of_birth']),
-                                _buildDetailRow("Tanggal Lahir", member['date_of_birth']),
-                                const Divider(),
-                                _buildDetailRow("Tanggal Kaul Perdana", member['first_profession_date']),
-                                _buildDetailRow("Tanggal Kaul Kekal", member['solemn_profession_date']),
-                                if (member['ordination_date'] != null)
-                                  _buildDetailRow("Tanggal Tahbisan (Jika Ada)", member['ordination_date']),
-                              ],
+                    final filtered = snapshot.data!.where((item) {
+                      return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
+                    }).toList();
+
+                    return ListView.builder(
+                      padding: EdgeInsets.all(baseWidth * 0.03),
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        final member = filtered[index];
+                        return Card(
+                          margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
+                          child: ExpansionTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.brown,
+                              radius: baseWidth * 0.05,
+                              child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05),
                             ),
-                          )
-                        ],
-                      ),
+                            title: Text(member['full_name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
+                            subtitle: Text("Rumah: ${member['conventus']?['name'] ?? (t.notDetermined ?? 'Belum ditentukan')}", style: TextStyle(fontSize: baseWidth * 0.032)),
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(baseWidth * 0.04),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _buildDetailRow(t.positionRole ?? "Kategori/Peran", member['role'], baseWidth),
+                                    _buildDetailRow(t.birthPlace ?? "Kota Kelahiran", member['city_of_birth'], baseWidth),
+                                    _buildDetailRow(t.birthCountry ?? "Negara Kelahiran", member['country_of_birth'], baseWidth),
+                                    _buildDetailRow(t.birthDate ?? "Tanggal Lahir", member['date_of_birth'], baseWidth),
+                                    const Divider(),
+                                    _buildDetailRow(t.firstProfession ?? "Tanggal Kaul Perdana", member['first_profession_date'], baseWidth),
+                                    _buildDetailRow(t.solemnProfession ?? "Tanggal Kaul Kekal", member['solemn_profession_date'], baseWidth),
+                                    if (member['ordination_date'] != null)
+                                      _buildDetailRow(t.ordinationDate ?? "Tanggal Tahbisan Imam", member['ordination_date'], baseWidth),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, dynamic value) {
+  Widget _buildDetailRow(String label, dynamic value, double baseWidth) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.005),
       child: Row(
         children: [
-          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-          Text(value?.toString() ?? '-'),
+          Text("$label: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, fontSize: baseWidth * 0.035)),
+          Expanded(child: Text(value?.toString() ?? '-', style: TextStyle(fontSize: baseWidth * 0.035))),
         ],
       ),
     );
@@ -352,14 +390,15 @@ class _HalamanInstitutaMembersState extends State<HalamanInstitutaMembers> {
 /// =================================================================
 /// WIDGET HELPER GLOBAL (REUSABLE)
 /// =================================================================
-Widget _buildSearchBar(String hint, ValueChanged<String> onChanged) {
+Widget _buildSearchBar(String hint, ValueChanged<String> onChanged, double baseWidth) {
   return Padding(
-    padding: const EdgeInsets.all(12.0),
+    padding: EdgeInsets.all(baseWidth * 0.03),
     child: TextField(
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: hint,
-        prefixIcon: const Icon(Icons.search, color: Colors.brown),
+        labelStyle: TextStyle(fontSize: baseWidth * 0.035),
+        prefixIcon: Icon(Icons.search, color: Colors.brown, size: baseWidth * 0.055),
         border: const OutlineInputBorder(),
       ),
     ),
@@ -370,10 +409,15 @@ Widget _buildLoading() {
   return const Center(child: CircularProgressIndicator(color: Colors.brown));
 }
 
-Widget _buildError(Object? error) {
-  return Center(child: Text("Terjadi kesalahan database: $error", style: const TextStyle(color: Colors.red)));
+Widget _buildError(Object? error, AppLocalizations t, double baseWidth) {
+  return Center(
+    child: Text(
+      "${t.databaseError ?? 'Terjadi kesalahan database'}: $error",
+      style: TextStyle(color: Colors.red, fontSize: baseWidth * 0.038),
+    ),
+  );
 }
 
-Widget _buildEmpty(String message) {
-  return Center(child: Text(message, style: const TextStyle(color: Colors.grey)));
+Widget _buildEmpty(String message, double baseWidth) {
+  return Center(child: Text(message, style: TextStyle(color: Colors.grey, fontSize: baseWidth * 0.038)));
 }

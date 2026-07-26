@@ -220,7 +220,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unassignedMonastery => 'Monasterio no asignado';
 
   @override
-  String get unassignedOfficial => 'Ningún oficial nombrado todavía';
+  String get unassignedOfficial => 'Oficial no asignado';
 
   @override
   String get communityOrigin => 'Comunidad de Origen';
@@ -365,4 +365,371 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tapToReadMore => 'Toca para leer más...';
+
+  @override
+  String get fratresDirectoryTitle => 'Directorio de los Hermanos';
+
+  @override
+  String get selectFratresCategory => 'Seleccione la Categoría de los Hermanos';
+
+  @override
+  String get provincia => 'PROVINCIA';
+
+  @override
+  String get commissariatusGeneralis => 'COMISARIATO GENERAL';
+
+  @override
+  String get delegatioGeneralis => 'DELEGACIÓN GENERAL';
+
+  @override
+  String listCategoryTitle(Object category) {
+    return 'Lista de $category';
+  }
+
+  @override
+  String searchCategoryName(Object category) {
+    return 'Buscar nombre de $category...';
+  }
+
+  @override
+  String noCategoryData(Object category) {
+    return 'No se encontraron datos de $category.';
+  }
+
+  @override
+  String get locationNotSet => 'Ubicación no establecida';
+
+  @override
+  String get detail => 'Detalle';
+
+  @override
+  String get historia => 'Historia';
+
+  @override
+  String get noHistory => 'Aún no hay registro histórico.';
+
+  @override
+  String get website => 'Sitio Web';
+
+  @override
+  String get officialWebsite => 'Sitio Web Oficial';
+
+  @override
+  String get webLink => 'Enlace Web';
+
+  @override
+  String get noWebsite => 'Sin sitio web';
+
+  @override
+  String get consiliumCouncil => 'Consilium (Consejo Directivo)';
+
+  @override
+  String get leadershipConsilium => 'Consilium Directivo';
+
+  @override
+  String get domusAddress => 'Domus (Dirección de la Dirección)';
+
+  @override
+  String get addressNotAvailable => 'Dirección no disponible.';
+
+  @override
+  String get monasteryBuilding => 'Monasterio / Edificio';
+
+  @override
+  String get officialDomus => 'Domus Oficial';
+
+  @override
+  String get conventusList => 'Conventus (Lista de Monasterios)';
+
+  @override
+  String get sodalesList => 'Sodales (Lista de Miembros)';
+
+  @override
+  String get memberListSodales => 'Lista de Miembros (Sodales)';
+
+  @override
+  String get noMemberData => 'No hay datos de miembros.';
+
+  @override
+  String get positionRole => 'Posición / Rol';
+
+  @override
+  String get conventusMonasteriesTitle => 'Lista de Monasterios (Conventus)';
+
+  @override
+  String get noRegisteredMonastery =>
+      'Aún no hay datos de monasterios registrados.';
+
+  @override
+  String get completeMonasteryAddress => 'Dirección Completa del Monasterio:';
+
+  @override
+  String get addressNotFilled => 'Detalles de la dirección aún no completados.';
+
+  @override
+  String get heremitiDirectoryTitle => 'Directorio de Ermitaños';
+
+  @override
+  String get heremitiTitle => 'ERMITAÑOS';
+
+  @override
+  String get searchHeremiti => 'Buscar Ermitaños...';
+
+  @override
+  String get noHeremitiData => 'No se encontraron datos de ermitaños.';
+
+  @override
+  String get heremitiDetailTitle => 'Detalles del Ermitaño';
+
+  @override
+  String get hermitageName => 'Nombre de la Ermita';
+
+  @override
+  String get heremitiPrior => 'Prior / Responsable de la Ermita';
+
+  @override
+  String get monialesDirectoryTitle => 'Directorio de Monjas';
+
+  @override
+  String get federatioEntitiesTitle => 'Federación / Entidades';
+
+  @override
+  String get federatioEntitiesSubtitle =>
+      'Lista de Federaciones de Monjas, Historia y Sitio Web Oficial';
+
+  @override
+  String get monialesConventusTitle => 'Monasterios / Conventus';
+
+  @override
+  String get monialesConventusSubtitle =>
+      'Lista de Monasterios de Monjas y Direcciones de Contacto';
+
+  @override
+  String get sororesTitle => 'Sorores (Hermanas)';
+
+  @override
+  String get sororesSubtitle =>
+      'Lista de Hermanas, Lugar de Nacimiento y Fecha de Profesión';
+
+  @override
+  String get federatioAndEntities => 'Federación y Entidades';
+
+  @override
+  String get searchFederation => 'Buscar Federación / Entidad...';
+
+  @override
+  String get noMonialesEntitiesData =>
+      'No se encontraron datos de Entidades de Monjas.';
+
+  @override
+  String get monasteriaTitle => 'Monasterios';
+
+  @override
+  String get searchMonasteryCity => 'Buscar Monasterio / Ciudad...';
+
+  @override
+  String get noMonialesMonasteryData =>
+      'No se encontraron datos de Monasterios de Monjas.';
+
+  @override
+  String get federationLabel => 'Federación';
+
+  @override
+  String get monasteryLocationDetail => 'Detalles de Ubicación del Monasterio:';
+
+  @override
+  String get searchSisterName => 'Buscar Nombre de la Hermana...';
+
+  @override
+  String get noSororesData => 'No se encontraron datos de Sorores.';
+
+  @override
+  String get sisterMonastery => 'Monasterio';
+
+  @override
+  String get monasteriaOrdinisTitle => 'Monasteria Ordinis';
+
+  @override
+  String get entitiesCongregatioTitle => 'Entidades / Congregación';
+
+  @override
+  String get entitiesCongregatioSubtitle =>
+      'Lista de Entidades Matrices, Historia y Sitio Web Oficial';
+
+  @override
+  String get monasteriaConventusSubtitle =>
+      'Lista de Monasterios Independientes y Contactos Oficiales';
+
+  @override
+  String get sororesMonialTitle => 'Sorores (Hermanas Monjas)';
+
+  @override
+  String get sororesMonialSubtitle =>
+      'Lista de Hermanas, Lugar de Nacimiento y Fecha de Profesión';
+
+  @override
+  String get searchParentEntity => 'Buscar Entidad Matriz...';
+
+  @override
+  String get noMonasteriaEntitiesData =>
+      'No se encontraron datos de Entidades de Monasteria Ordinis.';
+
+  @override
+  String get historiaConstitution => 'Historia / Constituciones Específicas:';
+
+  @override
+  String get noHistoriaConstitution =>
+      'Aún no hay datos históricos o de constituciones.';
+
+  @override
+  String get noMonasteriaConventusData =>
+      'No se encontraron datos de Monasterios.';
+
+  @override
+  String get affiliation => 'Afiliación:';
+
+  @override
+  String get contactAndMonasteryDetail =>
+      'Detalles de Contacto y Casa del Monasterio:';
+
+  @override
+  String get addressNotCompleteInDb =>
+      'Los datos de la dirección aún no están completos en la base de datos.';
+
+  @override
+  String get sororesMembersTitle => 'Sorores (Miembros)';
+
+  @override
+  String get noSisterDataFound => 'No se encontraron datos de Hermanas.';
+
+  @override
+  String get notDetermined => 'No determinado';
+
+  @override
+  String get databaseError => 'Ocurrió un error en la base de datos';
+
+  @override
+  String get domusHeadquarters => 'Domus / Sede Central';
+
+  @override
+  String get monasteriaConventusTitle => 'Monasterios / Conventus';
+
+  @override
+  String get heremitaeDirectoryTitle => 'Directorio de Ermitaños';
+
+  @override
+  String get heremitaeTitle => 'HEREMITAE';
+
+  @override
+  String get eremitoriaTitle => 'Ermitas / Conventus';
+
+  @override
+  String get eremitoriaSubtitle => 'Lista de Ermitas y Direcciones de Contacto';
+
+  @override
+  String get heremitaeEntitiesSubtitle =>
+      'Lista de Entidades de Ermitaños, Historia y Sitio Web Oficial';
+
+  @override
+  String get heremitaeMembersSubtitle =>
+      'Lista de Miembros, Lugar de Nacimiento y Fecha de Profesión';
+
+  @override
+  String get searchHeremitae => 'Buscar Ermitaños / Ermitas...';
+
+  @override
+  String get searchHeremitaeEntity => 'Buscar Entidad de Ermitaños...';
+
+  @override
+  String get noHeremitaeData => 'No se encontraron datos de Ermitaños.';
+
+  @override
+  String get eremitoriumDetailTitle => 'Detalles de la Ermita';
+
+  @override
+  String get institutaDirectoryTitle => 'Directorio de Institutos';
+
+  @override
+  String get institutaTitle => 'INSTITUTOS';
+
+  @override
+  String get institutaEntitiesSubtitle =>
+      'Lista de Institutos, Historia y Sitio Web Oficial';
+
+  @override
+  String get institutaConventusSubtitle =>
+      'Lista de Casas de Institutos y Direcciones de Contacto';
+
+  @override
+  String get institutaMembersSubtitle =>
+      'Lista de Miembros de Institutos, Lugar de Nacimiento y Fecha de Profesión';
+
+  @override
+  String get searchInstituta => 'Buscar Institutos...';
+
+  @override
+  String get searchInstitutaEntity => 'Buscar Entidad del Instituto...';
+
+  @override
+  String get noInstitutaData => 'No se encontraron datos de Institutos.';
+
+  @override
+  String get institutaDetailTitle => 'Detalles del Instituto';
+
+  @override
+  String get statisticaTitle => 'Estadísticas';
+
+  @override
+  String get selectStatisticCategory => 'Seleccionar Categoría Estadística:';
+
+  @override
+  String get statisticaFratres => 'Estadísticas Fratres';
+
+  @override
+  String get statisticaFratresSubtitle =>
+      'Por Provincia / Comisariato / Delegación General';
+
+  @override
+  String get statisticaMoniales => 'Estadísticas Moniales';
+
+  @override
+  String get statisticaMonialesSubtitle => 'Monjas en General';
+
+  @override
+  String get statisticaHeremiti => 'Estadísticas Ermitaños';
+
+  @override
+  String get statisticaHeremitiSubtitle => 'Ermitaños en General';
+
+  @override
+  String get statisticaMonasteria => 'Estadísticas Monasteria Ordinis';
+
+  @override
+  String get statisticaMonasteriaSubtitle =>
+      'Monasterios en General (Independientes)';
+
+  @override
+  String get dataRecapitulation => 'Recapitulación de Datos';
+
+  @override
+  String get domusHouse => 'Domus (Casas)';
+
+  @override
+  String get noviatus => 'Noviciado';
+
+  @override
+  String get profTemporaneae => 'Prof. Temporal\n(Primeros Votos)';
+
+  @override
+  String get solemnProfessus => 'Prof. Solemne\n(Votos Perpetuos)';
+
+  @override
+  String get sacerdotalisPriest => 'Sacerdotes';
+
+  @override
+  String get listCountriesWork => 'Lista de Países de Ministerio:';
+
+  @override
+  String get noCountriesData =>
+      'No hay datos de países registrados en las direcciones de las comunidades.';
 }
