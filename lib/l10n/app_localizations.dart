@@ -105,38 +105,200 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In la, this message translates to:
-  /// **'Aplikasi Ordo Karmel'**
+  /// **'Ordo Carmelitarum'**
   String get appTitle;
+
+  /// No description provided for @infoAppTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Informatio Applicationis'**
+  String get infoAppTitle;
+
+  /// No description provided for @infoMainTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'APPLICATIO ORDINIS CARMELITARUM'**
+  String get infoMainTitle;
+
+  /// No description provided for @headquarters.
+  ///
+  /// In la, this message translates to:
+  /// **'Domus Centralis'**
+  String get headquarters;
+
+  /// No description provided for @headquartersAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Curia Generalitia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia'**
+  String get headquartersAddress;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In la, this message translates to:
+  /// **'Contactus'**
+  String get contactUs;
+
+  /// No description provided for @contactDetails.
+  ///
+  /// In la, this message translates to:
+  /// **'Email: info@ocarm.org\nTel: +39 06 4620181'**
+  String get contactDetails;
+
+  /// No description provided for @btnContinueLogin.
+  ///
+  /// In la, this message translates to:
+  /// **'Perge ad Ingressum'**
+  String get btnContinueLogin;
 
   /// No description provided for @loginTitle.
   ///
   /// In la, this message translates to:
-  /// **'Nomen / Email'**
+  /// **'Ingressus'**
   String get loginTitle;
 
-  /// No description provided for @passwordTitle.
+  /// No description provided for @welcomeText.
+  ///
+  /// In la, this message translates to:
+  /// **'Salve'**
+  String get welcomeText;
+
+  /// No description provided for @labelUsername.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Usuarii / Email'**
+  String get labelUsername;
+
+  /// No description provided for @labelPassword.
   ///
   /// In la, this message translates to:
   /// **'Tessera'**
-  String get passwordTitle;
+  String get labelPassword;
 
-  /// No description provided for @loginMemberButton.
+  /// No description provided for @btnLoginMember.
   ///
   /// In la, this message translates to:
-  /// **'Inire ut Sodalis'**
-  String get loginMemberButton;
+  /// **'Ingredere ut Sodalis'**
+  String get btnLoginMember;
 
-  /// No description provided for @loginAdminButton.
+  /// No description provided for @btnLoginAdmin.
   ///
   /// In la, this message translates to:
-  /// **'Inire ut Administrator'**
-  String get loginAdminButton;
+  /// **'Ingredere ut Administrator'**
+  String get btnLoginAdmin;
 
-  /// No description provided for @selectLanguage.
+  /// No description provided for @profileTitle.
   ///
   /// In la, this message translates to:
-  /// **'Elige Linguam'**
-  String get selectLanguage;
+  /// **'Profilum Usuarii'**
+  String get profileTitle;
+
+  /// No description provided for @welcomeMember.
+  ///
+  /// In la, this message translates to:
+  /// **'Salve, Abraham'**
+  String get welcomeMember;
+
+  /// No description provided for @studentSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Studiosus Universitatis'**
+  String get studentSubtitle;
+
+  /// No description provided for @drawerInstruction.
+  ///
+  /// In la, this message translates to:
+  /// **'Preme menu ad sinistram superiorem ut directorium videas.'**
+  String get drawerInstruction;
+
+  /// No description provided for @logout.
+  ///
+  /// In la, this message translates to:
+  /// **'Exitus'**
+  String get logout;
+
+  /// No description provided for @adminDashboardTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Tabula Administrationis'**
+  String get adminDashboardTitle;
+
+  /// No description provided for @adminMenuTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Administrationis Directorii'**
+  String get adminMenuTitle;
+
+  /// No description provided for @menuMasterData.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Data Magistralia'**
+  String get menuMasterData;
+
+  /// No description provided for @subMasterData.
+  ///
+  /// In la, this message translates to:
+  /// **'Inscriptiones, Entitates, et Conventus'**
+  String get subMasterData;
+
+  /// No description provided for @menuMemberData.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Data Sodalium'**
+  String get menuMemberData;
+
+  /// No description provided for @subMemberData.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde, Muta, et Dele Personas'**
+  String get subMemberData;
+
+  /// No description provided for @menuCentralOfficers.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Praefectos Centrales'**
+  String get menuCentralOfficers;
+
+  /// No description provided for @subCentralOfficers.
+  ///
+  /// In la, this message translates to:
+  /// **'Designa Praefectos Curiae Generalitiae & Sub Immediata'**
+  String get subCentralOfficers;
+
+  /// No description provided for @menuBishopsData.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Data Episcoporum'**
+  String get menuBishopsData;
+
+  /// No description provided for @subBishopsData.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Indicem Episcoporum Ex Ordine'**
+  String get subBishopsData;
+
+  /// No description provided for @menuCitocNews.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Nuntios CITOC'**
+  String get menuCitocNews;
+
+  /// No description provided for @subCitocNews.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Vincula Nuntiorum Novissimorum'**
+  String get subCitocNews;
+
+  /// No description provided for @menuCommissions.
+  ///
+  /// In la, this message translates to:
+  /// **'Gere Commissiones Generales'**
+  String get menuCommissions;
+
+  /// No description provided for @subCommissions.
+  ///
+  /// In la, this message translates to:
+  /// **'Ordina Divisiones Commissionum et Sodales'**
+  String get subCommissions;
 }
 
 class _AppLocalizationsDelegate
