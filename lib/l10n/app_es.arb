@@ -254,5 +254,147 @@
   "solemnProfessus": "Prof. Solemne\n(Votos Perpetuos)",
   "sacerdotalisPriest": "Sacerdotes",
   "listCountriesWork": "Lista de Países de Ministerio:",
-  "noCountriesData": "No hay datos de países registrados en las direcciones de las comunidades."
+  "noCountriesData": "No hay datos de países registrados en las direcciones de las comunidades.",
+
+  "ministriesDirectoryTitle": "Directorio de Ministerios",
+  "apostolicMinistryCategories": "Categorías de Ministerios Apostólicos",
+  "parishes": "Parroquias",
+  "schools": "Escuelas",
+  "elementarySchool": "Escuela Primaria",
+  "secondarySchool": "Escuela Secundaria",
+  "academy": "Academia",
+  "universityInstitute": "Universidad / Instituto",
+  "retreatCenters": "Centros de Retiro",
+  "spiritualityInstitute": "Instituto de Espiritualidad",
+  "socialMinistries": "Ministerios Sociales",
+  "libraries": "Bibliotecas",
+  "hospitalsClinics": "Hospitales / Clínicas",
+  "allMinistriesPersonnel": "Todo el Personal de Ministerios",
+  "allPersonnelSubtitle": "Lista de miembros que trabajan en todas las instituciones",
+  "ministriesListTitle": "Lista de {category}",
+  "@ministriesListTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataForCategory": "No hay datos disponibles para {category}.",
+  "@noDataForCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "searchMinistryCategory": "Buscar Nombre de {category}...",
+  "@searchMinistryCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionHistoria": "Descripción / Historia:",
+  "noDescriptionData": "No hay datos de descripción disponibles.",
+  "officialMinistryAddress": "Dirección Oficial del Ministerio:",
+  "personnelWorkingMembers": "Personal (Miembros Trabajadores)",
+  "searchPersonnelName": "Buscar Nombre del Personal...",
+  "noMinistriesPersonnelData": "No se encontraron datos del Personal de Ministerios.",
+  "ministryWork": "Ministerio:",
+
+  "nonMemberDataListTitle": "Lista de Datos No Miembros",
+  "tabAddress": "Direcciones",
+  "tabEntity": "Entidades",
+  "tabMonastery": "Monasterios",
+  "addDataButton": "Agregar Datos",
+  "deleteConfirmTitle": "Confirmar Eliminación",
+  "deleteConfirmMessage": "¿Está seguro de que desea eliminar los datos '{itemName}'?\n\nAdvertencia: Los datos conectados también podrían eliminarse o perder sus relaciones.",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelButton": "Cancelar",
+  "deleteButton": "Eliminar",
+  "deleteSuccessMessage": "Datos '{itemName}' eliminados con éxito.",
+  "@deleteSuccessMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteErrorMessage": "Error al eliminar los datos: {error}",
+  "@deleteErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noAddressData": "Aún no hay datos de dirección.",
+  "noCity": "Sin Ciudad",
+  "noEntityData": "Aún no hay datos de entidad.",
+  "noName": "Sin Nombre",
+  "centerHeadquarters": "Centro",
+  "noMonasteryData": "Aún no hay datos de monasterio.",
+  "parentInduk": "Matriz",
+  "location": "Ubicación",
+  "editTooltip": "Editar",
+
+  "selectItemTitle": "Seleccionar {judul}",
+  "@selectItemTitle": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "searchItemHint": "Buscar {judul}...",
+  "@searchItemHint": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "dataNotFound": "Datos no encontrados",
+  "closeButton": "Cerrar",
+  "cityCountryRequired": "¡Ciudad y País son obligatorios!",
+  "addressUpdateSuccess": "¡Datos de dirección actualizados con éxito!",
+  "addressSaveSuccess": "¡Datos de dirección guardados con éxito!",
+  "categoryEntityNameRequired": "¡Categoría y Nombre de la Entidad son obligatorios!",
+  "ministryTypeRequiredAlert": "¡Seleccione el Tipo de Ministerio!",
+  "entityUpdateSuccess": "¡Datos de entidad actualizados con éxito!",
+  "entitySaveSuccess": "¡Datos de entidad guardados con éxito!",
+  "parentEntityConventusNameRequired": "¡Seleccione Entidad Matriz y llene el Nombre del Monasterio!",
+  "conventusUpdateSuccess": "¡Datos del monasterio actualizados con éxito!",
+  "conventusSaveSuccess": "¡Datos del monasterio guardados con éxito!",
+  "editMasterData": "Editar Datos Maestros",
+  "manageMasterData": "Gestionar Datos Maestros",
+  "editAddressTitle": "Editar Dirección",
+  "addNewAddressTitle": "Agregar Nueva Dirección",
+  "houseNameOptional": "Nombre de Casa/Edificio (Opcional)",
+  "streetDetailLocation": "Calle / Detalles de Ubicación",
+  "cityRequiredLabel": "Ciudad (Obligatorio)",
+  "countryRequiredLabel": "País (Obligatorio)",
+  "officialEmail": "Correo Oficial",
+  "updateAddressBtn": "ACTUALIZAR DIRECCIÓN",
+  "saveAddressBtn": "GUARDAR DIRECCIÓN",
+  "editEntityTitle": "Editar Entidad",
+  "addEntityTitle": "Agregar Entidad",
+  "entityCategoryRequiredLabel": "Categoría de Entidad (Obligatorio)",
+  "ministryTypeRequiredLabel": "Tipo de Ministerio (Obligatorio)",
+  "entityNameRequiredLabel": "Nombre de Entidad (Obligatorio)",
+  "historyDescription": "Historia / Descripción",
+  "websiteLink": "Enlace del Sitio Web",
+  "selectHeadquartersAddress": "Seleccionar Dirección de la Sede (Opcional)",
+  "updateEntityBtn": "ACTUALIZAR ENTIDAD",
+  "saveEntityBtn": "GUARDAR ENTIDAD",
+  "editConventusTitle": "Editar Monasterio / Comunidad",
+  "addConventusTitle": "Agregar Monasterio / Comunidad",
+  "parentEntityRequiredLabel": "Entidad Matriz / Provincia (Obligatorio)",
+  "conventusNameRequiredLabel": "Nombre del Monasterio (Obligatorio)",
+  "selectConventusAddress": "Seleccionar Dirección del Monasterio (Opcional)",
+  "updateConventusBtn": "ACTUALIZAR MONASTERIO",
+  "saveConventusBtn": "GUARDAR MONASTERIO"
 }

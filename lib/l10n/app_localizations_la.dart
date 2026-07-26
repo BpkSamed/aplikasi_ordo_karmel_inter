@@ -731,4 +731,286 @@ class AppLocalizationsLa extends AppLocalizations {
   @override
   String get noCountriesData =>
       'Nulla data nationum in domiciliis descripta sunt.';
+
+  @override
+  String get ministriesDirectoryTitle => 'Directorium Ministeriorum';
+
+  @override
+  String get apostolicMinistryCategories =>
+      'Categoriae Ministeriorum Apostolicorum';
+
+  @override
+  String get parishes => 'Paroeciae';
+
+  @override
+  String get schools => 'Scholae';
+
+  @override
+  String get elementarySchool => 'Schola Elementaris';
+
+  @override
+  String get secondarySchool => 'Schola Secundaria';
+
+  @override
+  String get academy => 'Academia';
+
+  @override
+  String get universityInstitute => 'Universitas / Institutum';
+
+  @override
+  String get retreatCenters => 'Centra Exercitiorum Spiritualium';
+
+  @override
+  String get spiritualityInstitute => 'Institutum Spiritualitatis';
+
+  @override
+  String get socialMinistries => 'Ministeria Socialia';
+
+  @override
+  String get libraries => 'Bibliothecae';
+
+  @override
+  String get hospitalsClinics => 'Valetudinaria / Clinicae';
+
+  @override
+  String get allMinistriesPersonnel => 'Omnes Personales Ministeriorum';
+
+  @override
+  String get allPersonnelSubtitle =>
+      'Index sodalarum in omnibus institutis laborantium';
+
+  @override
+  String ministriesListTitle(String category) {
+    return 'Index $category';
+  }
+
+  @override
+  String noDataForCategory(String category) {
+    return 'Nulla data pro $category praesto sunt.';
+  }
+
+  @override
+  String searchMinistryCategory(String category) {
+    return 'Quaere Nomen $category...';
+  }
+
+  @override
+  String get descriptionHistoria => 'Descriptio / Historia:';
+
+  @override
+  String get noDescriptionData => 'Nulla data descriptionis praesto sunt.';
+
+  @override
+  String get officialMinistryAddress => 'Domicilium Officiale Ministerii:';
+
+  @override
+  String get personnelWorkingMembers => 'Personales (Sodales Laborantes)';
+
+  @override
+  String get searchPersonnelName => 'Quaere Nomen Personalis...';
+
+  @override
+  String get noMinistriesPersonnelData =>
+      'Nulla data Personalium Ministeriorum inventa sunt.';
+
+  @override
+  String get ministryWork => 'Ministerium:';
+
+  @override
+  String get nonMemberDataListTitle => 'Index Datorum Non-Sodalarum';
+
+  @override
+  String get tabAddress => 'Domicilia';
+
+  @override
+  String get tabEntity => 'Entitates';
+
+  @override
+  String get tabMonastery => 'Monasteria';
+
+  @override
+  String get addDataButton => 'Adde Data';
+
+  @override
+  String get deleteConfirmTitle => 'Confirmatio Deletionis';
+
+  @override
+  String deleteConfirmMessage(String itemName) {
+    return 'Certe vis delere data \'$itemName\'?\n\nMonitio: Data connexa etiam deleri aut relationes amittere possunt.';
+  }
+
+  @override
+  String get cancelButton => 'Cancellare';
+
+  @override
+  String get deleteButton => 'Delere';
+
+  @override
+  String deleteSuccessMessage(String itemName) {
+    return 'Data \'$itemName\' feliciter deleta sunt.';
+  }
+
+  @override
+  String deleteErrorMessage(String error) {
+    return 'Deletio datorum defecit: $error';
+  }
+
+  @override
+  String get noAddressData => 'Nulla data domiciliorum adhuc relata sunt.';
+
+  @override
+  String get noCity => 'Sine Civitate';
+
+  @override
+  String get noEntityData => 'Nulla data entitatum adhuc relata sunt.';
+
+  @override
+  String get noName => 'Sine Nomine';
+
+  @override
+  String get centerHeadquarters => 'Sedes';
+
+  @override
+  String get noMonasteryData => 'Nulla data monasteriorum adhuc relata sunt.';
+
+  @override
+  String get parentInduk => 'Mater';
+
+  @override
+  String get location => 'Locus';
+
+  @override
+  String get editTooltip => 'Recensere';
+
+  @override
+  String selectItemTitle(String judul) {
+    return 'Elige $judul';
+  }
+
+  @override
+  String searchItemHint(String judul) {
+    return 'Quaere $judul...';
+  }
+
+  @override
+  String get dataNotFound => 'Data non inventa sunt';
+
+  @override
+  String get closeButton => 'Claudere';
+
+  @override
+  String get cityCountryRequired => 'Civitas et Patria requiruntur!';
+
+  @override
+  String get addressUpdateSuccess => 'Data Domicilii feliciter renovata sunt!';
+
+  @override
+  String get addressSaveSuccess => 'Data Domicilii feliciter servata sunt!';
+
+  @override
+  String get categoryEntityNameRequired =>
+      'Categoria et Nomen Entitatis requiruntur!';
+
+  @override
+  String get ministryTypeRequiredAlert => 'Elige Typum Ministerii!';
+
+  @override
+  String get entityUpdateSuccess => 'Data Entitatis feliciter renovata sunt!';
+
+  @override
+  String get entitySaveSuccess => 'Data Entitatis feliciter servata sunt!';
+
+  @override
+  String get parentEntityConventusNameRequired =>
+      'Elige Entitatem Matrem et exple Nomen Monasterii!';
+
+  @override
+  String get conventusUpdateSuccess =>
+      'Data Monasterii feliciter renovata sunt!';
+
+  @override
+  String get conventusSaveSuccess => 'Data Monasterii feliciter servata sunt!';
+
+  @override
+  String get editMasterData => 'Recensere Data Principalia';
+
+  @override
+  String get editAddressTitle => 'Recensere Domicilium';
+
+  @override
+  String get addNewAddressTitle => 'Adde Novum Domicilium';
+
+  @override
+  String get houseNameOptional => 'Nomen Domus (Ad libitum)';
+
+  @override
+  String get streetDetailLocation => 'Via / Singula Loci';
+
+  @override
+  String get cityRequiredLabel => 'Civitas (Requisitum)';
+
+  @override
+  String get countryRequiredLabel => 'Patria (Requisitum)';
+
+  @override
+  String get officialEmail => 'Litterae Electronicae Publicae';
+
+  @override
+  String get updateAddressBtn => 'RENOVARE DOMICILIUM';
+
+  @override
+  String get saveAddressBtn => 'SERVARE DOMICILIUM';
+
+  @override
+  String get editEntityTitle => 'Recensere Entitatem';
+
+  @override
+  String get addEntityTitle => 'Adde Entitatem';
+
+  @override
+  String get entityCategoryRequiredLabel => 'Categoria Entitatis (Requisitum)';
+
+  @override
+  String get ministryTypeRequiredLabel => 'Typus Ministerii (Requisitum)';
+
+  @override
+  String get entityNameRequiredLabel => 'Nomen Entitatis (Requisitum)';
+
+  @override
+  String get historyDescription => 'Historia / Descriptio';
+
+  @override
+  String get websiteLink => 'Vinculum Website';
+
+  @override
+  String get selectHeadquartersAddress => 'Elige Domicilium Sedis (Ad libitum)';
+
+  @override
+  String get updateEntityBtn => 'RENOVARE ENTITATEM';
+
+  @override
+  String get saveEntityBtn => 'SERVARE ENTITATEM';
+
+  @override
+  String get editConventusTitle => 'Recensere Monasterium / Communitatem';
+
+  @override
+  String get addConventusTitle => 'Adde Monasterium / Communitatem';
+
+  @override
+  String get parentEntityRequiredLabel =>
+      'Entitas Mater / Provincia (Requisitum)';
+
+  @override
+  String get conventusNameRequiredLabel => 'Nomen Monasterii (Requisitum)';
+
+  @override
+  String get selectConventusAddress =>
+      'Elige Domicilium Monasterii (Ad libitum)';
+
+  @override
+  String get updateConventusBtn => 'RENOVARE MONASTERIUM';
+
+  @override
+  String get saveConventusBtn => 'SERVARE MONASTERIUM';
 }

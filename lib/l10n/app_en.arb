@@ -254,5 +254,147 @@
   "solemnProfessus": "Solemn Professed\n(Final Vows)",
   "sacerdotalisPriest": "Sacerdotalis\n(Priests)",
   "listCountriesWork": "List of Countries of Ministry:",
-  "noCountriesData": "No country data registered in the community addresses."
+  "noCountriesData": "No country data registered in the community addresses.",
+
+  "ministriesDirectoryTitle": "Ministries Directory",
+  "apostolicMinistryCategories": "Categories of Apostolic Ministries",
+  "parishes": "Parishes",
+  "schools": "Schools",
+  "elementarySchool": "Elementary School",
+  "secondarySchool": "Secondary School",
+  "academy": "Academy",
+  "universityInstitute": "University / Institute",
+  "retreatCenters": "Retreat Centers",
+  "spiritualityInstitute": "Spirituality Institute",
+  "socialMinistries": "Social Ministries",
+  "libraries": "Libraries",
+  "hospitalsClinics": "Hospitals / Clinics",
+  "allMinistriesPersonnel": "All Ministries Personnel",
+  "allPersonnelSubtitle": "List of members working in all institutions",
+  "ministriesListTitle": "List of {category}",
+  "@ministriesListTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataForCategory": "No data available for {category}.",
+  "@noDataForCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "searchMinistryCategory": "Search {category} Name...",
+  "@searchMinistryCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionHistoria": "Description / Historia:",
+  "noDescriptionData": "No description data available.",
+  "officialMinistryAddress": "Official Ministry Address:",
+  "personnelWorkingMembers": "Personnel (Working Members)",
+  "searchPersonnelName": "Search Personnel Name...",
+  "noMinistriesPersonnelData": "No Ministries Personnel data found.",
+  "ministryWork": "Ministry:",
+
+  "nonMemberDataListTitle": "Non-Member Data List",
+  "tabAddress": "Addresses",
+  "tabEntity": "Entities",
+  "tabMonastery": "Monasteries",
+  "addDataButton": "Add Data",
+  "deleteConfirmTitle": "Confirm Deletion",
+  "deleteConfirmMessage": "Are you sure you want to delete the data '{itemName}'?\n\nWarning: Connected data might also be deleted or lose its relationships.",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelButton": "Cancel",
+  "deleteButton": "Delete",
+  "deleteSuccessMessage": "Data '{itemName}' successfully deleted.",
+  "@deleteSuccessMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteErrorMessage": "Failed to delete data: {error}",
+  "@deleteErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noAddressData": "No address data yet.",
+  "noCity": "No City",
+  "noEntityData": "No entity data yet.",
+  "noName": "No Name",
+  "centerHeadquarters": "Center",
+  "noMonasteryData": "No monastery data yet.",
+  "parentInduk": "Parent",
+  "location": "Location",
+  "editTooltip": "Edit",
+
+  "selectItemTitle": "Select {judul}",
+  "@selectItemTitle": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "searchItemHint": "Search {judul}...",
+  "@searchItemHint": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "dataNotFound": "Data not found",
+  "closeButton": "Close",
+  "cityCountryRequired": "City and Country are required!",
+  "addressUpdateSuccess": "Address data successfully updated!",
+  "addressSaveSuccess": "Address data successfully saved!",
+  "categoryEntityNameRequired": "Category and Entity Name are required!",
+  "ministryTypeRequiredAlert": "Please select a Ministry Type!",
+  "entityUpdateSuccess": "Entity data successfully updated!",
+  "entitySaveSuccess": "Entity data successfully saved!",
+  "parentEntityConventusNameRequired": "Select Parent Entity and fill Monastery Name!",
+  "conventusUpdateSuccess": "Monastery data successfully updated!",
+  "conventusSaveSuccess": "Monastery data successfully saved!",
+  "editMasterData": "Edit Master Data",
+  "manageMasterData": "Manage Master Data",
+  "editAddressTitle": "Edit Address",
+  "addNewAddressTitle": "Add New Address",
+  "houseNameOptional": "House/Building Name (Optional)",
+  "streetDetailLocation": "Street / Location Details",
+  "cityRequiredLabel": "City (Required)",
+  "countryRequiredLabel": "Country (Required)",
+  "officialEmail": "Official Email",
+  "updateAddressBtn": "UPDATE ADDRESS",
+  "saveAddressBtn": "SAVE ADDRESS",
+  "editEntityTitle": "Edit Entity",
+  "addEntityTitle": "Add Entity",
+  "entityCategoryRequiredLabel": "Entity Category (Required)",
+  "ministryTypeRequiredLabel": "Ministry Type (Required)",
+  "entityNameRequiredLabel": "Entity Name (Required)",
+  "historyDescription": "History / Description",
+  "websiteLink": "Website Link",
+  "selectHeadquartersAddress": "Select Headquarters Address (Optional)",
+  "updateEntityBtn": "UPDATE ENTITY",
+  "saveEntityBtn": "SAVE ENTITY",
+  "editConventusTitle": "Edit Monastery / Community",
+  "addConventusTitle": "Add Monastery / Community",
+  "parentEntityRequiredLabel": "Parent Entity / Province (Required)",
+  "conventusNameRequiredLabel": "Monastery Name (Required)",
+  "selectConventusAddress": "Select Monastery Address (Optional)",
+  "updateConventusBtn": "UPDATE MONASTERY",
+  "saveConventusBtn": "SAVE MONASTERY"
 }

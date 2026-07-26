@@ -254,5 +254,147 @@
   "solemnProfessus": "Solemn. Professus",
   "sacerdotalisPriest": "Sacerdotalis",
   "listCountriesWork": "Index Nationum ubi Laborant:",
-  "noCountriesData": "Nulla data nationum in domiciliis descripta sunt."
+  "noCountriesData": "Nulla data nationum in domiciliis descripta sunt.",
+
+  "ministriesDirectoryTitle": "Directorium Ministeriorum",
+  "apostolicMinistryCategories": "Categoriae Ministeriorum Apostolicorum",
+  "parishes": "Paroeciae",
+  "schools": "Scholae",
+  "elementarySchool": "Schola Elementaris",
+  "secondarySchool": "Schola Secundaria",
+  "academy": "Academia",
+  "universityInstitute": "Universitas / Institutum",
+  "retreatCenters": "Centra Exercitiorum Spiritualium",
+  "spiritualityInstitute": "Institutum Spiritualitatis",
+  "socialMinistries": "Ministeria Socialia",
+  "libraries": "Bibliothecae",
+  "hospitalsClinics": "Valetudinaria / Clinicae",
+  "allMinistriesPersonnel": "Omnes Personales Ministeriorum",
+  "allPersonnelSubtitle": "Index sodalarum in omnibus institutis laborantium",
+  "ministriesListTitle": "Index {category}",
+  "@ministriesListTitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataForCategory": "Nulla data pro {category} praesto sunt.",
+  "@noDataForCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "searchMinistryCategory": "Quaere Nomen {category}...",
+  "@searchMinistryCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionHistoria": "Descriptio / Historia:",
+  "noDescriptionData": "Nulla data descriptionis praesto sunt.",
+  "officialMinistryAddress": "Domicilium Officiale Ministerii:",
+  "personnelWorkingMembers": "Personales (Sodales Laborantes)",
+  "searchPersonnelName": "Quaere Nomen Personalis...",
+  "noMinistriesPersonnelData": "Nulla data Personalium Ministeriorum inventa sunt.",
+  "ministryWork": "Ministerium:",
+
+  "nonMemberDataListTitle": "Index Datorum Non-Sodalarum",
+  "tabAddress": "Domicilia",
+  "tabEntity": "Entitates",
+  "tabMonastery": "Monasteria",
+  "addDataButton": "Adde Data",
+  "deleteConfirmTitle": "Confirmatio Deletionis",
+  "deleteConfirmMessage": "Certe vis delere data '{itemName}'?\n\nMonitio: Data connexa etiam deleri aut relationes amittere possunt.",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelButton": "Cancellare",
+  "deleteButton": "Delere",
+  "deleteSuccessMessage": "Data '{itemName}' feliciter deleta sunt.",
+  "@deleteSuccessMessage": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteErrorMessage": "Deletio datorum defecit: {error}",
+  "@deleteErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noAddressData": "Nulla data domiciliorum adhuc relata sunt.",
+  "noCity": "Sine Civitate",
+  "noEntityData": "Nulla data entitatum adhuc relata sunt.",
+  "noName": "Sine Nomine",
+  "centerHeadquarters": "Sedes",
+  "noMonasteryData": "Nulla data monasteriorum adhuc relata sunt.",
+  "parentInduk": "Mater",
+  "location": "Locus",
+  "editTooltip": "Recensere",
+
+  "selectItemTitle": "Elige {judul}",
+  "@selectItemTitle": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "searchItemHint": "Quaere {judul}...",
+  "@searchItemHint": {
+    "placeholders": {
+      "judul": { "type": "String" }
+    }
+  },
+  "dataNotFound": "Data non inventa sunt",
+  "closeButton": "Claudere",
+  "cityCountryRequired": "Civitas et Patria requiruntur!",
+  "addressUpdateSuccess": "Data Domicilii feliciter renovata sunt!",
+  "addressSaveSuccess": "Data Domicilii feliciter servata sunt!",
+  "categoryEntityNameRequired": "Categoria et Nomen Entitatis requiruntur!",
+  "ministryTypeRequiredAlert": "Elige Typum Ministerii!",
+  "entityUpdateSuccess": "Data Entitatis feliciter renovata sunt!",
+  "entitySaveSuccess": "Data Entitatis feliciter servata sunt!",
+  "parentEntityConventusNameRequired": "Elige Entitatem Matrem et exple Nomen Monasterii!",
+  "conventusUpdateSuccess": "Data Monasterii feliciter renovata sunt!",
+  "conventusSaveSuccess": "Data Monasterii feliciter servata sunt!",
+  "editMasterData": "Recensere Data Principalia",
+  "manageMasterData": "Administrare Data Principalia",
+  "editAddressTitle": "Recensere Domicilium",
+  "addNewAddressTitle": "Adde Novum Domicilium",
+  "houseNameOptional": "Nomen Domus (Ad libitum)",
+  "streetDetailLocation": "Via / Singula Loci",
+  "cityRequiredLabel": "Civitas (Requisitum)",
+  "countryRequiredLabel": "Patria (Requisitum)",
+  "officialEmail": "Litterae Electronicae Publicae",
+  "updateAddressBtn": "RENOVARE DOMICILIUM",
+  "saveAddressBtn": "SERVARE DOMICILIUM",
+  "editEntityTitle": "Recensere Entitatem",
+  "addEntityTitle": "Adde Entitatem",
+  "entityCategoryRequiredLabel": "Categoria Entitatis (Requisitum)",
+  "ministryTypeRequiredLabel": "Typus Ministerii (Requisitum)",
+  "entityNameRequiredLabel": "Nomen Entitatis (Requisitum)",
+  "historyDescription": "Historia / Descriptio",
+  "websiteLink": "Vinculum Website",
+  "selectHeadquartersAddress": "Elige Domicilium Sedis (Ad libitum)",
+  "updateEntityBtn": "RENOVARE ENTITATEM",
+  "saveEntityBtn": "SERVARE ENTITATEM",
+  "editConventusTitle": "Recensere Monasterium / Communitatem",
+  "addConventusTitle": "Adde Monasterium / Communitatem",
+  "parentEntityRequiredLabel": "Entitas Mater / Provincia (Requisitum)",
+  "conventusNameRequiredLabel": "Nomen Monasterii (Requisitum)",
+  "selectConventusAddress": "Elige Domicilium Monasterii (Ad libitum)",
+  "updateConventusBtn": "RENOVARE MONASTERIUM",
+  "saveConventusBtn": "SERVARE MONASTERIUM"
 }

@@ -724,4 +724,283 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noCountriesData =>
       'No country data registered in the community addresses.';
+
+  @override
+  String get ministriesDirectoryTitle => 'Ministries Directory';
+
+  @override
+  String get apostolicMinistryCategories =>
+      'Categories of Apostolic Ministries';
+
+  @override
+  String get parishes => 'Parishes';
+
+  @override
+  String get schools => 'Schools';
+
+  @override
+  String get elementarySchool => 'Elementary School';
+
+  @override
+  String get secondarySchool => 'Secondary School';
+
+  @override
+  String get academy => 'Academy';
+
+  @override
+  String get universityInstitute => 'University / Institute';
+
+  @override
+  String get retreatCenters => 'Retreat Centers';
+
+  @override
+  String get spiritualityInstitute => 'Spirituality Institute';
+
+  @override
+  String get socialMinistries => 'Social Ministries';
+
+  @override
+  String get libraries => 'Libraries';
+
+  @override
+  String get hospitalsClinics => 'Hospitals / Clinics';
+
+  @override
+  String get allMinistriesPersonnel => 'All Ministries Personnel';
+
+  @override
+  String get allPersonnelSubtitle =>
+      'List of members working in all institutions';
+
+  @override
+  String ministriesListTitle(String category) {
+    return 'List of $category';
+  }
+
+  @override
+  String noDataForCategory(String category) {
+    return 'No data available for $category.';
+  }
+
+  @override
+  String searchMinistryCategory(String category) {
+    return 'Search $category Name...';
+  }
+
+  @override
+  String get descriptionHistoria => 'Description / Historia:';
+
+  @override
+  String get noDescriptionData => 'No description data available.';
+
+  @override
+  String get officialMinistryAddress => 'Official Ministry Address:';
+
+  @override
+  String get personnelWorkingMembers => 'Personnel (Working Members)';
+
+  @override
+  String get searchPersonnelName => 'Search Personnel Name...';
+
+  @override
+  String get noMinistriesPersonnelData => 'No Ministries Personnel data found.';
+
+  @override
+  String get ministryWork => 'Ministry:';
+
+  @override
+  String get nonMemberDataListTitle => 'Non-Member Data List';
+
+  @override
+  String get tabAddress => 'Addresses';
+
+  @override
+  String get tabEntity => 'Entities';
+
+  @override
+  String get tabMonastery => 'Monasteries';
+
+  @override
+  String get addDataButton => 'Add Data';
+
+  @override
+  String get deleteConfirmTitle => 'Confirm Deletion';
+
+  @override
+  String deleteConfirmMessage(String itemName) {
+    return 'Are you sure you want to delete the data \'$itemName\'?\n\nWarning: Connected data might also be deleted or lose its relationships.';
+  }
+
+  @override
+  String get cancelButton => 'Cancel';
+
+  @override
+  String get deleteButton => 'Delete';
+
+  @override
+  String deleteSuccessMessage(String itemName) {
+    return 'Data \'$itemName\' successfully deleted.';
+  }
+
+  @override
+  String deleteErrorMessage(String error) {
+    return 'Failed to delete data: $error';
+  }
+
+  @override
+  String get noAddressData => 'No address data yet.';
+
+  @override
+  String get noCity => 'No City';
+
+  @override
+  String get noEntityData => 'No entity data yet.';
+
+  @override
+  String get noName => 'No Name';
+
+  @override
+  String get centerHeadquarters => 'Center';
+
+  @override
+  String get noMonasteryData => 'No monastery data yet.';
+
+  @override
+  String get parentInduk => 'Parent';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get editTooltip => 'Edit';
+
+  @override
+  String selectItemTitle(String judul) {
+    return 'Select $judul';
+  }
+
+  @override
+  String searchItemHint(String judul) {
+    return 'Search $judul...';
+  }
+
+  @override
+  String get dataNotFound => 'Data not found';
+
+  @override
+  String get closeButton => 'Close';
+
+  @override
+  String get cityCountryRequired => 'City and Country are required!';
+
+  @override
+  String get addressUpdateSuccess => 'Address data successfully updated!';
+
+  @override
+  String get addressSaveSuccess => 'Address data successfully saved!';
+
+  @override
+  String get categoryEntityNameRequired =>
+      'Category and Entity Name are required!';
+
+  @override
+  String get ministryTypeRequiredAlert => 'Please select a Ministry Type!';
+
+  @override
+  String get entityUpdateSuccess => 'Entity data successfully updated!';
+
+  @override
+  String get entitySaveSuccess => 'Entity data successfully saved!';
+
+  @override
+  String get parentEntityConventusNameRequired =>
+      'Select Parent Entity and fill Monastery Name!';
+
+  @override
+  String get conventusUpdateSuccess => 'Monastery data successfully updated!';
+
+  @override
+  String get conventusSaveSuccess => 'Monastery data successfully saved!';
+
+  @override
+  String get editMasterData => 'Edit Master Data';
+
+  @override
+  String get editAddressTitle => 'Edit Address';
+
+  @override
+  String get addNewAddressTitle => 'Add New Address';
+
+  @override
+  String get houseNameOptional => 'House/Building Name (Optional)';
+
+  @override
+  String get streetDetailLocation => 'Street / Location Details';
+
+  @override
+  String get cityRequiredLabel => 'City (Required)';
+
+  @override
+  String get countryRequiredLabel => 'Country (Required)';
+
+  @override
+  String get officialEmail => 'Official Email';
+
+  @override
+  String get updateAddressBtn => 'UPDATE ADDRESS';
+
+  @override
+  String get saveAddressBtn => 'SAVE ADDRESS';
+
+  @override
+  String get editEntityTitle => 'Edit Entity';
+
+  @override
+  String get addEntityTitle => 'Add Entity';
+
+  @override
+  String get entityCategoryRequiredLabel => 'Entity Category (Required)';
+
+  @override
+  String get ministryTypeRequiredLabel => 'Ministry Type (Required)';
+
+  @override
+  String get entityNameRequiredLabel => 'Entity Name (Required)';
+
+  @override
+  String get historyDescription => 'History / Description';
+
+  @override
+  String get websiteLink => 'Website Link';
+
+  @override
+  String get selectHeadquartersAddress =>
+      'Select Headquarters Address (Optional)';
+
+  @override
+  String get updateEntityBtn => 'UPDATE ENTITY';
+
+  @override
+  String get saveEntityBtn => 'SAVE ENTITY';
+
+  @override
+  String get editConventusTitle => 'Edit Monastery / Community';
+
+  @override
+  String get addConventusTitle => 'Add Monastery / Community';
+
+  @override
+  String get parentEntityRequiredLabel => 'Parent Entity / Province (Required)';
+
+  @override
+  String get conventusNameRequiredLabel => 'Monastery Name (Required)';
+
+  @override
+  String get selectConventusAddress => 'Select Monastery Address (Optional)';
+
+  @override
+  String get updateConventusBtn => 'UPDATE MONASTERY';
+
+  @override
+  String get saveConventusBtn => 'SAVE MONASTERY';
 }

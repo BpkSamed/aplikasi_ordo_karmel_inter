@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 class HalamanDataNonAnggota extends StatefulWidget {
   final Map<String, dynamic>? initialData;
@@ -139,7 +140,9 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
       }
     }
 
-    setState(() => _isLoading = false);
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _fetchMasterData() async {
@@ -161,69 +164,88 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     required List<dynamic> daftarData,
     required String Function(dynamic) buildDisplayText,
     required void Function(Map<String, dynamic>) onPilih,
+    required AppLocalizations t,
   }) async {
     String kataKunci = "";
 
     await showDialog(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setStateDialog) {
-            final hasilFilter = daftarData.where((item) {
-              final nilaiTeks = buildDisplayText(item).toLowerCase();
-              return nilaiTeks.contains(kataKunci.toLowerCase());
-            }).toList();
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final double baseWidth = constraints.maxWidth;
 
-            return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              title: Text("Pilih $judul", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              content: SizedBox(
-                width: double.maxFinite,
-                height: 400,
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Cari $judul...",
-                        prefixIcon: const Icon(Icons.search, color: Colors.brown),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                      ),
-                      onChanged: (value) {
-                        setStateDialog(() {
-                          kataKunci = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    const Divider(),
-                    Expanded(
-                      child: hasilFilter.isEmpty
-                          ? const Center(child: Text("Data tidak ditemukan", style: TextStyle(color: Colors.grey)))
-                          : ListView.builder(
-                              itemCount: hasilFilter.length,
-                              itemBuilder: (context, index) {
-                                final data = hasilFilter[index];
-                                return ListTile(
-                                  leading: const Icon(Icons.radio_button_unchecked, color: Colors.grey, size: 20),
-                                  title: Text(buildDisplayText(data)),
-                                  onTap: () {
-                                    onPilih(data as Map<String, dynamic>);
-                                    Navigator.pop(context);
+            return StatefulBuilder(
+              builder: (context, setStateDialog) {
+                final hasilFilter = daftarData.where((item) {
+                  final nilaiTeks = buildDisplayText(item).toLowerCase();
+                  return nilaiTeks.contains(kataKunci.toLowerCase());
+                }).toList();
+
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  title: Text(
+                    t.selectItemTitle(judul), 
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.045)
+                  ),
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    height: baseWidth * 0.8,
+                    child: Column(
+                      children: [
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: t.searchItemHint(judul),
+                            hintStyle: TextStyle(fontSize: baseWidth * 0.035),
+                            prefixIcon: Icon(Icons.search, color: Colors.brown, size: baseWidth * 0.05),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                          ),
+                          onChanged: (value) {
+                            setStateDialog(() {
+                              kataKunci = value;
+                            });
+                          },
+                        ),
+                        SizedBox(height: baseWidth * 0.03),
+                        const Divider(),
+                        Expanded(
+                          child: hasilFilter.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    t.dataNotFound ?? "Data tidak ditemukan", 
+                                    style: TextStyle(color: Colors.grey, fontSize: baseWidth * 0.035)
+                                  )
+                                )
+                              : ListView.builder(
+                                  itemCount: hasilFilter.length,
+                                  itemBuilder: (context, index) {
+                                    final data = hasilFilter[index];
+                                    return ListTile(
+                                      leading: Icon(Icons.radio_button_unchecked, color: Colors.grey, size: baseWidth * 0.05),
+                                      title: Text(buildDisplayText(data), style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      onTap: () {
+                                        onPilih(data as Map<String, dynamic>);
+                                        Navigator.pop(context);
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        t.closeButton ?? "Tutup", 
+                        style: TextStyle(color: Colors.grey, fontSize: baseWidth * 0.035)
+                      ),
                     ),
                   ],
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Tutup", style: TextStyle(color: Colors.grey)),
-                ),
-              ],
+                );
+              },
             );
           },
         );
@@ -233,9 +255,9 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
 
   // ================= FUNGSI SIMPAN/UPDATE =================
 
-  Future<void> _submitAlamat() async {
+  Future<void> _submitAlamat(AppLocalizations t) async {
     if (_cityCtrl.text.isEmpty || _countryCtrl.text.isEmpty) {
-      _showSnackbar("Kota dan Negara wajib diisi!");
+      _showSnackbar(t.cityCountryRequired ?? "Kota dan Negara wajib diisi!");
       return;
     }
     setState(() => _isLoading = true);
@@ -252,28 +274,28 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     try {
       if (_editAlamatId != null) {
         await _supabase.from('addresses').update(data).eq('id', _editAlamatId!);
-        _showSnackbar("Data Alamat berhasil diperbarui!");
-        Navigator.pop(context, true); // Kembali setelah update
+        _showSnackbar(t.addressUpdateSuccess ?? "Data Alamat berhasil diperbarui!");
+        if (mounted) Navigator.pop(context, true); // Kembali setelah update
       } else {
         await _supabase.from('addresses').insert(data);
-        _showSnackbar("Data Alamat berhasil disimpan!");
+        _showSnackbar(t.addressSaveSuccess ?? "Data Alamat berhasil disimpan!");
         _clearAlamatForm();
         await _fetchMasterData(); 
       }
     } catch (e) {
       _showSnackbar("Error: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _submitEntitas() async {
+  Future<void> _submitEntitas(AppLocalizations t) async {
     if (_selectedCategory == null || _entityNameCtrl.text.isEmpty) {
-      _showSnackbar("Kategori dan Nama Entitas wajib diisi!");
+      _showSnackbar(t.categoryEntityNameRequired ?? "Kategori dan Nama Entitas wajib diisi!");
       return;
     }
     if (_selectedCategory == 'Ministries' && _selectedMinistryType == null) {
-      _showSnackbar("Pilih Tipe Karya (Ministry Type)!");
+      _showSnackbar(t.ministryTypeRequiredAlert ?? "Pilih Tipe Karya (Ministry Type)!");
       return;
     }
 
@@ -290,24 +312,24 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     try {
       if (_editEntitasId != null) {
         await _supabase.from('entities').update(data).eq('id', _editEntitasId!);
-        _showSnackbar("Data Entitas berhasil diperbarui!");
-        Navigator.pop(context, true);
+        _showSnackbar(t.entityUpdateSuccess ?? "Data Entitas berhasil diperbarui!");
+        if (mounted) Navigator.pop(context, true);
       } else {
         await _supabase.from('entities').insert(data);
-        _showSnackbar("Data Entitas berhasil disimpan!");
+        _showSnackbar(t.entitySaveSuccess ?? "Data Entitas berhasil disimpan!");
         _clearEntitasForm();
         await _fetchMasterData(); 
       }
     } catch (e) {
       _showSnackbar("Error: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _submitBiara() async {
+  Future<void> _submitBiara(AppLocalizations t) async {
     if (_selectedParentEntity == null || _conventusNameCtrl.text.isEmpty) {
-      _showSnackbar("Pilih Induk Entitas dan isi Nama Biara!");
+      _showSnackbar(t.parentEntityConventusNameRequired ?? "Pilih Induk Entitas dan isi Nama Biara!");
       return;
     }
     setState(() => _isLoading = true);
@@ -320,11 +342,11 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     try {
       if (_editBiaraId != null) {
         await _supabase.from('conventus').update(data).eq('id', _editBiaraId!);
-        _showSnackbar("Data Biara berhasil diperbarui!");
-        Navigator.pop(context, true);
+        _showSnackbar(t.conventusUpdateSuccess ?? "Data Biara berhasil diperbarui!");
+        if (mounted) Navigator.pop(context, true);
       } else {
         await _supabase.from('conventus').insert(data);
-        _showSnackbar("Data Biara berhasil disimpan!");
+        _showSnackbar(t.conventusSaveSuccess ?? "Data Biara berhasil disimpan!");
         _conventusNameCtrl.clear();
         _conventusParentDisplayCtrl.clear();
         _conventusAddressDisplayCtrl.clear();
@@ -336,7 +358,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     } catch (e) {
       _showSnackbar("Error: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -368,65 +390,137 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.initialData != null ? "Edit Data Master" : "Kelola Data Master"),
+        title: Text(
+          widget.initialData != null 
+            ? (t.editMasterData ?? "Edit Data Master") 
+            : (t.manageMasterData ?? "Kelola Data Master")
+        ),
         bottom: TabBar(
           controller: _tabController,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white54,
           indicatorColor: Colors.white,
-          tabs: const [
-            Tab(icon: Icon(Icons.location_on), text: "Alamat"),
-            Tab(icon: Icon(Icons.domain), text: "Entitas"),
-            Tab(icon: Icon(Icons.home), text: "Biara"),
+          tabs: [
+            Tab(icon: const Icon(Icons.location_on), text: t.tabAddress ?? "Alamat"),
+            Tab(icon: const Icon(Icons.domain), text: t.tabEntity ?? "Entitas"),
+            Tab(icon: const Icon(Icons.home), text: t.tabMonastery ?? "Biara"),
           ],
         ),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-          : TabBarView(
-              controller: _tabController,
-              children: [
-                _buildTabAlamat(),
-                _buildTabEntitas(),
-                _buildTabBiara(),
-              ],
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                final double baseWidth = constraints.maxWidth;
+
+                return TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildTabAlamat(baseWidth, t),
+                    _buildTabEntitas(baseWidth, t),
+                    _buildTabBiara(baseWidth, t),
+                  ],
+                );
+              },
             ),
     );
   }
 
   // ================= TAB 1: FORM ALAMAT =================
-  Widget _buildTabAlamat() {
+  Widget _buildTabAlamat(double baseWidth, AppLocalizations t) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(baseWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(_editAlamatId != null ? "Edit Alamat" : "Tambah Alamat Baru", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
-          const SizedBox(height: 15),
-          TextField(controller: _houseNameCtrl, decoration: const InputDecoration(labelText: "Nama Gedung/Rumah (Opsional)", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
-          TextField(controller: _streetCtrl, decoration: const InputDecoration(labelText: "Jalan / Detail Lokasi", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
+          Text(
+            _editAlamatId != null 
+              ? (t.editAddressTitle ?? "Edit Alamat") 
+              : (t.addNewAddressTitle ?? "Tambah Alamat Baru"), 
+            style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold, color: Colors.brown)
+          ),
+          SizedBox(height: baseWidth * 0.035),
+          TextField(
+            controller: _houseNameCtrl, 
+            decoration: InputDecoration(
+              labelText: t.houseNameOptional ?? "Nama Gedung/Rumah (Opsional)", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _streetCtrl, 
+            decoration: InputDecoration(
+              labelText: t.streetDetailLocation ?? "Jalan / Detail Lokasi", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
           Row(
             children: [
-              Expanded(child: TextField(controller: _cityCtrl, decoration: const InputDecoration(labelText: "Kota (Wajib)", border: OutlineInputBorder()))),
-              const SizedBox(width: 10),
-              Expanded(child: TextField(controller: _countryCtrl, decoration: const InputDecoration(labelText: "Negara (Wajib)", border: OutlineInputBorder()))),
+              Expanded(
+                child: TextField(
+                  controller: _cityCtrl, 
+                  decoration: InputDecoration(
+                    labelText: t.cityRequiredLabel ?? "Kota (Wajib)", 
+                    border: const OutlineInputBorder()
+                  )
+                )
+              ),
+              SizedBox(width: baseWidth * 0.025),
+              Expanded(
+                child: TextField(
+                  controller: _countryCtrl, 
+                  decoration: InputDecoration(
+                    labelText: t.countryRequiredLabel ?? "Negara (Wajib)", 
+                    border: const OutlineInputBorder()
+                  )
+                )
+              ),
             ],
           ),
-          const SizedBox(height: 10),
-          TextField(controller: _postalCodeCtrl, decoration: const InputDecoration(labelText: "Kode Pos", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
-          TextField(controller: _phoneCtrl, decoration: const InputDecoration(labelText: "Telepon", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
-          TextField(controller: _emailCtrl, decoration: const InputDecoration(labelText: "Email Resmi", border: OutlineInputBorder())),
-          const SizedBox(height: 20),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _postalCodeCtrl, 
+            decoration: InputDecoration(
+              labelText: t.postalCode ?? "Kode Pos", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _phoneCtrl, 
+            decoration: InputDecoration(
+              labelText: t.telephone ?? "Telepon", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _emailCtrl, 
+            decoration: InputDecoration(
+              labelText: t.officialEmail ?? "Email Resmi", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.05),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
-            onPressed: _submitAlamat,
-            child: Text(_editAlamatId != null ? "UPDATE ALAMAT" : "SIMPAN ALAMAT", style: const TextStyle(fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.brown, 
+              foregroundColor: Colors.white, 
+              padding: EdgeInsets.symmetric(vertical: baseWidth * 0.035)
+            ),
+            onPressed: () => _submitAlamat(t),
+            child: Text(
+              _editAlamatId != null 
+                ? (t.updateAddressBtn ?? "UPDATE ALAMAT") 
+                : (t.saveAddressBtn ?? "SIMPAN ALAMAT"), 
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
+            ),
           ),
         ],
       ),
@@ -434,54 +528,84 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   }
 
   // ================= TAB 2: FORM ENTITAS =================
-  Widget _buildTabEntitas() {
+  Widget _buildTabEntitas(double baseWidth, AppLocalizations t) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(baseWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(_editEntitasId != null ? "Edit Entitas" : "Tambah Entitas (Lembaga/Provinsi)", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
-          const SizedBox(height: 15),
+          Text(
+            _editEntitasId != null 
+              ? (t.editEntityTitle ?? "Edit Entitas") 
+              : (t.addEntityTitle ?? "Tambah Entitas (Lembaga/Provinsi)"), 
+            style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold, color: Colors.brown)
+          ),
+          SizedBox(height: baseWidth * 0.035),
           DropdownButtonFormField<String>(
             value: _selectedCategory,
-            decoration: const InputDecoration(labelText: "Kategori Entitas (Wajib)", border: OutlineInputBorder()),
+            decoration: InputDecoration(
+              labelText: t.entityCategoryRequiredLabel ?? "Kategori Entitas (Wajib)", 
+              border: const OutlineInputBorder()
+            ),
             items: _entityCategories.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
             onChanged: (val) => setState(() {
               _selectedCategory = val;
               _selectedMinistryType = null;
             }),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: baseWidth * 0.025),
           if (_selectedCategory == 'Ministries')
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: baseWidth * 0.025),
               child: DropdownButtonFormField<String>(
                 value: _selectedMinistryType,
-                decoration: const InputDecoration(labelText: "Tipe Karya / Ministry (Wajib)", border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: t.ministryTypeRequiredLabel ?? "Tipe Karya / Ministry (Wajib)", 
+                  border: const OutlineInputBorder()
+                ),
                 items: _ministryTypes.map((m) => DropdownMenuItem(value: m, child: Text(m))).toList(),
                 onChanged: (val) => setState(() => _selectedMinistryType = val),
               ),
             ),
-          TextField(controller: _entityNameCtrl, decoration: const InputDecoration(labelText: "Nama Entitas (Wajib)", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
-          TextField(controller: _historiaCtrl, maxLines: 3, decoration: const InputDecoration(labelText: "Sejarah / Deskripsi (Historia)", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
-          TextField(controller: _websiteCtrl, decoration: const InputDecoration(labelText: "Tautan Website", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
+          TextField(
+            controller: _entityNameCtrl, 
+            decoration: InputDecoration(
+              labelText: t.entityNameRequiredLabel ?? "Nama Entitas (Wajib)", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _historiaCtrl, 
+            maxLines: 3, 
+            decoration: InputDecoration(
+              labelText: t.historyDescription ?? "Sejarah / Deskripsi (Historia)", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _websiteCtrl, 
+            decoration: InputDecoration(
+              labelText: t.websiteLink ?? "Tautan Website", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
           
           // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (ALAMAT ENTITAS) ---
           TextField(
             controller: _entityAddressDisplayCtrl,
             readOnly: true,
-            decoration: const InputDecoration(
-              labelText: "Pilih Alamat Pusat (Opsional)",
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.brown),
+            decoration: InputDecoration(
+              labelText: t.selectHeadquartersAddress ?? "Pilih Alamat Pusat (Opsional)",
+              border: const OutlineInputBorder(),
+              suffixIcon: const Icon(Icons.arrow_drop_down, color: Colors.brown),
             ),
             onTap: () {
               _tampilkanDialogPencarian(
                 context: context,
-                judul: "Alamat Pusat",
+                judul: t.centerHeadquarters ?? "Alamat Pusat",
                 daftarData: _addresses,
                 buildDisplayText: (a) => "${a['house_name'] ?? ''} - ${a['city']}, ${a['country']}",
                 onPilih: (pilihan) {
@@ -490,14 +614,24 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
                     _entityAddressDisplayCtrl.text = "${pilihan['house_name'] ?? ''} - ${pilihan['city']}, ${pilihan['country']}";
                   });
                 },
+                t: t,
               );
             },
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: baseWidth * 0.05),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
-            onPressed: _submitEntitas,
-            child: Text(_editEntitasId != null ? "UPDATE ENTITAS" : "SIMPAN ENTITAS", style: const TextStyle(fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.brown, 
+              foregroundColor: Colors.white, 
+              padding: EdgeInsets.symmetric(vertical: baseWidth * 0.035)
+            ),
+            onPressed: () => _submitEntitas(t),
+            child: Text(
+              _editEntitasId != null 
+                ? (t.updateEntityBtn ?? "UPDATE ENTITAS") 
+                : (t.saveEntityBtn ?? "SIMPAN ENTITAS"), 
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
+            ),
           ),
         ],
       ),
@@ -505,28 +639,33 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   }
 
   // ================= TAB 3: FORM BIARA =================
-  Widget _buildTabBiara() {
+  Widget _buildTabBiara(double baseWidth, AppLocalizations t) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(baseWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(_editBiaraId != null ? "Edit Biara / Komunitas" : "Tambah Biara / Komunitas", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
-          const SizedBox(height: 15),
+          Text(
+            _editBiaraId != null 
+              ? (t.editConventusTitle ?? "Edit Biara / Komunitas") 
+              : (t.addConventusTitle ?? "Tambah Biara / Komunitas"), 
+            style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold, color: Colors.brown)
+          ),
+          SizedBox(height: baseWidth * 0.035),
           
           // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (INDUK ENTITAS BIARA) ---
           TextField(
             controller: _conventusParentDisplayCtrl,
             readOnly: true,
-            decoration: const InputDecoration(
-              labelText: "Induk Entitas / Provinsi (Wajib)",
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.brown),
+            decoration: InputDecoration(
+              labelText: t.parentEntityRequiredLabel ?? "Induk Entitas / Provinsi (Wajib)",
+              border: const OutlineInputBorder(),
+              suffixIcon: const Icon(Icons.arrow_drop_down, color: Colors.brown),
             ),
             onTap: () {
               _tampilkanDialogPencarian(
                 context: context,
-                judul: "Induk Entitas",
+                judul: t.parentInduk ?? "Induk Entitas",
                 daftarData: _entities,
                 buildDisplayText: (e) => "${e['name']} (${e['entity_category']})",
                 onPilih: (pilihan) {
@@ -535,26 +674,33 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
                     _conventusParentDisplayCtrl.text = "${pilihan['name']} (${pilihan['entity_category']})";
                   });
                 },
+                t: t,
               );
             },
           ),
-          const SizedBox(height: 10),
-          TextField(controller: _conventusNameCtrl, decoration: const InputDecoration(labelText: "Nama Biara (Wajib)", border: OutlineInputBorder())),
-          const SizedBox(height: 10),
+          SizedBox(height: baseWidth * 0.025),
+          TextField(
+            controller: _conventusNameCtrl, 
+            decoration: InputDecoration(
+              labelText: t.conventusNameRequiredLabel ?? "Nama Biara (Wajib)", 
+              border: const OutlineInputBorder()
+            )
+          ),
+          SizedBox(height: baseWidth * 0.025),
           
           // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (ALAMAT BIARA) ---
           TextField(
             controller: _conventusAddressDisplayCtrl,
             readOnly: true,
-            decoration: const InputDecoration(
-              labelText: "Pilih Alamat Biara (Opsional)",
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.brown),
+            decoration: InputDecoration(
+              labelText: t.selectConventusAddress ?? "Pilih Alamat Biara (Opsional)",
+              border: const OutlineInputBorder(),
+              suffixIcon: const Icon(Icons.arrow_drop_down, color: Colors.brown),
             ),
             onTap: () {
               _tampilkanDialogPencarian(
                 context: context,
-                judul: "Alamat Biara",
+                judul: t.tabMonastery ?? "Alamat Biara",
                 daftarData: _addresses,
                 buildDisplayText: (a) => "${a['house_name'] ?? ''} - ${a['city']}, ${a['country']}",
                 onPilih: (pilihan) {
@@ -563,14 +709,24 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
                     _conventusAddressDisplayCtrl.text = "${pilihan['house_name'] ?? ''} - ${pilihan['city']}, ${pilihan['country']}";
                   });
                 },
+                t: t,
               );
             },
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: baseWidth * 0.05),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
-            onPressed: _submitBiara,
-            child: Text(_editBiaraId != null ? "UPDATE BIARA" : "SIMPAN BIARA", style: const TextStyle(fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.brown, 
+              foregroundColor: Colors.white, 
+              padding: EdgeInsets.symmetric(vertical: baseWidth * 0.035)
+            ),
+            onPressed: () => _submitBiara(t),
+            child: Text(
+              _editBiaraId != null 
+                ? (t.updateConventusBtn ?? "UPDATE BIARA") 
+                : (t.saveConventusBtn ?? "SIMPAN BIARA"), 
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
+            ),
           ),
         ],
       ),

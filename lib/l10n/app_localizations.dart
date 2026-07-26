@@ -1469,6 +1469,522 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Nulla data nationum in domiciliis descripta sunt.'**
   String get noCountriesData;
+
+  /// No description provided for @ministriesDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Ministeriorum'**
+  String get ministriesDirectoryTitle;
+
+  /// No description provided for @apostolicMinistryCategories.
+  ///
+  /// In la, this message translates to:
+  /// **'Categoriae Ministeriorum Apostolicorum'**
+  String get apostolicMinistryCategories;
+
+  /// No description provided for @parishes.
+  ///
+  /// In la, this message translates to:
+  /// **'Paroeciae'**
+  String get parishes;
+
+  /// No description provided for @schools.
+  ///
+  /// In la, this message translates to:
+  /// **'Scholae'**
+  String get schools;
+
+  /// No description provided for @elementarySchool.
+  ///
+  /// In la, this message translates to:
+  /// **'Schola Elementaris'**
+  String get elementarySchool;
+
+  /// No description provided for @secondarySchool.
+  ///
+  /// In la, this message translates to:
+  /// **'Schola Secundaria'**
+  String get secondarySchool;
+
+  /// No description provided for @academy.
+  ///
+  /// In la, this message translates to:
+  /// **'Academia'**
+  String get academy;
+
+  /// No description provided for @universityInstitute.
+  ///
+  /// In la, this message translates to:
+  /// **'Universitas / Institutum'**
+  String get universityInstitute;
+
+  /// No description provided for @retreatCenters.
+  ///
+  /// In la, this message translates to:
+  /// **'Centra Exercitiorum Spiritualium'**
+  String get retreatCenters;
+
+  /// No description provided for @spiritualityInstitute.
+  ///
+  /// In la, this message translates to:
+  /// **'Institutum Spiritualitatis'**
+  String get spiritualityInstitute;
+
+  /// No description provided for @socialMinistries.
+  ///
+  /// In la, this message translates to:
+  /// **'Ministeria Socialia'**
+  String get socialMinistries;
+
+  /// No description provided for @libraries.
+  ///
+  /// In la, this message translates to:
+  /// **'Bibliothecae'**
+  String get libraries;
+
+  /// No description provided for @hospitalsClinics.
+  ///
+  /// In la, this message translates to:
+  /// **'Valetudinaria / Clinicae'**
+  String get hospitalsClinics;
+
+  /// No description provided for @allMinistriesPersonnel.
+  ///
+  /// In la, this message translates to:
+  /// **'Omnes Personales Ministeriorum'**
+  String get allMinistriesPersonnel;
+
+  /// No description provided for @allPersonnelSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index sodalarum in omnibus institutis laborantium'**
+  String get allPersonnelSubtitle;
+
+  /// No description provided for @ministriesListTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index {category}'**
+  String ministriesListTitle(String category);
+
+  /// No description provided for @noDataForCategory.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data pro {category} praesto sunt.'**
+  String noDataForCategory(String category);
+
+  /// No description provided for @searchMinistryCategory.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Nomen {category}...'**
+  String searchMinistryCategory(String category);
+
+  /// No description provided for @descriptionHistoria.
+  ///
+  /// In la, this message translates to:
+  /// **'Descriptio / Historia:'**
+  String get descriptionHistoria;
+
+  /// No description provided for @noDescriptionData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data descriptionis praesto sunt.'**
+  String get noDescriptionData;
+
+  /// No description provided for @officialMinistryAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Domicilium Officiale Ministerii:'**
+  String get officialMinistryAddress;
+
+  /// No description provided for @personnelWorkingMembers.
+  ///
+  /// In la, this message translates to:
+  /// **'Personales (Sodales Laborantes)'**
+  String get personnelWorkingMembers;
+
+  /// No description provided for @searchPersonnelName.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Nomen Personalis...'**
+  String get searchPersonnelName;
+
+  /// No description provided for @noMinistriesPersonnelData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Personalium Ministeriorum inventa sunt.'**
+  String get noMinistriesPersonnelData;
+
+  /// No description provided for @ministryWork.
+  ///
+  /// In la, this message translates to:
+  /// **'Ministerium:'**
+  String get ministryWork;
+
+  /// No description provided for @nonMemberDataListTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Datorum Non-Sodalarum'**
+  String get nonMemberDataListTitle;
+
+  /// No description provided for @tabAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Domicilia'**
+  String get tabAddress;
+
+  /// No description provided for @tabEntity.
+  ///
+  /// In la, this message translates to:
+  /// **'Entitates'**
+  String get tabEntity;
+
+  /// No description provided for @tabMonastery.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria'**
+  String get tabMonastery;
+
+  /// No description provided for @addDataButton.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Data'**
+  String get addDataButton;
+
+  /// No description provided for @deleteConfirmTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Deletionis'**
+  String get deleteConfirmTitle;
+
+  /// No description provided for @deleteConfirmMessage.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere data \'{itemName}\'?\n\nMonitio: Data connexa etiam deleri aut relationes amittere possunt.'**
+  String deleteConfirmMessage(String itemName);
+
+  /// No description provided for @cancelButton.
+  ///
+  /// In la, this message translates to:
+  /// **'Cancellare'**
+  String get cancelButton;
+
+  /// No description provided for @deleteButton.
+  ///
+  /// In la, this message translates to:
+  /// **'Delere'**
+  String get deleteButton;
+
+  /// No description provided for @deleteSuccessMessage.
+  ///
+  /// In la, this message translates to:
+  /// **'Data \'{itemName}\' feliciter deleta sunt.'**
+  String deleteSuccessMessage(String itemName);
+
+  /// No description provided for @deleteErrorMessage.
+  ///
+  /// In la, this message translates to:
+  /// **'Deletio datorum defecit: {error}'**
+  String deleteErrorMessage(String error);
+
+  /// No description provided for @noAddressData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data domiciliorum adhuc relata sunt.'**
+  String get noAddressData;
+
+  /// No description provided for @noCity.
+  ///
+  /// In la, this message translates to:
+  /// **'Sine Civitate'**
+  String get noCity;
+
+  /// No description provided for @noEntityData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data entitatum adhuc relata sunt.'**
+  String get noEntityData;
+
+  /// No description provided for @noName.
+  ///
+  /// In la, this message translates to:
+  /// **'Sine Nomine'**
+  String get noName;
+
+  /// No description provided for @centerHeadquarters.
+  ///
+  /// In la, this message translates to:
+  /// **'Sedes'**
+  String get centerHeadquarters;
+
+  /// No description provided for @noMonasteryData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data monasteriorum adhuc relata sunt.'**
+  String get noMonasteryData;
+
+  /// No description provided for @parentInduk.
+  ///
+  /// In la, this message translates to:
+  /// **'Mater'**
+  String get parentInduk;
+
+  /// No description provided for @location.
+  ///
+  /// In la, this message translates to:
+  /// **'Locus'**
+  String get location;
+
+  /// No description provided for @editTooltip.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere'**
+  String get editTooltip;
+
+  /// No description provided for @selectItemTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige {judul}'**
+  String selectItemTitle(String judul);
+
+  /// No description provided for @searchItemHint.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere {judul}...'**
+  String searchItemHint(String judul);
+
+  /// No description provided for @dataNotFound.
+  ///
+  /// In la, this message translates to:
+  /// **'Data non inventa sunt'**
+  String get dataNotFound;
+
+  /// No description provided for @closeButton.
+  ///
+  /// In la, this message translates to:
+  /// **'Claudere'**
+  String get closeButton;
+
+  /// No description provided for @cityCountryRequired.
+  ///
+  /// In la, this message translates to:
+  /// **'Civitas et Patria requiruntur!'**
+  String get cityCountryRequired;
+
+  /// No description provided for @addressUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Domicilii feliciter renovata sunt!'**
+  String get addressUpdateSuccess;
+
+  /// No description provided for @addressSaveSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Domicilii feliciter servata sunt!'**
+  String get addressSaveSuccess;
+
+  /// No description provided for @categoryEntityNameRequired.
+  ///
+  /// In la, this message translates to:
+  /// **'Categoria et Nomen Entitatis requiruntur!'**
+  String get categoryEntityNameRequired;
+
+  /// No description provided for @ministryTypeRequiredAlert.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Typum Ministerii!'**
+  String get ministryTypeRequiredAlert;
+
+  /// No description provided for @entityUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Entitatis feliciter renovata sunt!'**
+  String get entityUpdateSuccess;
+
+  /// No description provided for @entitySaveSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Entitatis feliciter servata sunt!'**
+  String get entitySaveSuccess;
+
+  /// No description provided for @parentEntityConventusNameRequired.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Entitatem Matrem et exple Nomen Monasterii!'**
+  String get parentEntityConventusNameRequired;
+
+  /// No description provided for @conventusUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Monasterii feliciter renovata sunt!'**
+  String get conventusUpdateSuccess;
+
+  /// No description provided for @conventusSaveSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Monasterii feliciter servata sunt!'**
+  String get conventusSaveSuccess;
+
+  /// No description provided for @editMasterData.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Data Principalia'**
+  String get editMasterData;
+
+  /// No description provided for @editAddressTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Domicilium'**
+  String get editAddressTitle;
+
+  /// No description provided for @addNewAddressTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Novum Domicilium'**
+  String get addNewAddressTitle;
+
+  /// No description provided for @houseNameOptional.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Domus (Ad libitum)'**
+  String get houseNameOptional;
+
+  /// No description provided for @streetDetailLocation.
+  ///
+  /// In la, this message translates to:
+  /// **'Via / Singula Loci'**
+  String get streetDetailLocation;
+
+  /// No description provided for @cityRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Civitas (Requisitum)'**
+  String get cityRequiredLabel;
+
+  /// No description provided for @countryRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Patria (Requisitum)'**
+  String get countryRequiredLabel;
+
+  /// No description provided for @officialEmail.
+  ///
+  /// In la, this message translates to:
+  /// **'Litterae Electronicae Publicae'**
+  String get officialEmail;
+
+  /// No description provided for @updateAddressBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'RENOVARE DOMICILIUM'**
+  String get updateAddressBtn;
+
+  /// No description provided for @saveAddressBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE DOMICILIUM'**
+  String get saveAddressBtn;
+
+  /// No description provided for @editEntityTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Entitatem'**
+  String get editEntityTitle;
+
+  /// No description provided for @addEntityTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Entitatem'**
+  String get addEntityTitle;
+
+  /// No description provided for @entityCategoryRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Categoria Entitatis (Requisitum)'**
+  String get entityCategoryRequiredLabel;
+
+  /// No description provided for @ministryTypeRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Typus Ministerii (Requisitum)'**
+  String get ministryTypeRequiredLabel;
+
+  /// No description provided for @entityNameRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Entitatis (Requisitum)'**
+  String get entityNameRequiredLabel;
+
+  /// No description provided for @historyDescription.
+  ///
+  /// In la, this message translates to:
+  /// **'Historia / Descriptio'**
+  String get historyDescription;
+
+  /// No description provided for @websiteLink.
+  ///
+  /// In la, this message translates to:
+  /// **'Vinculum Website'**
+  String get websiteLink;
+
+  /// No description provided for @selectHeadquartersAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Domicilium Sedis (Ad libitum)'**
+  String get selectHeadquartersAddress;
+
+  /// No description provided for @updateEntityBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'RENOVARE ENTITATEM'**
+  String get updateEntityBtn;
+
+  /// No description provided for @saveEntityBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE ENTITATEM'**
+  String get saveEntityBtn;
+
+  /// No description provided for @editConventusTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Monasterium / Communitatem'**
+  String get editConventusTitle;
+
+  /// No description provided for @addConventusTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Monasterium / Communitatem'**
+  String get addConventusTitle;
+
+  /// No description provided for @parentEntityRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Entitas Mater / Provincia (Requisitum)'**
+  String get parentEntityRequiredLabel;
+
+  /// No description provided for @conventusNameRequiredLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Monasterii (Requisitum)'**
+  String get conventusNameRequiredLabel;
+
+  /// No description provided for @selectConventusAddress.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Domicilium Monasterii (Ad libitum)'**
+  String get selectConventusAddress;
+
+  /// No description provided for @updateConventusBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'RENOVARE MONASTERIUM'**
+  String get updateConventusBtn;
+
+  /// No description provided for @saveConventusBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE MONASTERIUM'**
+  String get saveConventusBtn;
 }
 
 class _AppLocalizationsDelegate
