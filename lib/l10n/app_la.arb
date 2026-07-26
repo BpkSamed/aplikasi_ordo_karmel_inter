@@ -98,5 +98,31 @@
   "activeBishop": "In Officio",
   "emeritusBishop": "Emeritus",
   "noBishopData": "Nulla data Episcoporum inventa.",
-  "searchBishop": "Quaere Episcopum..."
+  "searchBishop": "Quaere Episcopum...",
+
+  "errorOccurred": "Error accidit",
+  "emptyDataDetailWarning": "Data vacua sunt, singula aperiri non possunt.",
+  "episcopiDetailTitle": "Facies Episcopi",
+  "mainInfo": "Notitia Principalis",
+  "exCarmeliteEntity": "Ex Carmelita Entity",
+  "status": "Status",
+  "addressLabel": "Domicilium",
+  "houseName": "Nomen Domus",
+  "street": "Via",
+  "city": "Civitas",
+  "country": "Civitas/Regio",
+  "postalCode": "Cursualis Codex",
+  "contactLabel": "Contactus",
+  "telephone": "Telephonum",
+  "faxcimile": "Facsimile",
+  "email": "Litterae Electronicae",
+
+  "subImmediataTitle": "Sub Immediata Jurisdictione",
+  "noSubImmediataData": "Nulla data adhuc relata sunt.",
+
+  "citocNewsTitle": "Nuntii CITOC",
+  "linkOpenError": "Vinculum aperiri non potuit. Fac formam rectam esse.",
+  "noCitocNews": "Nulli nuntii hoc tempore editi sunt.",
+  "latestNews": "Nuntii Recentissimi",
+  "tapToReadMore": "Tange ut plura legas..."
 }

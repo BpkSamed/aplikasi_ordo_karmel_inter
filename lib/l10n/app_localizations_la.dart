@@ -293,4 +293,75 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get searchBishop => 'Quaere Episcopum...';
+
+  @override
+  String get errorOccurred => 'Error accidit';
+
+  @override
+  String get emptyDataDetailWarning =>
+      'Data vacua sunt, singula aperiri non possunt.';
+
+  @override
+  String get episcopiDetailTitle => 'Facies Episcopi';
+
+  @override
+  String get mainInfo => 'Notitia Principalis';
+
+  @override
+  String get exCarmeliteEntity => 'Ex Carmelita Entity';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get addressLabel => 'Domicilium';
+
+  @override
+  String get houseName => 'Nomen Domus';
+
+  @override
+  String get street => 'Via';
+
+  @override
+  String get city => 'Civitas';
+
+  @override
+  String get country => 'Civitas/Regio';
+
+  @override
+  String get postalCode => 'Cursualis Codex';
+
+  @override
+  String get contactLabel => 'Contactus';
+
+  @override
+  String get telephone => 'Telephonum';
+
+  @override
+  String get faxcimile => 'Facsimile';
+
+  @override
+  String get email => 'Litterae Electronicae';
+
+  @override
+  String get subImmediataTitle => 'Sub Immediata Jurisdictione';
+
+  @override
+  String get noSubImmediataData => 'Nulla data adhuc relata sunt.';
+
+  @override
+  String get citocNewsTitle => 'Nuntii CITOC';
+
+  @override
+  String get linkOpenError =>
+      'Vinculum aperiri non potuit. Fac formam rectam esse.';
+
+  @override
+  String get noCitocNews => 'Nulli nuntii hoc tempore editi sunt.';
+
+  @override
+  String get latestNews => 'Nuntii Recentissimi';
+
+  @override
+  String get tapToReadMore => 'Tange ut plura legas...';
 }

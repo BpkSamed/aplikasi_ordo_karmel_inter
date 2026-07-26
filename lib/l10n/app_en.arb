@@ -98,5 +98,31 @@
   "activeBishop": "Active / In Office",
   "emeritusBishop": "Emeritus",
   "noBishopData": "No Bishop data found.",
-  "searchBishop": "Search Bishop..."
+  "searchBishop": "Search Bishop...",
+
+  "errorOccurred": "An error occurred",
+  "emptyDataDetailWarning": "Data is empty, cannot open details.",
+  "episcopiDetailTitle": "Bishop Details",
+  "mainInfo": "Main Information",
+  "exCarmeliteEntity": "Ex Carmelite Entity",
+  "status": "Status",
+  "addressLabel": "Address",
+  "houseName": "House Name",
+  "street": "Street",
+  "city": "City",
+  "country": "Country",
+  "postalCode": "Postal Code",
+  "contactLabel": "Contact",
+  "telephone": "Telephone",
+  "faxcimile": "Fax",
+  "email": "Email",
+
+  "subImmediataTitle": "Sub Immediata Jurisdiction",
+  "noSubImmediataData": "No data registered yet.",
+
+  "citocNewsTitle": "CITOC News",
+  "linkOpenError": "Failed to open link. Ensure the URL format is correct.",
+  "noCitocNews": "No news releases currently.",
+  "latestNews": "Latest News",
+  "tapToReadMore": "Tap to read more..."
 }

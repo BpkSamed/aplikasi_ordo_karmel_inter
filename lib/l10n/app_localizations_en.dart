@@ -292,4 +292,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchBishop => 'Search Bishop...';
+
+  @override
+  String get errorOccurred => 'An error occurred';
+
+  @override
+  String get emptyDataDetailWarning => 'Data is empty, cannot open details.';
+
+  @override
+  String get episcopiDetailTitle => 'Bishop Details';
+
+  @override
+  String get mainInfo => 'Main Information';
+
+  @override
+  String get exCarmeliteEntity => 'Ex Carmelite Entity';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get addressLabel => 'Address';
+
+  @override
+  String get houseName => 'House Name';
+
+  @override
+  String get street => 'Street';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get postalCode => 'Postal Code';
+
+  @override
+  String get contactLabel => 'Contact';
+
+  @override
+  String get telephone => 'Telephone';
+
+  @override
+  String get faxcimile => 'Fax';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get subImmediataTitle => 'Sub Immediata Jurisdiction';
+
+  @override
+  String get noSubImmediataData => 'No data registered yet.';
+
+  @override
+  String get citocNewsTitle => 'CITOC News';
+
+  @override
+  String get linkOpenError =>
+      'Failed to open link. Ensure the URL format is correct.';
+
+  @override
+  String get noCitocNews => 'No news releases currently.';
+
+  @override
+  String get latestNews => 'Latest News';
+
+  @override
+  String get tapToReadMore => 'Tap to read more...';
 }

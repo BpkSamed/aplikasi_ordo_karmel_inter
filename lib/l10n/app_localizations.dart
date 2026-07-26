@@ -653,6 +653,144 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Quaere Episcopum...'**
   String get searchBishop;
+
+  /// No description provided for @errorOccurred.
+  ///
+  /// In la, this message translates to:
+  /// **'Error accidit'**
+  String get errorOccurred;
+
+  /// No description provided for @emptyDataDetailWarning.
+  ///
+  /// In la, this message translates to:
+  /// **'Data vacua sunt, singula aperiri non possunt.'**
+  String get emptyDataDetailWarning;
+
+  /// No description provided for @episcopiDetailTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Facies Episcopi'**
+  String get episcopiDetailTitle;
+
+  /// No description provided for @mainInfo.
+  ///
+  /// In la, this message translates to:
+  /// **'Notitia Principalis'**
+  String get mainInfo;
+
+  /// No description provided for @exCarmeliteEntity.
+  ///
+  /// In la, this message translates to:
+  /// **'Ex Carmelita Entity'**
+  String get exCarmeliteEntity;
+
+  /// No description provided for @status.
+  ///
+  /// In la, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Domicilium'**
+  String get addressLabel;
+
+  /// No description provided for @houseName.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Domus'**
+  String get houseName;
+
+  /// No description provided for @street.
+  ///
+  /// In la, this message translates to:
+  /// **'Via'**
+  String get street;
+
+  /// No description provided for @city.
+  ///
+  /// In la, this message translates to:
+  /// **'Civitas'**
+  String get city;
+
+  /// No description provided for @country.
+  ///
+  /// In la, this message translates to:
+  /// **'Civitas/Regio'**
+  String get country;
+
+  /// No description provided for @postalCode.
+  ///
+  /// In la, this message translates to:
+  /// **'Cursualis Codex'**
+  String get postalCode;
+
+  /// No description provided for @contactLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Contactus'**
+  String get contactLabel;
+
+  /// No description provided for @telephone.
+  ///
+  /// In la, this message translates to:
+  /// **'Telephonum'**
+  String get telephone;
+
+  /// No description provided for @faxcimile.
+  ///
+  /// In la, this message translates to:
+  /// **'Facsimile'**
+  String get faxcimile;
+
+  /// No description provided for @email.
+  ///
+  /// In la, this message translates to:
+  /// **'Litterae Electronicae'**
+  String get email;
+
+  /// No description provided for @subImmediataTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sub Immediata Jurisdictione'**
+  String get subImmediataTitle;
+
+  /// No description provided for @noSubImmediataData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data adhuc relata sunt.'**
+  String get noSubImmediataData;
+
+  /// No description provided for @citocNewsTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntii CITOC'**
+  String get citocNewsTitle;
+
+  /// No description provided for @linkOpenError.
+  ///
+  /// In la, this message translates to:
+  /// **'Vinculum aperiri non potuit. Fac formam rectam esse.'**
+  String get linkOpenError;
+
+  /// No description provided for @noCitocNews.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulli nuntii hoc tempore editi sunt.'**
+  String get noCitocNews;
+
+  /// No description provided for @latestNews.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntii Recentissimi'**
+  String get latestNews;
+
+  /// No description provided for @tapToReadMore.
+  ///
+  /// In la, this message translates to:
+  /// **'Tange ut plura legas...'**
+  String get tapToReadMore;
 }
 
 class _AppLocalizationsDelegate

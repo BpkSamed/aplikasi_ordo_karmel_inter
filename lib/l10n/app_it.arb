@@ -98,5 +98,31 @@
   "activeBishop": "In Attività",
   "emeritusBishop": "Emerito",
   "noBishopData": "Nessun dato dei Vescovi trovato.",
-  "searchBishop": "Cerca Vescovo..."
+  "searchBishop": "Cerca Vescovo...",
+
+  "errorOccurred": "Si è verificato un errore",
+  "emptyDataDetailWarning": "I dati sono vuoti, impossibile aprire i dettagli.",
+  "episcopiDetailTitle": "Dettagli del Vescovo",
+  "mainInfo": "Informazioni Principali",
+  "exCarmeliteEntity": "Ex Entità Carmelitana",
+  "status": "Stato",
+  "addressLabel": "Indirizzo",
+  "houseName": "Nome della Casa",
+  "street": "Via",
+  "city": "Città",
+  "country": "Paese",
+  "postalCode": "Codice Postale",
+  "contactLabel": "Contatto",
+  "telephone": "Telefono",
+  "faxcimile": "Fax",
+  "email": "E-mail",
+
+  "subImmediataTitle": "Giurisdizione Sub Immediata",
+  "noSubImmediataData": "Nessun dato ancora registrato.",
+
+  "citocNewsTitle": "Notizie CITOC",
+  "linkOpenError": "Impossibile aprire il link. Assicurati che il formato sia corretto.",
+  "noCitocNews": "Nessuna notizia pubblicata al momento.",
+  "latestNews": "Ultime Notizie",
+  "tapToReadMore": "Tocca per leggere di più..."
 }

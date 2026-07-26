@@ -294,4 +294,75 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get searchBishop => 'Buscar Obispo...';
+
+  @override
+  String get errorOccurred => 'Ocurrió un error';
+
+  @override
+  String get emptyDataDetailWarning =>
+      'Los datos están vacíos, no se pueden abrir los detalles.';
+
+  @override
+  String get episcopiDetailTitle => 'Detalles del Obispo';
+
+  @override
+  String get mainInfo => 'Información Principal';
+
+  @override
+  String get exCarmeliteEntity => 'Ex Entidad Carmelita';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get addressLabel => 'Dirección';
+
+  @override
+  String get houseName => 'Nombre de la Casa';
+
+  @override
+  String get street => 'Calle';
+
+  @override
+  String get city => 'Ciudad';
+
+  @override
+  String get country => 'País';
+
+  @override
+  String get postalCode => 'Código Postal';
+
+  @override
+  String get contactLabel => 'Contacto';
+
+  @override
+  String get telephone => 'Teléfono';
+
+  @override
+  String get faxcimile => 'Fax';
+
+  @override
+  String get email => 'Correo Electrónico';
+
+  @override
+  String get subImmediataTitle => 'Jurisdicción Sub Inmediata';
+
+  @override
+  String get noSubImmediataData => 'Aún no hay datos registrados.';
+
+  @override
+  String get citocNewsTitle => 'Noticias CITOC';
+
+  @override
+  String get linkOpenError =>
+      'No se pudo abrir el enlace. Asegúrese de que el formato sea correcto.';
+
+  @override
+  String get noCitocNews => 'No hay noticias publicadas en este momento.';
+
+  @override
+  String get latestNews => 'Últimas Noticias';
+
+  @override
+  String get tapToReadMore => 'Toca para leer más...';
 }

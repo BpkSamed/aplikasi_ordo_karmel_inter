@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 class HalamanCitoc extends StatefulWidget {
   const HalamanCitoc({super.key});
@@ -38,7 +39,7 @@ class _HalamanCitocState extends State<HalamanCitoc> {
   }
 
   // Fungsi sakti untuk membuka tautan/URL
-  Future<void> _bukaTautan(String urlString) async {
+  Future<void> _bukaTautan(String urlString, BuildContext context, AppLocalizations t) async {
     final Uri url = Uri.parse(urlString);
     
     try {
@@ -48,55 +49,82 @@ class _HalamanCitocState extends State<HalamanCitoc> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Gagal membuka tautan. Pastikan format link benar.")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.linkOpenError ?? "Gagal membuka tautan. Pastikan format link benar."))
+        );
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!; // Inisialisasi lokalisasi
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CITOC News"),
+        title: Text(t.citocNewsTitle ?? "CITOC News"),
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _fetchCitoc),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-          : _beritaCitoc.isEmpty
-              ? const Center(child: Text("Belum ada rilis berita saat ini."))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: _beritaCitoc.length,
-                  itemBuilder: (context, index) {
-                    final berita = _beritaCitoc[index];
-                    return Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 8), // Margin card diperbesar sedikit
-                      child: ListTile(
-                        // --- MEMPERBESAR UKURAN KOTAK 50% ---
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
-                        leading: const CircleAvatar(
-                          backgroundColor: Colors.brown,
-                          radius: 25, // Icon diperbesar menyesuaikan padding
-                          child: Icon(Icons.public, color: Colors.white, size: 28),
-                        ),
-                        title: Text(berita['title'] ?? 'Berita Terbaru', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        subtitle: const Padding(
-                          padding: EdgeInsets.only(top: 6.0),
-                          child: Text("Ketuk untuk membaca selengkapnya...", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
-                        ),
-                        trailing: const Icon(Icons.open_in_browser, color: Colors.blue),
-                        onTap: () {
-                          if (berita['url'] != null) {
-                            _bukaTautan(berita['url']);
-                          }
-                        },
-                      ),
-                    );
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          if (_beritaCitoc.isEmpty) {
+            return Center(
+              child: Text(
+                t.noCitocNews ?? "Belum ada rilis berita saat ini.",
+                style: TextStyle(fontSize: baseWidth * 0.04),
+              )
+            );
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.all(baseWidth * 0.03),
+            itemCount: _beritaCitoc.length,
+            itemBuilder: (context, index) {
+              final berita = _beritaCitoc[index];
+              return Card(
+                elevation: 2,
+                margin: EdgeInsets.symmetric(vertical: baseWidth * 0.02),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: baseWidth * 0.04, 
+                    vertical: baseWidth * 0.04
+                  ),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.brown,
+                    radius: baseWidth * 0.065, 
+                    child: Icon(Icons.public, color: Colors.white, size: baseWidth * 0.07),
+                  ),
+                  title: Text(
+                    berita['title'] ?? t.latestNews ?? 'Berita Terbaru', 
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(top: baseWidth * 0.015),
+                    child: Text(
+                      t.tapToReadMore ?? "Ketuk untuk membaca selengkapnya...", 
+                      style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: baseWidth * 0.035)
+                    ),
+                  ),
+                  trailing: Icon(Icons.open_in_browser, color: Colors.blue, size: baseWidth * 0.06),
+                  onTap: () {
+                    if (berita['url'] != null) {
+                      _bukaTautan(berita['url'], context, t);
+                    }
                   },
                 ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
