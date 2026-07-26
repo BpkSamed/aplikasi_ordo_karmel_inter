@@ -32,5 +32,43 @@
   "manageCitocNews": "Manage CITOC News",
   "citocNewsSubtitle": "Add latest news links",
   "manageGeneralCommissions": "Manage General Commissions",
-  "generalCommissionsSubtitle": "Organize commission divisions and their members"
+  "generalCommissionsSubtitle": "Organize commission divisions and their members",
+
+  "curiaGeneralisTitle": "General Curia",
+  "consiliumGenerale": "General Council",
+  "officiaGeneralia": "General Offices and Sectors of Work",
+  "commissionesGenerales": "General Commissions",
+
+  "priorGeneralis": "Prior General",
+  "vicePriorGeneralis": "Vice Prior General",
+  "procuratorGeneralis": "Procurator General",
+  "oeconomusGeneralis": "Oeconomus General",
+  "consiliariusAmericarum": "Councillor for the Americas",
+  "consiliariusAfricae": "Councillor for Africa",
+  "consiliariusAsiae": "Councillor for Asia, Australia and Oceania",
+  "consiliariusEuropae": "Councillor for Europe",
+
+  "oeconomatusGeneralis": "General Oeconomate",
+  "secretariatusGeneralis": "General Secretariat",
+  "delegatusMonacorum": "Delegate for Monks, Hermits and Institutes",
+  "delegatusFormationis": "Delegate for Formation",
+  "delegatusIuvenibus": "Delegate for Youth",
+  "delegatusToc": "Delegate for TOC",
+  "delegatusLaicorum": "Delegate for the Laity",
+  "postulaturaGeneralis": "General Postulation",
+  "legaleRappresentante": "Legal Representative",
+
+  "cDeFormatione": "General Commission for Formation",
+  "cDeIuvenibus": "General Commission for Carmelite Youth",
+  "cDeRebusOeconomicis": "General Commission for Finance",
+  "cDeLiturgia": "General Commission for Liturgy and Prayer",
+  "cDeCommunicatione": "General Commission for Communication",
+  "cDeEvangelizatio": "General Commission for Evangelization, Justice, Peace and Integrity of Creation",
+  "cDeMinisterium": "General Commission for Ministry",
+  "cProTutelaMinorium": "General Commission for the Protection of Minors",
+  "tocNegotiumForce": "TOC Task Force",
+
+  "praeses": "President",
+  "sodales": "Members",
+  "missio": "Mission"
 }

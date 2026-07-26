@@ -39,5 +39,43 @@
   "manageCitocNews": "Administrare Nuntios CITOC",
   "citocNewsSubtitle": "Adde vincula nuntiorum recentium",
   "manageGeneralCommissions": "Administrare Commissiones Generales",
-  "generalCommissionsSubtitle": "Guberna divisiones commissionum et sodales earum"
+  "generalCommissionsSubtitle": "Guberna divisiones commissionum et sodales earum",
+
+  "curiaGeneralisTitle": "Curia Generalis",
+  "consiliumGenerale": "Consilium Generale",
+  "officiaGeneralia": "Officia Generalia et Sectores Laborum",
+  "commissionesGenerales": "Commissiones Generales",
+
+  "priorGeneralis": "Prior Generalis",
+  "vicePriorGeneralis": "Vice Prior Generalis",
+  "procuratorGeneralis": "Procurator Generalis",
+  "oeconomusGeneralis": "Oeconomus Generalis",
+  "consiliariusAmericarum": "Consiliarius pro Ambitu Americarum",
+  "consiliariusAfricae": "Consiliarius pro Ambitu Africae",
+  "consiliariusAsiae": "Consiliarius pro Ambitu Asiae, Australiae et Oceaniae",
+  "consiliariusEuropae": "Consiliarius pro Ambitu Europae",
+
+  "oeconomatusGeneralis": "Oeconomatus Generalis",
+  "secretariatusGeneralis": "Secretariatus Generalis",
+  "delegatusMonacorum": "Delegatus Monacorum, Heremiti et Instituta",
+  "delegatusFormationis": "Delegatus Formationis",
+  "delegatusIuvenibus": "Delegatus Iuvenibus",
+  "delegatusToc": "Delegatus TOC",
+  "delegatusLaicorum": "Delegatus Laicorum",
+  "postulaturaGeneralis": "Postulatura Generalis",
+  "legaleRappresentante": "Legale Rappresentante",
+
+  "cDeFormatione": "Commissio Generalis de Formatione",
+  "cDeIuvenibus": "Commissio Generalis de Iuvenibus Carmelitis",
+  "cDeRebusOeconomicis": "Commissio Generalis de Rebus Oeconomicis",
+  "cDeLiturgia": "Commissio Generalis de Liturgia et Oratione",
+  "cDeCommunicatione": "Commissio Generalis de Communicatione",
+  "cDeEvangelizatio": "Commissio Generalis de Evangelizatio, Iustitia, Pace et Creationis Integritate",
+  "cDeMinisterium": "Commissio Generalis de Ministerium",
+  "cProTutelaMinorium": "Commissio Generalis pro Tutela Minorium",
+  "tocNegotiumForce": "TOC Negotium Force",
+
+  "praeses": "Praeses",
+  "sodales": "Sodales",
+  "missio": "Missio"
 }

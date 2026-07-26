@@ -299,6 +299,204 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Guberna divisiones commissionum et sodales earum'**
   String get generalCommissionsSubtitle;
+
+  /// No description provided for @curiaGeneralisTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Curia Generalis'**
+  String get curiaGeneralisTitle;
+
+  /// No description provided for @consiliumGenerale.
+  ///
+  /// In la, this message translates to:
+  /// **'Consilium Generale'**
+  String get consiliumGenerale;
+
+  /// No description provided for @officiaGeneralia.
+  ///
+  /// In la, this message translates to:
+  /// **'Officia Generalia et Sectores Laborum'**
+  String get officiaGeneralia;
+
+  /// No description provided for @commissionesGenerales.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissiones Generales'**
+  String get commissionesGenerales;
+
+  /// No description provided for @priorGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Prior Generalis'**
+  String get priorGeneralis;
+
+  /// No description provided for @vicePriorGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Vice Prior Generalis'**
+  String get vicePriorGeneralis;
+
+  /// No description provided for @procuratorGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Procurator Generalis'**
+  String get procuratorGeneralis;
+
+  /// No description provided for @oeconomusGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Oeconomus Generalis'**
+  String get oeconomusGeneralis;
+
+  /// No description provided for @consiliariusAmericarum.
+  ///
+  /// In la, this message translates to:
+  /// **'Consiliarius pro Ambitu Americarum'**
+  String get consiliariusAmericarum;
+
+  /// No description provided for @consiliariusAfricae.
+  ///
+  /// In la, this message translates to:
+  /// **'Consiliarius pro Ambitu Africae'**
+  String get consiliariusAfricae;
+
+  /// No description provided for @consiliariusAsiae.
+  ///
+  /// In la, this message translates to:
+  /// **'Consiliarius pro Ambitu Asiae, Australiae et Oceaniae'**
+  String get consiliariusAsiae;
+
+  /// No description provided for @consiliariusEuropae.
+  ///
+  /// In la, this message translates to:
+  /// **'Consiliarius pro Ambitu Europae'**
+  String get consiliariusEuropae;
+
+  /// No description provided for @oeconomatusGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Oeconomatus Generalis'**
+  String get oeconomatusGeneralis;
+
+  /// No description provided for @secretariatusGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Secretariatus Generalis'**
+  String get secretariatusGeneralis;
+
+  /// No description provided for @delegatusMonacorum.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatus Monacorum, Heremiti et Instituta'**
+  String get delegatusMonacorum;
+
+  /// No description provided for @delegatusFormationis.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatus Formationis'**
+  String get delegatusFormationis;
+
+  /// No description provided for @delegatusIuvenibus.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatus Iuvenibus'**
+  String get delegatusIuvenibus;
+
+  /// No description provided for @delegatusToc.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatus TOC'**
+  String get delegatusToc;
+
+  /// No description provided for @delegatusLaicorum.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatus Laicorum'**
+  String get delegatusLaicorum;
+
+  /// No description provided for @postulaturaGeneralis.
+  ///
+  /// In la, this message translates to:
+  /// **'Postulatura Generalis'**
+  String get postulaturaGeneralis;
+
+  /// No description provided for @legaleRappresentante.
+  ///
+  /// In la, this message translates to:
+  /// **'Legale Rappresentante'**
+  String get legaleRappresentante;
+
+  /// No description provided for @cDeFormatione.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Formatione'**
+  String get cDeFormatione;
+
+  /// No description provided for @cDeIuvenibus.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Iuvenibus Carmelitis'**
+  String get cDeIuvenibus;
+
+  /// No description provided for @cDeRebusOeconomicis.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Rebus Oeconomicis'**
+  String get cDeRebusOeconomicis;
+
+  /// No description provided for @cDeLiturgia.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Liturgia et Oratione'**
+  String get cDeLiturgia;
+
+  /// No description provided for @cDeCommunicatione.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Communicatione'**
+  String get cDeCommunicatione;
+
+  /// No description provided for @cDeEvangelizatio.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Evangelizatio, Iustitia, Pace et Creationis Integritate'**
+  String get cDeEvangelizatio;
+
+  /// No description provided for @cDeMinisterium.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis de Ministerium'**
+  String get cDeMinisterium;
+
+  /// No description provided for @cProTutelaMinorium.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio Generalis pro Tutela Minorium'**
+  String get cProTutelaMinorium;
+
+  /// No description provided for @tocNegotiumForce.
+  ///
+  /// In la, this message translates to:
+  /// **'TOC Negotium Force'**
+  String get tocNegotiumForce;
+
+  /// No description provided for @praeses.
+  ///
+  /// In la, this message translates to:
+  /// **'Praeses'**
+  String get praeses;
+
+  /// No description provided for @sodales.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodales'**
+  String get sodales;
+
+  /// No description provided for @missio.
+  ///
+  /// In la, this message translates to:
+  /// **'Missio'**
+  String get missio;
 }
 
 class _AppLocalizationsDelegate

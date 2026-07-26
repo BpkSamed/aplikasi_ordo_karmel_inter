@@ -32,5 +32,43 @@
   "manageCitocNews": "Gestionar Noticias CITOC",
   "citocNewsSubtitle": "Añadir enlaces de noticias recientes",
   "manageGeneralCommissions": "Gestionar Comisiones Generales",
-  "generalCommissionsSubtitle": "Organizar las divisiones de comisiones y sus miembros"
+  "generalCommissionsSubtitle": "Organizar las divisiones de comisiones y sus miembros",
+
+  "curiaGeneralisTitle": "Curia General",
+  "consiliumGenerale": "Consejo General",
+  "officiaGeneralia": "Oficinas Generales y Sectores de Trabajo",
+  "commissionesGenerales": "Comisiones Generales",
+
+  "priorGeneralis": "Prior General",
+  "vicePriorGeneralis": "Vice Prior General",
+  "procuratorGeneralis": "Procurador General",
+  "oeconomusGeneralis": "Ecónomo General",
+  "consiliariusAmericarum": "Consejero para las Américas",
+  "consiliariusAfricae": "Consejero para África",
+  "consiliariusAsiae": "Consejero para Asia, Australia y Oceanía",
+  "consiliariusEuropae": "Consejero para Europa",
+
+  "oeconomatusGeneralis": "Economato General",
+  "secretariatusGeneralis": "Secretaría General",
+  "delegatusMonacorum": "Delegado para Monjes, Eremitas e Institutos",
+  "delegatusFormationis": "Delegado para la Formación",
+  "delegatusIuvenibus": "Delegado para la Juventud",
+  "delegatusToc": "Delegado para el TOC",
+  "delegatusLaicorum": "Delegado para los Laicos",
+  "postulaturaGeneralis": "Postulación General",
+  "legaleRappresentante": "Representante Legal",
+
+  "cDeFormatione": "Comisión General de Formación",
+  "cDeIuvenibus": "Comisión General para la Juventud Carmelita",
+  "cDeRebusOeconomicis": "Comisión General de Asuntos Económicos",
+  "cDeLiturgia": "Comisión General de Liturgia y Oración",
+  "cDeCommunicatione": "Comisión General de Comunicación",
+  "cDeEvangelizatio": "Comisión General de Evangelización, Justicia, Paz e Integridad de la Creación",
+  "cDeMinisterium": "Comisión General del Ministerio",
+  "cProTutelaMinorium": "Comisión General para la Protección de Menores",
+  "tocNegotiumForce": "Fuerza de Trabajo del TOC",
+
+  "praeses": "Presidente",
+  "sodales": "Miembros",
+  "missio": "Misión"
 }

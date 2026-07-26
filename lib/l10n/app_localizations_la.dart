@@ -114,4 +114,105 @@ class AppLocalizationsLa extends AppLocalizations {
   @override
   String get generalCommissionsSubtitle =>
       'Guberna divisiones commissionum et sodales earum';
+
+  @override
+  String get curiaGeneralisTitle => 'Curia Generalis';
+
+  @override
+  String get consiliumGenerale => 'Consilium Generale';
+
+  @override
+  String get officiaGeneralia => 'Officia Generalia et Sectores Laborum';
+
+  @override
+  String get commissionesGenerales => 'Commissiones Generales';
+
+  @override
+  String get priorGeneralis => 'Prior Generalis';
+
+  @override
+  String get vicePriorGeneralis => 'Vice Prior Generalis';
+
+  @override
+  String get procuratorGeneralis => 'Procurator Generalis';
+
+  @override
+  String get oeconomusGeneralis => 'Oeconomus Generalis';
+
+  @override
+  String get consiliariusAmericarum => 'Consiliarius pro Ambitu Americarum';
+
+  @override
+  String get consiliariusAfricae => 'Consiliarius pro Ambitu Africae';
+
+  @override
+  String get consiliariusAsiae =>
+      'Consiliarius pro Ambitu Asiae, Australiae et Oceaniae';
+
+  @override
+  String get consiliariusEuropae => 'Consiliarius pro Ambitu Europae';
+
+  @override
+  String get oeconomatusGeneralis => 'Oeconomatus Generalis';
+
+  @override
+  String get secretariatusGeneralis => 'Secretariatus Generalis';
+
+  @override
+  String get delegatusMonacorum => 'Delegatus Monacorum, Heremiti et Instituta';
+
+  @override
+  String get delegatusFormationis => 'Delegatus Formationis';
+
+  @override
+  String get delegatusIuvenibus => 'Delegatus Iuvenibus';
+
+  @override
+  String get delegatusToc => 'Delegatus TOC';
+
+  @override
+  String get delegatusLaicorum => 'Delegatus Laicorum';
+
+  @override
+  String get postulaturaGeneralis => 'Postulatura Generalis';
+
+  @override
+  String get legaleRappresentante => 'Legale Rappresentante';
+
+  @override
+  String get cDeFormatione => 'Commissio Generalis de Formatione';
+
+  @override
+  String get cDeIuvenibus => 'Commissio Generalis de Iuvenibus Carmelitis';
+
+  @override
+  String get cDeRebusOeconomicis => 'Commissio Generalis de Rebus Oeconomicis';
+
+  @override
+  String get cDeLiturgia => 'Commissio Generalis de Liturgia et Oratione';
+
+  @override
+  String get cDeCommunicatione => 'Commissio Generalis de Communicatione';
+
+  @override
+  String get cDeEvangelizatio =>
+      'Commissio Generalis de Evangelizatio, Iustitia, Pace et Creationis Integritate';
+
+  @override
+  String get cDeMinisterium => 'Commissio Generalis de Ministerium';
+
+  @override
+  String get cProTutelaMinorium => 'Commissio Generalis pro Tutela Minorium';
+
+  @override
+  String get tocNegotiumForce => 'TOC Negotium Force';
+
+  @override
+  String get praeses => 'Praeses';
+
+  @override
+  String get sodales => 'Sodales';
+
+  @override
+  String get missio => 'Missio';
 }

@@ -32,5 +32,43 @@
   "manageCitocNews": "Gestisci Notizie CITOC",
   "citocNewsSubtitle": "Aggiungi i link delle ultime notizie",
   "manageGeneralCommissions": "Gestisci Commissioni Generali",
-  "generalCommissionsSubtitle": "Organizza le divisioni delle commissioni e i loro membri"
+  "generalCommissionsSubtitle": "Organizza le divisioni delle commissioni e i loro membri",
+
+  "curiaGeneralisTitle": "Curia Generale",
+  "consiliumGenerale": "Consiglio Generale",
+  "officiaGeneralia": "Uffici Generali e Settori di Lavoro",
+  "commissionesGenerales": "Commissioni Generali",
+
+  "priorGeneralis": "Priore Generale",
+  "vicePriorGeneralis": "Vice Priore Generale",
+  "procuratorGeneralis": "Procuratore Generale",
+  "oeconomusGeneralis": "Economo Generale",
+  "consiliariusAmericarum": "Consigliere per le Americhe",
+  "consiliariusAfricae": "Consigliere per l'Africa",
+  "consiliariusAsiae": "Consigliere per l'Asia, l'Australia e l'Oceania",
+  "consiliariusEuropae": "Consigliere per l'Europa",
+
+  "oeconomatusGeneralis": "Economato Generale",
+  "secretariatusGeneralis": "Segretariato Generale",
+  "delegatusMonacorum": "Delegato per Monaci, Eremiti e Istituti",
+  "delegatusFormationis": "Delegato per la Formazione",
+  "delegatusIuvenibus": "Delegato per i Giovani",
+  "delegatusToc": "Delegato per il TOC",
+  "delegatusLaicorum": "Delegato per i Laici",
+  "postulaturaGeneralis": "Postulazione Generale",
+  "legaleRappresentante": "Rappresentante Legale",
+
+  "cDeFormatione": "Commissione Generale per la Formazione",
+  "cDeIuvenibus": "Commissione Generale per i Giovani Carmelitani",
+  "cDeRebusOeconomicis": "Commissione Generale per gli Affari Economici",
+  "cDeLiturgia": "Commissione Generale per la Liturgia e la Preghiera",
+  "cDeCommunicatione": "Commissione Generale per la Comunicazione",
+  "cDeEvangelizatio": "Commissione Generale per l'Evangelizzazione, la Giustizia, la Pace e l'Integrità del Creato",
+  "cDeMinisterium": "Commissione Generale per il Ministero",
+  "cProTutelaMinorium": "Commissione Generale per la Tutela dei Minori",
+  "tocNegotiumForce": "TOC Task Force",
+
+  "praeses": "Presidente",
+  "sodales": "Membri",
+  "missio": "Missione"
 }
