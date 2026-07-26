@@ -9,104 +9,108 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Aplicación Orden del Carmen';
+  String get appInfoTitle => 'Información de la App';
 
   @override
-  String get infoAppTitle => 'Información de la Aplicación';
-
-  @override
-  String get infoMainTitle => 'APLICACIÓN ORDEN DE LOS CARMELITAS';
+  String get appName => 'APLICACIÓN ORDEN CARMELITA';
 
   @override
   String get headquarters => 'Sede Central';
 
   @override
   String get headquartersAddress =>
-      'Curia Generalitia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia';
+      'Curia Generalizia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia';
 
   @override
   String get contactUs => 'Contáctanos';
 
   @override
-  String get contactDetails => 'Correo: info@ocarm.org\nTel: +39 06 4620181';
+  String get contactDetails => 'Email: info@ocarm.org\nTel: +39 06 4620181';
 
   @override
-  String get btnContinueLogin => 'Continuar al Login';
+  String get continueToLogin => 'Continuar al Login';
 
   @override
   String get loginTitle => 'Iniciar Sesión';
 
   @override
-  String get welcomeText => 'Bienvenido';
+  String get usernameEmailLabel => 'Usuario / Correo';
 
   @override
-  String get labelUsername => 'Usuario / Correo Electrónico';
+  String get passwordLabel => 'Contraseña';
 
   @override
-  String get labelPassword => 'Contraseña';
+  String get loginAsMember => 'Ingresar como Miembro';
 
   @override
-  String get btnLoginMember => 'Iniciar sesión como Miembro';
+  String get loginAsAdmin => 'Ingresar como Administrador';
 
   @override
-  String get btnLoginAdmin => 'Iniciar sesión como Administrador';
+  String get userProfileTitle => 'Perfil de Usuario';
 
   @override
-  String get profileTitle => 'Perfil de Usuario';
+  String get studentRole => 'Estudiante';
 
   @override
-  String get welcomeMember => 'Bienvenido, Abraham';
+  String get welcomeMessage => 'Bienvenido, Abraham';
 
   @override
-  String get studentSubtitle => 'Estudiante Universitario';
+  String get universityStudent => 'Estudiante Universitario';
 
   @override
   String get drawerInstruction =>
-      'Haz clic en el menú superior izquierdo para ver el directorio.';
+      'Toca las tres líneas en la esquina superior izquierda para ver el directorio de la Orden Carmelita.';
 
   @override
-  String get logout => 'Cerrar Sesión';
+  String openingMenu(String title) {
+    return 'Abriendo: $title';
+  }
 
   @override
-  String get adminDashboardTitle => 'Panel de Administración';
+  String get logout => 'Cerrar sesión';
 
   @override
-  String get adminMenuTitle => 'Menú de Gestión del Directorio';
+  String get adminDashboardTitle => 'Panel de Administrador';
 
   @override
-  String get menuMasterData => 'Gestionar Datos Maestros';
+  String get directoryManagementMenu => 'Menú de Gestión de Directorio';
 
   @override
-  String get subMasterData => 'Direcciones, Entidades y Monasterios';
+  String get manageMasterData => 'Gestionar Datos Maestros';
 
   @override
-  String get menuMemberData => 'Gestionar Datos de Miembros';
+  String get masterDataSubtitle => 'Direcciones, Entidades y Monasterios';
 
   @override
-  String get subMemberData => 'Añadir, Editar y Eliminar Personal';
+  String get manageMemberData => 'Gestionar Datos de Miembros';
 
   @override
-  String get menuCentralOfficers => 'Gestionar Oficiales Centrales';
+  String get memberDataSubtitle => 'Añadir, Editar y Eliminar Personal';
 
   @override
-  String get subCentralOfficers =>
-      'Designar Oficiales de la Curia Generalitia y Sub Immediata';
+  String get manageCentralOfficials => 'Gestionar Oficiales Centrales y Curia';
 
   @override
-  String get menuBishopsData => 'Gestionar Datos de Obispos';
+  String get centralOfficialsSubtitle =>
+      'Designar oficiales de la Curia Generalis y Sub Immediata';
 
   @override
-  String get subBishopsData => 'Gestionar lista de Obispos Ex Ordine';
+  String get manageBishopData => 'Gestionar Datos de Obispos';
 
   @override
-  String get menuCitocNews => 'Gestionar Noticias CITOC';
+  String get bishopDataSubtitle =>
+      'Gestionar la lista de Episcopi Ex Ordines Assumpti';
 
   @override
-  String get subCitocNews => 'Añadir enlaces de últimas noticias';
+  String get manageCitocNews => 'Gestionar Noticias CITOC';
 
   @override
-  String get menuCommissions => 'Gestionar Comisiones Generales';
+  String get citocNewsSubtitle => 'Añadir enlaces de noticias recientes';
 
   @override
-  String get subCommissions => 'Organizar divisiones de comisiones y miembros';
+  String get manageGeneralCommissions => 'Gestionar Comisiones Generales';
+
+  @override
+  String get generalCommissionsSubtitle =>
+      'Organizar las divisiones de comisiones y sus miembros';
 }

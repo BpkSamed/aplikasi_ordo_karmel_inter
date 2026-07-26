@@ -9,13 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Carmelite Order App';
+  String get appInfoTitle => 'App Information';
 
   @override
-  String get infoAppTitle => 'App Information';
-
-  @override
-  String get infoMainTitle => 'CARMELITE ORDER APPLICATION';
+  String get appName => 'CARMELITE ORDER APPLICATION';
 
   @override
   String get headquarters => 'Headquarters';
@@ -31,38 +28,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contactDetails => 'Email: info@ocarm.org\nPhone: +39 06 4620181';
 
   @override
-  String get btnContinueLogin => 'Continue to Login';
+  String get continueToLogin => 'Continue to Login';
 
   @override
   String get loginTitle => 'Login';
 
   @override
-  String get welcomeText => 'Welcome';
+  String get usernameEmailLabel => 'Username / Email';
 
   @override
-  String get labelUsername => 'Username / Email';
+  String get passwordLabel => 'Password';
 
   @override
-  String get labelPassword => 'Password';
+  String get loginAsMember => 'Login as Member';
 
   @override
-  String get btnLoginMember => 'Login as Member';
+  String get loginAsAdmin => 'Login as Admin';
 
   @override
-  String get btnLoginAdmin => 'Login as Admin';
+  String get userProfileTitle => 'User Profile';
 
   @override
-  String get profileTitle => 'User Profile';
+  String get studentRole => 'Student';
 
   @override
-  String get welcomeMember => 'Welcome, Abraham';
+  String get welcomeMessage => 'Welcome, Abraham';
 
   @override
-  String get studentSubtitle => 'University Student';
+  String get universityStudent => 'University Student';
 
   @override
   String get drawerInstruction =>
-      'Click the menu icon at the top left to view the Carmelite directory.';
+      'Tap the three lines in the top left corner to view the Carmelite Order directory.';
+
+  @override
+  String openingMenu(String title) {
+    return 'Opening: $title';
+  }
 
   @override
   String get logout => 'Logout';
@@ -71,42 +73,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminDashboardTitle => 'Admin Dashboard';
 
   @override
-  String get adminMenuTitle => 'Directory Management Menu';
+  String get directoryManagementMenu => 'Directory Management Menu';
 
   @override
-  String get menuMasterData => 'Manage Master Data';
+  String get manageMasterData => 'Manage Master Data';
 
   @override
-  String get subMasterData => 'Addresses, Entities, and Monasteries';
+  String get masterDataSubtitle => 'Addresses, Entities, and Monasteries';
 
   @override
-  String get menuMemberData => 'Manage Member Data';
+  String get manageMemberData => 'Manage Member Data';
 
   @override
-  String get subMemberData => 'Add, Edit, and Delete Personnel';
+  String get memberDataSubtitle => 'Add, Edit, and Delete Personnel';
 
   @override
-  String get menuCentralOfficers => 'Manage Central Officials';
+  String get manageCentralOfficials => 'Manage Central Officials & Curia';
 
   @override
-  String get subCentralOfficers =>
-      'Assign Officials for Curia Generalis & Sub Immediata';
+  String get centralOfficialsSubtitle =>
+      'Appoint officials of the Curia Generalis & Sub Immediata';
 
   @override
-  String get menuBishopsData => 'Manage Bishops Data';
+  String get manageBishopData => 'Manage Bishop Data';
 
   @override
-  String get subBishopsData => 'Manage Bishops Ex Ordines Assumpti list';
+  String get bishopDataSubtitle =>
+      'Manage the list of Episcopi Ex Ordines Assumpti';
 
   @override
-  String get menuCitocNews => 'Manage CITOC News';
+  String get manageCitocNews => 'Manage CITOC News';
 
   @override
-  String get subCitocNews => 'Add latest news links';
+  String get citocNewsSubtitle => 'Add latest news links';
 
   @override
-  String get menuCommissions => 'Manage General Commissions';
+  String get manageGeneralCommissions => 'Manage General Commissions';
 
   @override
-  String get subCommissions => 'Organize commission divisions and members';
+  String get generalCommissionsSubtitle =>
+      'Organize commission divisions and their members';
 }

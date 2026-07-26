@@ -9,16 +9,13 @@ class AppLocalizationsLa extends AppLocalizations {
   AppLocalizationsLa([String locale = 'la']) : super(locale);
 
   @override
-  String get appTitle => 'Ordo Carmelitarum';
+  String get appInfoTitle => 'Informatio Applicationis';
 
   @override
-  String get infoAppTitle => 'Informatio Applicationis';
+  String get appName => 'APPLICATIO ORDINIS CARMELITARUM';
 
   @override
-  String get infoMainTitle => 'APPLICATIO ORDINIS CARMELITARUM';
-
-  @override
-  String get headquarters => 'Domus Centralis';
+  String get headquarters => 'Sedes Principalis';
 
   @override
   String get headquartersAddress =>
@@ -31,82 +28,90 @@ class AppLocalizationsLa extends AppLocalizations {
   String get contactDetails => 'Email: info@ocarm.org\nTel: +39 06 4620181';
 
   @override
-  String get btnContinueLogin => 'Perge ad Ingressum';
+  String get continueToLogin => 'Perge ad Login';
 
   @override
-  String get loginTitle => 'Ingressus';
+  String get loginTitle => 'Login';
 
   @override
-  String get welcomeText => 'Salve';
+  String get usernameEmailLabel => 'Nomen Usoris / Email';
 
   @override
-  String get labelUsername => 'Nomen Usuarii / Email';
+  String get passwordLabel => 'Tessera';
 
   @override
-  String get labelPassword => 'Tessera';
+  String get loginAsMember => 'Login ut Sodalis';
 
   @override
-  String get btnLoginMember => 'Ingredere ut Sodalis';
+  String get loginAsAdmin => 'Login ut Administrator';
 
   @override
-  String get btnLoginAdmin => 'Ingredere ut Administrator';
+  String get userProfileTitle => 'Profilum Usoris';
 
   @override
-  String get profileTitle => 'Profilum Usuarii';
+  String get studentRole => 'Discipulus';
 
   @override
-  String get welcomeMember => 'Salve, Abraham';
+  String get welcomeMessage => 'Salve, Abraham';
 
   @override
-  String get studentSubtitle => 'Studiosus Universitatis';
+  String get universityStudent => 'Discipulus Universitatis';
 
   @override
   String get drawerInstruction =>
-      'Preme menu ad sinistram superiorem ut directorium videas.';
+      'Preme tres lineas in angulo superiore sinistro ad videndum directorium Ordinis Carmelitarum.';
 
   @override
-  String get logout => 'Exitus';
+  String openingMenu(String title) {
+    return 'Aperiens: $title';
+  }
 
   @override
-  String get adminDashboardTitle => 'Tabula Administrationis';
+  String get logout => 'Exire';
 
   @override
-  String get adminMenuTitle => 'Index Administrationis Directorii';
+  String get adminDashboardTitle => 'Tabula Administratoris';
 
   @override
-  String get menuMasterData => 'Gere Data Magistralia';
+  String get directoryManagementMenu => 'Menu Administrationis Directorii';
 
   @override
-  String get subMasterData => 'Inscriptiones, Entitates, et Conventus';
+  String get manageMasterData => 'Administrare Data Principalia';
 
   @override
-  String get menuMemberData => 'Gere Data Sodalium';
+  String get masterDataSubtitle => 'Inscriptiones, Entitates et Monasteria';
 
   @override
-  String get subMemberData => 'Adde, Muta, et Dele Personas';
+  String get manageMemberData => 'Administrare Data Sodalium';
 
   @override
-  String get menuCentralOfficers => 'Gere Praefectos Centrales';
+  String get memberDataSubtitle => 'Adde, Recense, et Dele Personalia';
 
   @override
-  String get subCentralOfficers =>
-      'Designa Praefectos Curiae Generalitiae & Sub Immediata';
+  String get manageCentralOfficials =>
+      'Administrare Officiales Centrales & Curiam';
 
   @override
-  String get menuBishopsData => 'Gere Data Episcoporum';
+  String get centralOfficialsSubtitle =>
+      'Designa officiales Curiae Generalis & Sub Immediata';
 
   @override
-  String get subBishopsData => 'Gere Indicem Episcoporum Ex Ordine';
+  String get manageBishopData => 'Administrare Data Episcoporum';
 
   @override
-  String get menuCitocNews => 'Gere Nuntios CITOC';
+  String get bishopDataSubtitle =>
+      'Administrare indicem Episcoporum Ex Ordine Assumptorum';
 
   @override
-  String get subCitocNews => 'Adde Vincula Nuntiorum Novissimorum';
+  String get manageCitocNews => 'Administrare Nuntios CITOC';
 
   @override
-  String get menuCommissions => 'Gere Commissiones Generales';
+  String get citocNewsSubtitle => 'Adde vincula nuntiorum recentium';
 
   @override
-  String get subCommissions => 'Ordina Divisiones Commissionum et Sodales';
+  String get manageGeneralCommissions => 'Administrare Commissiones Generales';
+
+  @override
+  String get generalCommissionsSubtitle =>
+      'Guberna divisiones commissionum et sodales earum';
 }
