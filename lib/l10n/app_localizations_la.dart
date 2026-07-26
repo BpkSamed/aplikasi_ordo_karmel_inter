@@ -1013,4 +1013,178 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get saveConventusBtn => 'SERVARE MONASTERIUM';
+
+  @override
+  String get memberListTitle => 'Index Sodalarum';
+
+  @override
+  String get deleteMemberConfirmTitle => 'Confirmatio Deletionis Sodalis';
+
+  @override
+  String deleteMemberConfirmMsg(String nama) {
+    return 'Certe vis delere data sodalis \'$nama\'?';
+  }
+
+  @override
+  String deleteMemberSuccess(String nama) {
+    return 'Data \'$nama\' feliciter deleta sunt.';
+  }
+
+  @override
+  String deleteMemberError(String error) {
+    return 'Deletio defecit: $error';
+  }
+
+  @override
+  String get noMemberDataAdded => 'Nulla data sodalarum adhuc relata sunt.';
+
+  @override
+  String get originPrefix => 'Origo';
+
+  @override
+  String get bornPrefix => 'Natus/a';
+
+  @override
+  String get editDataTooltip => 'Recensere Data';
+
+  @override
+  String get deleteDataTooltip => 'Delere Data';
+
+  @override
+  String get addMemberBtn => 'Adde Sodalem';
+
+  @override
+  String get goToEditPageMsg => 'I ad paginam recensionis';
+
+  @override
+  String get addMemberPageTitle => 'Registratio Novi Sodalis';
+
+  @override
+  String get editMemberPageTitle => 'Recensere Data Sodalis';
+
+  @override
+  String fetchEntityFailed(String error) {
+    return 'Adfectio datorum entitatis defecit: $error';
+  }
+
+  @override
+  String fetchConventusFailed(String error) {
+    return 'Adfectio datorum monasterii defecit: $error';
+  }
+
+  @override
+  String pickImageFailed(String error) {
+    return 'Electio imaginis defecit: $error';
+  }
+
+  @override
+  String get selectDatePrompt => 'Elige Diem';
+
+  @override
+  String get mandatoryFieldsEmpty =>
+      'Nomen, Status, et Entitas expleri debent!';
+
+  @override
+  String get memberUpdateSuccess => 'Data Sodalis feliciter renovata sunt!';
+
+  @override
+  String get memberAddSuccess => 'Data Sodalis feliciter addita sunt!';
+
+  @override
+  String get processingData => 'Data procedunt...';
+
+  @override
+  String get loadingMemberData => 'Data sodalis onerantur...';
+
+  @override
+  String get saveChangesBtn => 'Servare Mutationes';
+
+  @override
+  String get saveDataBtn => 'Servare Data';
+
+  @override
+  String get nextBtn => 'Continuare';
+
+  @override
+  String get backBtn => 'Regredi';
+
+  @override
+  String get step1Title => 'Biographia Personalis';
+
+  @override
+  String get changePhotoPrompt => 'Tange iconem ut imaginem mutes';
+
+  @override
+  String get fullNameLabel => 'Nomen Integrum';
+
+  @override
+  String get birthCityLabel => 'Urbs Nativitatis';
+
+  @override
+  String get birthCountryLabel => 'Patria';
+
+  @override
+  String get birthDateLabel => 'Dies Nativitatis';
+
+  @override
+  String get step2Title => 'Status et Dies Vocationis';
+
+  @override
+  String get vocationStatusLabel => 'Status Vocationis (Requisitum)';
+
+  @override
+  String get firstProfessionDateLabel => 'Dies Professionis Primae';
+
+  @override
+  String get solemnProfessionDateLabel => 'Dies Professionis Sollemnis';
+
+  @override
+  String get ordinationDateLabel => 'Dies Ordinationis';
+
+  @override
+  String get step3Title => 'Assignatio Loci';
+
+  @override
+  String get entityProvinceLabel => 'Entitas / Provincia (Requisitum)';
+
+  @override
+  String get conventusCommunityLabel => 'Monasterium / Communitas (Ad libitum)';
+
+  @override
+  String get personalRoleLabel => 'Partes Personales';
+
+  @override
+  String get roleHint => 'Exemplum: Sodales, Prior, etc.';
+
+  @override
+  String get manageCuriaTitle => 'Administrare Curiam et Sub Immediata';
+
+  @override
+  String jabatanUpdateSuccess(String title) {
+    return 'Officium \'$title\' feliciter renovatum est!';
+  }
+
+  @override
+  String jabatanEmptySuccess(String title) {
+    return 'Officium \'$title\' feliciter vacuatum est.';
+  }
+
+  @override
+  String failedToUpdate(String error) {
+    return 'Defecit: $error';
+  }
+
+  @override
+  String failedToEmpty(String error) {
+    return 'Vacuatio defecit: $error';
+  }
+
+  @override
+  String get selectOrChangeBtn => 'Elige / Muta';
+
+  @override
+  String get searchAndSelectMemberTitle => 'Quaere et Elige Sodalem';
+
+  @override
+  String get typeMemberNameHint => 'Scribe Nomen Sodalis...';
 }

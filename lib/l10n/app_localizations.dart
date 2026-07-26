@@ -1985,6 +1985,312 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'SERVARE MONASTERIUM'**
   String get saveConventusBtn;
+
+  /// No description provided for @memberListTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Sodalarum'**
+  String get memberListTitle;
+
+  /// No description provided for @deleteMemberConfirmTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Deletionis Sodalis'**
+  String get deleteMemberConfirmTitle;
+
+  /// No description provided for @deleteMemberConfirmMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere data sodalis \'{nama}\'?'**
+  String deleteMemberConfirmMsg(String nama);
+
+  /// No description provided for @deleteMemberSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data \'{nama}\' feliciter deleta sunt.'**
+  String deleteMemberSuccess(String nama);
+
+  /// No description provided for @deleteMemberError.
+  ///
+  /// In la, this message translates to:
+  /// **'Deletio defecit: {error}'**
+  String deleteMemberError(String error);
+
+  /// No description provided for @noMemberDataAdded.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data sodalarum adhuc relata sunt.'**
+  String get noMemberDataAdded;
+
+  /// No description provided for @originPrefix.
+  ///
+  /// In la, this message translates to:
+  /// **'Origo'**
+  String get originPrefix;
+
+  /// No description provided for @bornPrefix.
+  ///
+  /// In la, this message translates to:
+  /// **'Natus/a'**
+  String get bornPrefix;
+
+  /// No description provided for @editDataTooltip.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Data'**
+  String get editDataTooltip;
+
+  /// No description provided for @deleteDataTooltip.
+  ///
+  /// In la, this message translates to:
+  /// **'Delere Data'**
+  String get deleteDataTooltip;
+
+  /// No description provided for @addMemberBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Sodalem'**
+  String get addMemberBtn;
+
+  /// No description provided for @goToEditPageMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'I ad paginam recensionis'**
+  String get goToEditPageMsg;
+
+  /// No description provided for @addMemberPageTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Registratio Novi Sodalis'**
+  String get addMemberPageTitle;
+
+  /// No description provided for @editMemberPageTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Data Sodalis'**
+  String get editMemberPageTitle;
+
+  /// No description provided for @fetchEntityFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Adfectio datorum entitatis defecit: {error}'**
+  String fetchEntityFailed(String error);
+
+  /// No description provided for @fetchConventusFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Adfectio datorum monasterii defecit: {error}'**
+  String fetchConventusFailed(String error);
+
+  /// No description provided for @pickImageFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Electio imaginis defecit: {error}'**
+  String pickImageFailed(String error);
+
+  /// No description provided for @selectDatePrompt.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Diem'**
+  String get selectDatePrompt;
+
+  /// No description provided for @mandatoryFieldsEmpty.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen, Status, et Entitas expleri debent!'**
+  String get mandatoryFieldsEmpty;
+
+  /// No description provided for @memberUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Sodalis feliciter renovata sunt!'**
+  String get memberUpdateSuccess;
+
+  /// No description provided for @memberAddSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Sodalis feliciter addita sunt!'**
+  String get memberAddSuccess;
+
+  /// No description provided for @processingData.
+  ///
+  /// In la, this message translates to:
+  /// **'Data procedunt...'**
+  String get processingData;
+
+  /// No description provided for @loadingMemberData.
+  ///
+  /// In la, this message translates to:
+  /// **'Data sodalis onerantur...'**
+  String get loadingMemberData;
+
+  /// No description provided for @saveChangesBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Servare Mutationes'**
+  String get saveChangesBtn;
+
+  /// No description provided for @saveDataBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Servare Data'**
+  String get saveDataBtn;
+
+  /// No description provided for @nextBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Continuare'**
+  String get nextBtn;
+
+  /// No description provided for @backBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Regredi'**
+  String get backBtn;
+
+  /// No description provided for @step1Title.
+  ///
+  /// In la, this message translates to:
+  /// **'Biographia Personalis'**
+  String get step1Title;
+
+  /// No description provided for @changePhotoPrompt.
+  ///
+  /// In la, this message translates to:
+  /// **'Tange iconem ut imaginem mutes'**
+  String get changePhotoPrompt;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Integrum'**
+  String get fullNameLabel;
+
+  /// No description provided for @birthCityLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Urbs Nativitatis'**
+  String get birthCityLabel;
+
+  /// No description provided for @birthCountryLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Patria'**
+  String get birthCountryLabel;
+
+  /// No description provided for @birthDateLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Nativitatis'**
+  String get birthDateLabel;
+
+  /// No description provided for @step2Title.
+  ///
+  /// In la, this message translates to:
+  /// **'Status et Dies Vocationis'**
+  String get step2Title;
+
+  /// No description provided for @vocationStatusLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Status Vocationis (Requisitum)'**
+  String get vocationStatusLabel;
+
+  /// No description provided for @firstProfessionDateLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Professionis Primae'**
+  String get firstProfessionDateLabel;
+
+  /// No description provided for @solemnProfessionDateLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Professionis Sollemnis'**
+  String get solemnProfessionDateLabel;
+
+  /// No description provided for @ordinationDateLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Ordinationis'**
+  String get ordinationDateLabel;
+
+  /// No description provided for @step3Title.
+  ///
+  /// In la, this message translates to:
+  /// **'Assignatio Loci'**
+  String get step3Title;
+
+  /// No description provided for @entityProvinceLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Entitas / Provincia (Requisitum)'**
+  String get entityProvinceLabel;
+
+  /// No description provided for @conventusCommunityLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasterium / Communitas (Ad libitum)'**
+  String get conventusCommunityLabel;
+
+  /// No description provided for @personalRoleLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Partes Personales'**
+  String get personalRoleLabel;
+
+  /// No description provided for @roleHint.
+  ///
+  /// In la, this message translates to:
+  /// **'Exemplum: Sodales, Prior, etc.'**
+  String get roleHint;
+
+  /// No description provided for @manageCuriaTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrare Curiam et Sub Immediata'**
+  String get manageCuriaTitle;
+
+  /// No description provided for @jabatanUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Officium \'{title}\' feliciter renovatum est!'**
+  String jabatanUpdateSuccess(String title);
+
+  /// No description provided for @jabatanEmptySuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Officium \'{title}\' feliciter vacuatum est.'**
+  String jabatanEmptySuccess(String title);
+
+  /// No description provided for @failedToUpdate.
+  ///
+  /// In la, this message translates to:
+  /// **'Defecit: {error}'**
+  String failedToUpdate(String error);
+
+  /// No description provided for @failedToEmpty.
+  ///
+  /// In la, this message translates to:
+  /// **'Vacuatio defecit: {error}'**
+  String failedToEmpty(String error);
+
+  /// No description provided for @selectOrChangeBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige / Muta'**
+  String get selectOrChangeBtn;
+
+  /// No description provided for @searchAndSelectMemberTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere et Elige Sodalem'**
+  String get searchAndSelectMemberTitle;
+
+  /// No description provided for @typeMemberNameHint.
+  ///
+  /// In la, this message translates to:
+  /// **'Scribe Nomen Sodalis...'**
+  String get typeMemberNameHint;
 }
 
 class _AppLocalizationsDelegate

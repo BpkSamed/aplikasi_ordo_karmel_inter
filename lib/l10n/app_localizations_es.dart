@@ -1019,4 +1019,179 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get saveConventusBtn => 'GUARDAR MONASTERIO';
+
+  @override
+  String get memberListTitle => 'Lista de Miembros';
+
+  @override
+  String get deleteMemberConfirmTitle => 'Confirmar Eliminación de Miembro';
+
+  @override
+  String deleteMemberConfirmMsg(String nama) {
+    return '¿Está seguro de que desea eliminar los datos del miembro \'$nama\'?';
+  }
+
+  @override
+  String deleteMemberSuccess(String nama) {
+    return 'Datos \'$nama\' eliminados con éxito.';
+  }
+
+  @override
+  String deleteMemberError(String error) {
+    return 'Error al eliminar: $error';
+  }
+
+  @override
+  String get noMemberDataAdded => 'Aún no hay datos de miembros.';
+
+  @override
+  String get originPrefix => 'Origen';
+
+  @override
+  String get bornPrefix => 'Nacido/a';
+
+  @override
+  String get editDataTooltip => 'Editar Datos';
+
+  @override
+  String get deleteDataTooltip => 'Eliminar Datos';
+
+  @override
+  String get addMemberBtn => 'Agregar Miembro';
+
+  @override
+  String get goToEditPageMsg => 'Ir a la página de edición';
+
+  @override
+  String get addMemberPageTitle => 'Registro de Nuevo Miembro';
+
+  @override
+  String get editMemberPageTitle => 'Editar Datos del Miembro';
+
+  @override
+  String fetchEntityFailed(String error) {
+    return 'Error al obtener datos de la entidad: $error';
+  }
+
+  @override
+  String fetchConventusFailed(String error) {
+    return 'Error al obtener datos del monasterio: $error';
+  }
+
+  @override
+  String pickImageFailed(String error) {
+    return 'Error al seleccionar la imagen: $error';
+  }
+
+  @override
+  String get selectDatePrompt => 'Seleccionar Fecha';
+
+  @override
+  String get mandatoryFieldsEmpty =>
+      '¡El Nombre, Estado y Entidad son obligatorios!';
+
+  @override
+  String get memberUpdateSuccess =>
+      '¡Datos del miembro actualizados con éxito!';
+
+  @override
+  String get memberAddSuccess => '¡Datos del miembro agregados con éxito!';
+
+  @override
+  String get processingData => 'Procesando datos...';
+
+  @override
+  String get loadingMemberData => 'Cargando datos del miembro...';
+
+  @override
+  String get saveChangesBtn => 'Guardar Cambios';
+
+  @override
+  String get saveDataBtn => 'Guardar Datos';
+
+  @override
+  String get nextBtn => 'Siguiente';
+
+  @override
+  String get backBtn => 'Atrás';
+
+  @override
+  String get step1Title => 'Datos Personales';
+
+  @override
+  String get changePhotoPrompt => 'Toca el icono para cambiar la foto';
+
+  @override
+  String get fullNameLabel => 'Nombre Completo';
+
+  @override
+  String get birthCityLabel => 'Ciudad de Nacimiento';
+
+  @override
+  String get birthCountryLabel => 'País';
+
+  @override
+  String get birthDateLabel => 'Fecha de Nacimiento';
+
+  @override
+  String get step2Title => 'Estado y Fechas de Vocación';
+
+  @override
+  String get vocationStatusLabel => 'Estado de Vocación (Obligatorio)';
+
+  @override
+  String get firstProfessionDateLabel => 'Fecha de Primera Profesión';
+
+  @override
+  String get solemnProfessionDateLabel => 'Fecha de Profesión Solemne';
+
+  @override
+  String get ordinationDateLabel => 'Fecha de Ordenación';
+
+  @override
+  String get step3Title => 'Asignación de Ubicación';
+
+  @override
+  String get entityProvinceLabel => 'Entidad / Provincia (Obligatorio)';
+
+  @override
+  String get conventusCommunityLabel => 'Monasterio / Comunidad (Opcional)';
+
+  @override
+  String get personalRoleLabel => 'Rol Personal';
+
+  @override
+  String get roleHint => 'Ejemplo: Sodales, Prior, etc.';
+
+  @override
+  String get manageCuriaTitle => 'Gestionar Curia y Sub Immediata';
+
+  @override
+  String jabatanUpdateSuccess(String title) {
+    return '¡Oficio \'$title\' actualizado con éxito!';
+  }
+
+  @override
+  String jabatanEmptySuccess(String title) {
+    return 'Oficio \'$title\' vaciado con éxito.';
+  }
+
+  @override
+  String failedToUpdate(String error) {
+    return 'Falló: $error';
+  }
+
+  @override
+  String failedToEmpty(String error) {
+    return 'Error al vaciar: $error';
+  }
+
+  @override
+  String get selectOrChangeBtn => 'Seleccionar / Cambiar';
+
+  @override
+  String get searchAndSelectMemberTitle => 'Buscar y Seleccionar Miembro';
+
+  @override
+  String get typeMemberNameHint => 'Escriba el Nombre del Miembro...';
 }

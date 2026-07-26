@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 class HalamanTambahAnggota extends StatefulWidget {
   final Map<String, dynamic>? initialData; // Parameter untuk mode edit
@@ -92,9 +93,11 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
       }
     }
 
-    setState(() {
-      _isInitDataLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isInitDataLoading = false;
+      });
+    }
   }
 
   Future<void> _fetchEntities() async {
@@ -116,7 +119,7 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
   }
 
   // --- Fungsi Pilih Foto ---
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(AppLocalizations t) async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -133,7 +136,7 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal memilih gambar: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.pickImageFailed(e.toString()))));
     }
   }
 
@@ -149,14 +152,14 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
     }
   }
 
-  String _formatDate(DateTime? date) {
-    if (date == null) return "Pilih Tanggal";
+  String _formatDate(DateTime? date, AppLocalizations t) {
+    if (date == null) return t.selectDatePrompt ?? "Pilih Tanggal";
     return DateFormat('yyyy-MM-dd').format(date);
   }
 
-  Future<void> _submitData() async {
+  Future<void> _submitData(AppLocalizations t) async {
     if (_nameController.text.isEmpty || _selectedEntityId == null || _vocationStatus == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Nama, Status, dan Entitas harus diisi!")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.mandatoryFieldsEmpty ?? "Nama, Status, dan Entitas harus diisi!")));
       return;
     }
 
@@ -182,11 +185,11 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
         'full_name': _nameController.text,
         'city_of_birth': _cityController.text,
         'country_of_birth': _countryController.text,
-        'date_of_birth': _dob != null ? _formatDate(_dob) : null,
+        'date_of_birth': _dob != null ? DateFormat('yyyy-MM-dd').format(_dob!) : null,
         'vocation_status': _vocationStatus,
-        'first_profession_date': _firstProfDate != null ? _formatDate(_firstProfDate) : null,
-        'solemn_profession_date': _solemnProfDate != null ? _formatDate(_solemnProfDate) : null,
-        'ordination_date': _ordinationDate != null ? _formatDate(_ordinationDate) : null,
+        'first_profession_date': _firstProfDate != null ? DateFormat('yyyy-MM-dd').format(_firstProfDate!) : null,
+        'solemn_profession_date': _solemnProfDate != null ? DateFormat('yyyy-MM-dd').format(_solemnProfDate!) : null,
+        'ordination_date': _ordinationDate != null ? DateFormat('yyyy-MM-dd').format(_ordinationDate!) : null,
         'entity_id': _selectedEntityId,
         'conventus_id': _selectedConventusId,
         'role': _roleController.text,
@@ -197,46 +200,64 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
         // Mode UPDATE
         await _supabase.from('members').update(submitData).eq('id', _editId!);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Anggota Berhasil Diperbarui!")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.memberUpdateSuccess ?? "Data Anggota Berhasil Diperbarui!")));
           Navigator.pop(context, true);
         }
       } else {
         // Mode INSERT
         await _supabase.from('members').insert(submitData);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data Anggota Berhasil Ditambahkan!")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.memberAddSuccess ?? "Data Anggota Berhasil Ditambahkan!")));
           Navigator.pop(context, true); 
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${t.databaseError ?? 'Error'}: $e")));
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: Text(_editId != null ? "Edit Data Anggota" : "Pendaftaran Anggota Baru")),
-      body: _isInitDataLoading || _isLoading 
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(color: Colors.brown),
-                const SizedBox(height: 16),
-                Text(_isLoading ? "Memproses data..." : "Memuat data anggota..."),
-              ],
-            ),
-          )
-        : Stepper(
+      appBar: AppBar(
+        title: Text(_editId != null 
+            ? (t.editMemberPageTitle ?? "Edit Data Anggota") 
+            : (t.addMemberPageTitle ?? "Pendaftaran Anggota Baru")
+        ),
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isInitDataLoading || _isLoading) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(color: Colors.brown),
+                  SizedBox(height: baseWidth * 0.04),
+                  Text(
+                    _isLoading 
+                        ? (t.processingData ?? "Memproses data...") 
+                        : (t.loadingMemberData ?? "Memuat data anggota..."),
+                    style: TextStyle(fontSize: baseWidth * 0.038, color: Colors.brown),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return Stepper(
             currentStep: _currentStep,
             onStepContinue: () {
               if (_currentStep < 2) {
                 setState(() => _currentStep += 1);
               } else {
-                _submitData(); // Simpan jika di step terakhir
+                _submitData(t); // Simpan jika di step terakhir
               }
             },
             onStepCancel: () {
@@ -244,19 +265,29 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
             },
             controlsBuilder: (context, details) {
               return Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: baseWidth * 0.05),
                 child: Row(
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown, 
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.05, vertical: baseWidth * 0.03)
+                      ),
                       onPressed: details.onStepContinue,
-                      child: Text(_currentStep == 2 
-                        ? (_editId != null ? 'Simpan Perubahan' : 'Simpan Data') 
-                        : 'Lanjut'),
+                      child: Text(
+                        _currentStep == 2 
+                            ? (_editId != null ? (t.saveChangesBtn ?? 'Simpan Perubahan') : (t.saveDataBtn ?? 'Simpan Data')) 
+                            : (t.nextBtn ?? 'Lanjut'),
+                        style: TextStyle(fontSize: baseWidth * 0.038),
+                      ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: baseWidth * 0.03),
                     if (_currentStep > 0)
-                      TextButton(onPressed: details.onStepCancel, child: const Text("Kembali")),
+                      TextButton(
+                        onPressed: details.onStepCancel, 
+                        child: Text(t.backBtn ?? "Kembali", style: TextStyle(fontSize: baseWidth * 0.038, color: Colors.grey.shade700))
+                      ),
                   ],
                 ),
               );
@@ -265,59 +296,76 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
               // --- STEP 1: BIODATA & FOTO ---
               Step(
                 isActive: _currentStep >= 0,
-                title: const Text("Biodata Pribadi"),
+                title: Text(t.step1Title ?? "Biodata Pribadi", style: TextStyle(fontSize: baseWidth * 0.04, fontWeight: FontWeight.bold)),
                 content: Column(
                   children: [
                     // --- WIDGET FOTO ---
                     Center(
                       child: GestureDetector(
-                        onTap: _pickImage,
+                        onTap: () => _pickImage(t),
                         child: Stack(
                           alignment: Alignment.bottomRight,
                           children: [
                             CircleAvatar(
-                              radius: 50,
+                              radius: baseWidth * 0.12,
                               backgroundColor: Colors.grey.shade300,
                               // Cek apakah ada foto baru yang dipilih, jika tidak, cek foto lama
                               backgroundImage: _imageBytes != null 
                                 ? MemoryImage(_imageBytes!) as ImageProvider
                                 : (_existingPhotoUrl != null ? NetworkImage(_existingPhotoUrl!) : null),
                               child: (_imageBytes == null && _existingPhotoUrl == null)
-                                  ? const Icon(Icons.person, size: 50, color: Colors.white)
+                                  ? Icon(Icons.person, size: baseWidth * 0.12, color: Colors.white)
                                   : null,
                             ),
                             Container(
-                              padding: const EdgeInsets.all(4),
+                              padding: EdgeInsets.all(baseWidth * 0.01),
                               decoration: const BoxDecoration(
                                 color: Colors.brown,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                              child: Icon(Icons.camera_alt, color: Colors.white, size: baseWidth * 0.045),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    const Center(
-                      child: Text("Ketuk ikon untuk mengubah foto", style: TextStyle(fontSize: 12, color: Colors.grey)),
+                    SizedBox(height: baseWidth * 0.02),
+                    Center(
+                      child: Text(
+                        t.changePhotoPrompt ?? "Ketuk ikon untuk mengubah foto", 
+                        style: TextStyle(fontSize: baseWidth * 0.03, color: Colors.grey)
+                      ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: baseWidth * 0.05),
 
-                    TextField(controller: _nameController, decoration: const InputDecoration(labelText: "Nama Lengkap")),
+                    TextField(
+                      controller: _nameController, 
+                      decoration: InputDecoration(labelText: t.fullNameLabel ?? "Nama Lengkap")
+                    ),
+                    SizedBox(height: baseWidth * 0.025),
                     Row(
                       children: [
-                        Expanded(child: TextField(controller: _cityController, decoration: const InputDecoration(labelText: "Kota Kelahiran"))),
-                        const SizedBox(width: 10),
-                        Expanded(child: TextField(controller: _countryController, decoration: const InputDecoration(labelText: "Negara"))),
+                        Expanded(
+                          child: TextField(
+                            controller: _cityController, 
+                            decoration: InputDecoration(labelText: t.birthCityLabel ?? "Kota Kelahiran")
+                          )
+                        ),
+                        SizedBox(width: baseWidth * 0.025),
+                        Expanded(
+                          child: TextField(
+                            controller: _countryController, 
+                            decoration: InputDecoration(labelText: t.birthCountryLabel ?? "Negara")
+                          )
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: baseWidth * 0.025),
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text("Tanggal Lahir"),
-                      subtitle: Text(_formatDate(_dob)),
-                      trailing: const Icon(Icons.calendar_today, color: Colors.brown),
+                      title: Text(t.birthDateLabel ?? "Tanggal Lahir", style: TextStyle(fontSize: baseWidth * 0.038)),
+                      subtitle: Text(_formatDate(_dob, t), style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.brown)),
+                      trailing: Icon(Icons.calendar_today, color: Colors.brown, size: baseWidth * 0.05),
                       onTap: () => _selectDate(context, (d) => _dob = d),
                     ),
                   ],
@@ -326,38 +374,39 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
               // --- STEP 2: STATUS PANGGILAN ---
               Step(
                 isActive: _currentStep >= 1,
-                title: const Text("Status & Tanggal Panggilan"),
+                title: Text(t.step2Title ?? "Status & Tanggal Panggilan", style: TextStyle(fontSize: baseWidth * 0.04, fontWeight: FontWeight.bold)),
                 content: Column(
                   children: [
                     DropdownButtonFormField<String>(
                       value: _vocationStatus,
-                      decoration: const InputDecoration(labelText: "Status Panggilan (Wajib)"),
+                      decoration: InputDecoration(labelText: t.vocationStatusLabel ?? "Status Panggilan (Wajib)"),
                       items: _vocationList.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
                       onChanged: (val) => setState(() => _vocationStatus = val),
                     ),
+                    SizedBox(height: baseWidth * 0.025),
                     // Tampilkan form tanggal berdasarkan status yang dipilih
                     if (_vocationStatus != 'Noviatus' && _vocationStatus != null)
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: const Text("Tanggal Kaul Perdana"),
-                        subtitle: Text(_formatDate(_firstProfDate)),
-                        trailing: const Icon(Icons.calendar_today),
+                        title: Text(t.firstProfessionDateLabel ?? "Tanggal Kaul Perdana", style: TextStyle(fontSize: baseWidth * 0.038)),
+                        subtitle: Text(_formatDate(_firstProfDate, t), style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.brown)),
+                        trailing: Icon(Icons.calendar_today, color: Colors.grey, size: baseWidth * 0.05),
                         onTap: () => _selectDate(context, (d) => _firstProfDate = d),
                       ),
                     if (_vocationStatus == 'Solemniter' || _vocationStatus == 'Sacerdotalis')
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: const Text("Tanggal Kaul Kekal"),
-                        subtitle: Text(_formatDate(_solemnProfDate)),
-                        trailing: const Icon(Icons.calendar_today),
+                        title: Text(t.solemnProfessionDateLabel ?? "Tanggal Kaul Kekal", style: TextStyle(fontSize: baseWidth * 0.038)),
+                        subtitle: Text(_formatDate(_solemnProfDate, t), style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.brown)),
+                        trailing: Icon(Icons.calendar_today, color: Colors.grey, size: baseWidth * 0.05),
                         onTap: () => _selectDate(context, (d) => _solemnProfDate = d),
                       ),
                     if (_vocationStatus == 'Sacerdotalis')
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: const Text("Tanggal Tahbisan"),
-                        subtitle: Text(_formatDate(_ordinationDate)),
-                        trailing: const Icon(Icons.calendar_today),
+                        title: Text(t.ordinationDateLabel ?? "Tanggal Tahbisan", style: TextStyle(fontSize: baseWidth * 0.038)),
+                        subtitle: Text(_formatDate(_ordinationDate, t), style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.brown)),
+                        trailing: Icon(Icons.calendar_today, color: Colors.grey, size: baseWidth * 0.05),
                         onTap: () => _selectDate(context, (d) => _ordinationDate = d),
                       ),
                   ],
@@ -366,13 +415,13 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
               // --- STEP 3: PENEMPATAN LOKASI ---
               Step(
                 isActive: _currentStep >= 2,
-                title: const Text("Penempatan Wilayah"),
+                title: Text(t.step3Title ?? "Penempatan Wilayah", style: TextStyle(fontSize: baseWidth * 0.04, fontWeight: FontWeight.bold)),
                 content: Column(
                   children: [
                     DropdownButtonFormField<int>(
                       value: _selectedEntityId,
                       isExpanded: true,
-                      decoration: const InputDecoration(labelText: "Entitas / Provinsi (Wajib)"),
+                      decoration: InputDecoration(labelText: t.entityProvinceLabel ?? "Entitas / Provinsi (Wajib)"),
                       items: _entities.map((e) => DropdownMenuItem<int>(
                         value: e['id'], 
                         child: Text("${e['name']} (${e['entity_category']})")
@@ -385,27 +434,32 @@ class _HalamanTambahAnggotaState extends State<HalamanTambahAnggota> {
                         if (val != null) _fetchConventus(val);
                       },
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: baseWidth * 0.025),
                     DropdownButtonFormField<int>(
                       value: _selectedConventusId,
                       isExpanded: true,
-                      decoration: const InputDecoration(labelText: "Biara / Komunitas (Opsional)"),
+                      decoration: InputDecoration(labelText: t.conventusCommunityLabel ?? "Biara / Komunitas (Opsional)"),
                       items: _conventusList.map((c) => DropdownMenuItem<int>(
                         value: c['id'], 
                         child: Text(c['name'])
                       )).toList(),
                       onChanged: (val) => setState(() => _selectedConventusId = val),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: baseWidth * 0.025),
                     TextField(
                       controller: _roleController, 
-                      decoration: const InputDecoration(labelText: "Peran Pribadi", hintText: "Contoh: Sodales, Prior, dll")
+                      decoration: InputDecoration(
+                        labelText: t.personalRoleLabel ?? "Peran Pribadi", 
+                        hintText: t.roleHint ?? "Contoh: Sodales, Prior, dll"
+                      )
                     ),
                   ],
                 )
               ),
             ],
-          ),
+          );
+        },
+      ),
     );
   }
 }

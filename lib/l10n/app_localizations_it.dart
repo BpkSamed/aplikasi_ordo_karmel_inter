@@ -1019,4 +1019,177 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get saveConventusBtn => 'SALVA MONASTERO';
+
+  @override
+  String get memberListTitle => 'Elenco dei Membri';
+
+  @override
+  String get deleteMemberConfirmTitle => 'Conferma Eliminazione Membro';
+
+  @override
+  String deleteMemberConfirmMsg(String nama) {
+    return 'Sei sicuro di voler eliminare i dati del membro \'$nama\'?';
+  }
+
+  @override
+  String deleteMemberSuccess(String nama) {
+    return 'Dati \'$nama\' eliminati con successo.';
+  }
+
+  @override
+  String deleteMemberError(String error) {
+    return 'Impossibile eliminare: $error';
+  }
+
+  @override
+  String get noMemberDataAdded => 'Nessun dato sui membri ancora.';
+
+  @override
+  String get originPrefix => 'Origine';
+
+  @override
+  String get bornPrefix => 'Nato/a';
+
+  @override
+  String get editDataTooltip => 'Modifica Dati';
+
+  @override
+  String get deleteDataTooltip => 'Elimina Dati';
+
+  @override
+  String get addMemberBtn => 'Aggiungi Membro';
+
+  @override
+  String get goToEditPageMsg => 'Vai alla pagina di modifica';
+
+  @override
+  String get addMemberPageTitle => 'Registrazione Nuovo Membro';
+
+  @override
+  String get editMemberPageTitle => 'Modifica Dati Membro';
+
+  @override
+  String fetchEntityFailed(String error) {
+    return 'Impossibile recuperare i dati dell\'entità: $error';
+  }
+
+  @override
+  String fetchConventusFailed(String error) {
+    return 'Impossibile recuperare i dati del monastero: $error';
+  }
+
+  @override
+  String pickImageFailed(String error) {
+    return 'Impossibile selezionare l\'immagine: $error';
+  }
+
+  @override
+  String get selectDatePrompt => 'Seleziona Data';
+
+  @override
+  String get mandatoryFieldsEmpty => 'Nome, Stato ed Entità sono obbligatori!';
+
+  @override
+  String get memberUpdateSuccess => 'Dati del membro aggiornati con successo!';
+
+  @override
+  String get memberAddSuccess => 'Dati del membro aggiunti con successo!';
+
+  @override
+  String get processingData => 'Elaborazione dati in corso...';
+
+  @override
+  String get loadingMemberData => 'Caricamento dati membro...';
+
+  @override
+  String get saveChangesBtn => 'Salva Modifiche';
+
+  @override
+  String get saveDataBtn => 'Salva Dati';
+
+  @override
+  String get nextBtn => 'Avanti';
+
+  @override
+  String get backBtn => 'Indietro';
+
+  @override
+  String get step1Title => 'Dati Personali';
+
+  @override
+  String get changePhotoPrompt => 'Tocca l\'icona per cambiare la foto';
+
+  @override
+  String get fullNameLabel => 'Nome Completo';
+
+  @override
+  String get birthCityLabel => 'Città di Nascita';
+
+  @override
+  String get birthCountryLabel => 'Paese';
+
+  @override
+  String get birthDateLabel => 'Data di Nascita';
+
+  @override
+  String get step2Title => 'Stato e Date della Vocazione';
+
+  @override
+  String get vocationStatusLabel => 'Stato della Vocazione (Obbligatorio)';
+
+  @override
+  String get firstProfessionDateLabel => 'Data della Prima Professione';
+
+  @override
+  String get solemnProfessionDateLabel => 'Data della Professione Solenne';
+
+  @override
+  String get ordinationDateLabel => 'Data di Ordinazione';
+
+  @override
+  String get step3Title => 'Assegnazione Posizione';
+
+  @override
+  String get entityProvinceLabel => 'Entità / Provincia (Obbligatorio)';
+
+  @override
+  String get conventusCommunityLabel => 'Monastero / Comunità (Opzionale)';
+
+  @override
+  String get personalRoleLabel => 'Ruolo Personale';
+
+  @override
+  String get roleHint => 'Esempio: Sodales, Priore, ecc.';
+
+  @override
+  String get manageCuriaTitle => 'Gestisci Curia e Sub Immediata';
+
+  @override
+  String jabatanUpdateSuccess(String title) {
+    return 'Ufficio \'$title\' aggiornato con successo!';
+  }
+
+  @override
+  String jabatanEmptySuccess(String title) {
+    return 'Ufficio \'$title\' svuotato con successo.';
+  }
+
+  @override
+  String failedToUpdate(String error) {
+    return 'Fallito: $error';
+  }
+
+  @override
+  String failedToEmpty(String error) {
+    return 'Svuotamento fallito: $error';
+  }
+
+  @override
+  String get selectOrChangeBtn => 'Seleziona / Cambia';
+
+  @override
+  String get searchAndSelectMemberTitle => 'Cerca e Seleziona Membro';
+
+  @override
+  String get typeMemberNameHint => 'Digita Nome del Membro...';
 }

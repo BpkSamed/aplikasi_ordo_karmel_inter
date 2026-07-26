@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 class HalamanKelolaPejabatPusat extends StatefulWidget {
   const HalamanKelolaPejabatPusat({super.key});
@@ -47,25 +48,27 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
       final response = await _supabase
           .from('curia_officers')
           .select('*, members:members!member_id(full_name, conventus(name))');
-      setState(() {
-        _pejabatAktif = response as List<dynamic>;
-      });
+      if (mounted) {
+        setState(() {
+          _pejabatAktif = response as List<dynamic>;
+        });
+      }
     } catch (e) {
       debugPrint("Error fetching curia: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   // Mencari nama anggota berdasarkan nama jabatannya
-  String _getNamaPejabat(String officeTitle) {
+  String _getNamaPejabat(String officeTitle, AppLocalizations t) {
     final pejabat = _pejabatAktif.where((p) => p['office_title'] == officeTitle).toList();
     if (pejabat.isNotEmpty && pejabat.first['members'] != null) {
       final nama = pejabat.first['members']['full_name'];
       final biara = pejabat.first['members']['conventus']?['name'] ?? '';
-      return biara.isNotEmpty ? "$nama\n(Asal: $biara)" : nama;
+      return biara.isNotEmpty ? "$nama\n(${t.originPrefix ?? 'Asal'}: $biara)" : nama;
     }
-    return "Belum ditentukan";
+    return t.notDetermined ?? "Belum ditentukan";
   }
 
   // Memeriksa apakah suatu jabatan saat ini sedang terisi atau tidak
@@ -75,7 +78,7 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
   }
 
   // Fungsi menunjuk/mengubah pejabat
-  Future<void> _tunjukPejabat(String category, String title) async {
+  Future<void> _tunjukPejabat(String category, String title, AppLocalizations t) async {
     final int? selectedMemberId = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const HalamanPilihAnggota()),
@@ -104,19 +107,23 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
                 'member_id': selectedMemberId
               });
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Jabatan '$title' berhasil diperbarui!")));
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.jabatanUpdateSuccess(title))));
+        }
         _fetchPejabat();
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal: $e")));
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.failedToUpdate(e.toString()))));
+        }
         setState(() => _isLoading = false);
       }
     }
   }
 
   // ==========================================
-  // FUNGSI BARU: MENGOSONGKAN JABATAN (SET NULL)
+  // FUNGSI MENGOSONGKAN JABATAN (SET NULL)
   // ==========================================
-  Future<void> _kosongkanJabatan(String title) async {
+  Future<void> _kosongkanJabatan(String title, AppLocalizations t) async {
     setState(() => _isLoading = true);
     try {
       // Mengubah member_id menjadi null pada jabatan yang dipilih
@@ -125,44 +132,60 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
           .update({'member_id': null})
           .eq('office_title', title);
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Jabatan '$title' berhasil dikosongkan.")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.jabatanEmptySuccess(title))));
+      }
       _fetchPejabat();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal mengkosongkan: $e")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.failedToEmpty(e.toString()))));
+      }
       setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Kelola Curia & Sub Immediata")),
-      body: _isLoading 
-        ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-        : ListView.builder(
-            padding: const EdgeInsets.all(12),
+      appBar: AppBar(title: Text(t.manageCuriaTitle ?? "Kelola Curia & Sub Immediata")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.all(baseWidth * 0.03),
             itemCount: _strukturJabatan.keys.length,
             itemBuilder: (context, index) {
               final category = _strukturJabatan.keys.elementAt(index);
               final titles = _strukturJabatan[category]!;
 
               return Card(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: EdgeInsets.only(bottom: baseWidth * 0.04),
                 child: ExpansionTile(
                   initiallyExpanded: true,
-                  title: Text(category, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+                  title: Text(
+                    category, 
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.04)
+                  ),
                   children: titles.map((title) {
-                    final namaPejabat = _getNamaPejabat(title);
+                    final namaPejabat = _getNamaPejabat(title, t);
                     final isKosong = !_isJabatanTerisi(title);
                     
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+                      contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.015),
+                      title: Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: baseWidth * 0.038)),
                       subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                        padding: EdgeInsets.only(top: baseWidth * 0.01),
                         child: Text(
                           namaPejabat, 
                           style: TextStyle(
+                            fontSize: baseWidth * 0.035,
                             color: isKosong ? Colors.red : Colors.green.shade800, 
                             fontWeight: isKosong ? FontWeight.normal : FontWeight.bold
                           )
@@ -173,19 +196,28 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown.shade100, elevation: 0),
-                            onPressed: () => _tunjukPejabat(category, title),
-                            child: const Text("Pilih/Ganti", style: TextStyle(color: Colors.brown, fontSize: 13)),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.brown.shade50, 
+                              elevation: 0,
+                              padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.02)
+                            ),
+                            onPressed: () => _tunjukPejabat(category, title, t),
+                            child: Text(
+                              t.selectOrChangeBtn ?? "Pilih / Ganti", 
+                              style: TextStyle(color: Colors.brown, fontSize: baseWidth * 0.032)
+                            ),
                           ),
                           if (!isKosong) ...[
-                            const SizedBox(width: 8),
+                            SizedBox(width: baseWidth * 0.02),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: Colors.red),
                                 foregroundColor: Colors.red,
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size(baseWidth * 0.09, baseWidth * 0.09),
                               ),
-                              onPressed: () => _kosongkanJabatan(title),
-                              child: const Icon(Icons.clear, size: 18),
+                              onPressed: () => _kosongkanJabatan(title, t),
+                              child: Icon(Icons.clear, size: baseWidth * 0.045),
                             ),
                           ]
                         ],
@@ -195,7 +227,9 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
                 ),
               );
             },
-          ),
+          );
+        },
+      ),
     );
   }
 }
@@ -227,47 +261,70 @@ class _HalamanPilihAnggotaState extends State<HalamanPilihAnggota> {
           .from('members')
           .select('id, full_name, conventus(name)')
           .order('full_name');
-      setState(() => _members = response as List<dynamic>);
+      if (mounted) {
+        setState(() => _members = response as List<dynamic>);
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final filtered = _members.where((m) => (m['full_name'] ?? '').toString().toLowerCase().contains(_query)).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Cari & Pilih Anggota")),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: TextField(
-              onChanged: (val) => setState(() => _query = val.toLowerCase()),
-              decoration: const InputDecoration(labelText: "Ketik Nama Anggota...", prefixIcon: Icon(Icons.search), border: OutlineInputBorder()),
-            ),
-          ),
-          Expanded(
-            child: _isLoading 
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final member = filtered[index];
-                    return ListTile(
-                      leading: const CircleAvatar(child: Icon(Icons.person)),
-                      title: Text(member['full_name']),
-                      subtitle: Text("Asal: ${member['conventus']?['name'] ?? '-'}"),
-                      trailing: const Icon(Icons.check_circle_outline),
-                      onTap: () {
-                        Navigator.pop(context, member['id']);
-                      },
-                    );
-                  },
+      appBar: AppBar(title: Text(t.searchAndSelectMemberTitle ?? "Cari & Pilih Anggota")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(baseWidth * 0.03),
+                child: TextField(
+                  onChanged: (val) => setState(() => _query = val.toLowerCase()),
+                  decoration: InputDecoration(
+                    labelText: t.typeMemberNameHint ?? "Ketik Nama Anggota...", 
+                    prefixIcon: Icon(Icons.search, size: baseWidth * 0.06), 
+                    border: const OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: baseWidth * 0.038)
+                  ),
                 ),
-          )
-        ],
+              ),
+              Expanded(
+                child: _isLoading 
+                  ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+                  : filtered.isEmpty
+                      ? Center(child: Text(t.dataNotFound ?? "Data tidak ditemukan", style: TextStyle(color: Colors.grey, fontSize: baseWidth * 0.038)))
+                      : ListView.builder(
+                          itemCount: filtered.length,
+                          itemBuilder: (context, index) {
+                            final member = filtered[index];
+                            return ListTile(
+                              contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.01),
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.brown,
+                                radius: baseWidth * 0.05,
+                                child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                              ),
+                              title: Text(member['full_name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
+                              subtitle: Text("${t.originPrefix ?? 'Asal'}: ${member['conventus']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),
+                              trailing: Icon(Icons.check_circle_outline, color: Colors.green, size: baseWidth * 0.06),
+                              onTap: () {
+                                Navigator.pop(context, member['id']);
+                              },
+                            );
+                          },
+                        ),
+              )
+            ],
+          );
+        }
       ),
     );
   }

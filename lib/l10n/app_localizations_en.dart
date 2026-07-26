@@ -1003,4 +1003,177 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveConventusBtn => 'SAVE MONASTERY';
+
+  @override
+  String get memberListTitle => 'Member List';
+
+  @override
+  String get deleteMemberConfirmTitle => 'Confirm Member Deletion';
+
+  @override
+  String deleteMemberConfirmMsg(String nama) {
+    return 'Are you sure you want to delete member data \'$nama\'?';
+  }
+
+  @override
+  String deleteMemberSuccess(String nama) {
+    return 'Data \'$nama\' successfully deleted.';
+  }
+
+  @override
+  String deleteMemberError(String error) {
+    return 'Failed to delete: $error';
+  }
+
+  @override
+  String get noMemberDataAdded => 'No member data yet.';
+
+  @override
+  String get originPrefix => 'Origin';
+
+  @override
+  String get bornPrefix => 'Born';
+
+  @override
+  String get editDataTooltip => 'Edit Data';
+
+  @override
+  String get deleteDataTooltip => 'Delete Data';
+
+  @override
+  String get addMemberBtn => 'Add Member';
+
+  @override
+  String get goToEditPageMsg => 'Redirect to Edit Page';
+
+  @override
+  String get addMemberPageTitle => 'New Member Registration';
+
+  @override
+  String get editMemberPageTitle => 'Edit Member Data';
+
+  @override
+  String fetchEntityFailed(String error) {
+    return 'Failed to fetch entity data: $error';
+  }
+
+  @override
+  String fetchConventusFailed(String error) {
+    return 'Failed to fetch monastery data: $error';
+  }
+
+  @override
+  String pickImageFailed(String error) {
+    return 'Failed to pick image: $error';
+  }
+
+  @override
+  String get selectDatePrompt => 'Select Date';
+
+  @override
+  String get mandatoryFieldsEmpty => 'Name, Status, and Entity must be filled!';
+
+  @override
+  String get memberUpdateSuccess => 'Member data successfully updated!';
+
+  @override
+  String get memberAddSuccess => 'Member data successfully added!';
+
+  @override
+  String get processingData => 'Processing data...';
+
+  @override
+  String get loadingMemberData => 'Loading member data...';
+
+  @override
+  String get saveChangesBtn => 'Save Changes';
+
+  @override
+  String get saveDataBtn => 'Save Data';
+
+  @override
+  String get nextBtn => 'Next';
+
+  @override
+  String get backBtn => 'Back';
+
+  @override
+  String get step1Title => 'Personal Biodata';
+
+  @override
+  String get changePhotoPrompt => 'Tap the icon to change photo';
+
+  @override
+  String get fullNameLabel => 'Full Name';
+
+  @override
+  String get birthCityLabel => 'City of Birth';
+
+  @override
+  String get birthCountryLabel => 'Country';
+
+  @override
+  String get birthDateLabel => 'Date of Birth';
+
+  @override
+  String get step2Title => 'Vocation Status & Dates';
+
+  @override
+  String get vocationStatusLabel => 'Vocation Status (Required)';
+
+  @override
+  String get firstProfessionDateLabel => 'First Profession Date';
+
+  @override
+  String get solemnProfessionDateLabel => 'Solemn Profession Date';
+
+  @override
+  String get ordinationDateLabel => 'Ordination Date';
+
+  @override
+  String get step3Title => 'Location Assignment';
+
+  @override
+  String get entityProvinceLabel => 'Entity / Province (Required)';
+
+  @override
+  String get conventusCommunityLabel => 'Monastery / Community (Optional)';
+
+  @override
+  String get personalRoleLabel => 'Personal Role';
+
+  @override
+  String get roleHint => 'Example: Sodales, Prior, etc.';
+
+  @override
+  String get manageCuriaTitle => 'Manage Curia & Sub Immediata';
+
+  @override
+  String jabatanUpdateSuccess(String title) {
+    return 'Office \'$title\' successfully updated!';
+  }
+
+  @override
+  String jabatanEmptySuccess(String title) {
+    return 'Office \'$title\' successfully vacated.';
+  }
+
+  @override
+  String failedToUpdate(String error) {
+    return 'Failed: $error';
+  }
+
+  @override
+  String failedToEmpty(String error) {
+    return 'Failed to vacate: $error';
+  }
+
+  @override
+  String get selectOrChangeBtn => 'Select / Change';
+
+  @override
+  String get searchAndSelectMemberTitle => 'Search & Select Member';
+
+  @override
+  String get typeMemberNameHint => 'Type Member Name...';
 }

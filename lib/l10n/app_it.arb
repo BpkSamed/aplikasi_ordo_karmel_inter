@@ -396,5 +396,95 @@
   "conventusNameRequiredLabel": "Nome Monastero (Obbligatorio)",
   "selectConventusAddress": "Seleziona Indirizzo Monastero (Opzionale)",
   "updateConventusBtn": "AGGIORNA MONASTERO",
-  "saveConventusBtn": "SALVA MONASTERO"
+  "saveConventusBtn": "SALVA MONASTERO",
+
+  "memberListTitle": "Elenco dei Membri",
+  "deleteMemberConfirmTitle": "Conferma Eliminazione Membro",
+  "deleteMemberConfirmMsg": "Sei sicuro di voler eliminare i dati del membro '{nama}'?",
+  "@deleteMemberConfirmMsg": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberSuccess": "Dati '{nama}' eliminati con successo.",
+  "@deleteMemberSuccess": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberError": "Impossibile eliminare: {error}",
+  "@deleteMemberError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "noMemberDataAdded": "Nessun dato sui membri ancora.",
+  "originPrefix": "Origine",
+  "bornPrefix": "Nato/a",
+  "editDataTooltip": "Modifica Dati",
+  "deleteDataTooltip": "Elimina Dati",
+  "addMemberBtn": "Aggiungi Membro",
+  "goToEditPageMsg": "Vai alla pagina di modifica",
+
+  "addMemberPageTitle": "Registrazione Nuovo Membro",
+  "editMemberPageTitle": "Modifica Dati Membro",
+  "fetchEntityFailed": "Impossibile recuperare i dati dell'entità: {error}",
+  "@fetchEntityFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "fetchConventusFailed": "Impossibile recuperare i dati del monastero: {error}",
+  "@fetchConventusFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "pickImageFailed": "Impossibile selezionare l'immagine: {error}",
+  "@pickImageFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectDatePrompt": "Seleziona Data",
+  "mandatoryFieldsEmpty": "Nome, Stato ed Entità sono obbligatori!",
+  "memberUpdateSuccess": "Dati del membro aggiornati con successo!",
+  "memberAddSuccess": "Dati del membro aggiunti con successo!",
+  "processingData": "Elaborazione dati in corso...",
+  "loadingMemberData": "Caricamento dati membro...",
+  "saveChangesBtn": "Salva Modifiche",
+  "saveDataBtn": "Salva Dati",
+  "nextBtn": "Avanti",
+  "backBtn": "Indietro",
+  "step1Title": "Dati Personali",
+  "changePhotoPrompt": "Tocca l'icona per cambiare la foto",
+  "fullNameLabel": "Nome Completo",
+  "birthCityLabel": "Città di Nascita",
+  "birthCountryLabel": "Paese",
+  "birthDateLabel": "Data di Nascita",
+  "step2Title": "Stato e Date della Vocazione",
+  "vocationStatusLabel": "Stato della Vocazione (Obbligatorio)",
+  "firstProfessionDateLabel": "Data della Prima Professione",
+  "solemnProfessionDateLabel": "Data della Professione Solenne",
+  "ordinationDateLabel": "Data di Ordinazione",
+  "step3Title": "Assegnazione Posizione",
+  "entityProvinceLabel": "Entità / Provincia (Obbligatorio)",
+  "conventusCommunityLabel": "Monastero / Comunità (Opzionale)",
+  "personalRoleLabel": "Ruolo Personale",
+  "roleHint": "Esempio: Sodales, Priore, ecc.",
+
+  "manageCuriaTitle": "Gestisci Curia e Sub Immediata",
+  "jabatanUpdateSuccess": "Ufficio '{title}' aggiornato con successo!",
+  "@jabatanUpdateSuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "jabatanEmptySuccess": "Ufficio '{title}' svuotato con successo.",
+  "@jabatanEmptySuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "failedToUpdate": "Fallito: {error}",
+  "@failedToUpdate": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "failedToEmpty": "Svuotamento fallito: {error}",
+  "@failedToEmpty": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectOrChangeBtn": "Seleziona / Cambia",
+  "searchAndSelectMemberTitle": "Cerca e Seleziona Membro",
+  "typeMemberNameHint": "Digita Nome del Membro..."
 }

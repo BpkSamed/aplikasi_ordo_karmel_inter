@@ -396,5 +396,95 @@
   "conventusNameRequiredLabel": "Monastery Name (Required)",
   "selectConventusAddress": "Select Monastery Address (Optional)",
   "updateConventusBtn": "UPDATE MONASTERY",
-  "saveConventusBtn": "SAVE MONASTERY"
+  "saveConventusBtn": "SAVE MONASTERY",
+
+  "memberListTitle": "Member List",
+  "deleteMemberConfirmTitle": "Confirm Member Deletion",
+  "deleteMemberConfirmMsg": "Are you sure you want to delete member data '{nama}'?",
+  "@deleteMemberConfirmMsg": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberSuccess": "Data '{nama}' successfully deleted.",
+  "@deleteMemberSuccess": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberError": "Failed to delete: {error}",
+  "@deleteMemberError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "noMemberDataAdded": "No member data yet.",
+  "originPrefix": "Origin",
+  "bornPrefix": "Born",
+  "editDataTooltip": "Edit Data",
+  "deleteDataTooltip": "Delete Data",
+  "addMemberBtn": "Add Member",
+  "goToEditPageMsg": "Redirect to Edit Page",
+
+  "addMemberPageTitle": "New Member Registration",
+  "editMemberPageTitle": "Edit Member Data",
+  "fetchEntityFailed": "Failed to fetch entity data: {error}",
+  "@fetchEntityFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "fetchConventusFailed": "Failed to fetch monastery data: {error}",
+  "@fetchConventusFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "pickImageFailed": "Failed to pick image: {error}",
+  "@pickImageFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectDatePrompt": "Select Date",
+  "mandatoryFieldsEmpty": "Name, Status, and Entity must be filled!",
+  "memberUpdateSuccess": "Member data successfully updated!",
+  "memberAddSuccess": "Member data successfully added!",
+  "processingData": "Processing data...",
+  "loadingMemberData": "Loading member data...",
+  "saveChangesBtn": "Save Changes",
+  "saveDataBtn": "Save Data",
+  "nextBtn": "Next",
+  "backBtn": "Back",
+  "step1Title": "Personal Biodata",
+  "changePhotoPrompt": "Tap the icon to change photo",
+  "fullNameLabel": "Full Name",
+  "birthCityLabel": "City of Birth",
+  "birthCountryLabel": "Country",
+  "birthDateLabel": "Date of Birth",
+  "step2Title": "Vocation Status & Dates",
+  "vocationStatusLabel": "Vocation Status (Required)",
+  "firstProfessionDateLabel": "First Profession Date",
+  "solemnProfessionDateLabel": "Solemn Profession Date",
+  "ordinationDateLabel": "Ordination Date",
+  "step3Title": "Location Assignment",
+  "entityProvinceLabel": "Entity / Province (Required)",
+  "conventusCommunityLabel": "Monastery / Community (Optional)",
+  "personalRoleLabel": "Personal Role",
+  "roleHint": "Example: Sodales, Prior, etc.",
+
+  "manageCuriaTitle": "Manage Curia & Sub Immediata",
+  "jabatanUpdateSuccess": "Office '{title}' successfully updated!",
+  "@jabatanUpdateSuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "jabatanEmptySuccess": "Office '{title}' successfully vacated.",
+  "@jabatanEmptySuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "failedToUpdate": "Failed: {error}",
+  "@failedToUpdate": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "failedToEmpty": "Failed to vacate: {error}",
+  "@failedToEmpty": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectOrChangeBtn": "Select / Change",
+  "searchAndSelectMemberTitle": "Search & Select Member",
+  "typeMemberNameHint": "Type Member Name..."
 }

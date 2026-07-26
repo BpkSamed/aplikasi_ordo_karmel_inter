@@ -396,5 +396,95 @@
   "conventusNameRequiredLabel": "Nomen Monasterii (Requisitum)",
   "selectConventusAddress": "Elige Domicilium Monasterii (Ad libitum)",
   "updateConventusBtn": "RENOVARE MONASTERIUM",
-  "saveConventusBtn": "SERVARE MONASTERIUM"
+  "saveConventusBtn": "SERVARE MONASTERIUM",
+
+  "memberListTitle": "Index Sodalarum",
+  "deleteMemberConfirmTitle": "Confirmatio Deletionis Sodalis",
+  "deleteMemberConfirmMsg": "Certe vis delere data sodalis '{nama}'?",
+  "@deleteMemberConfirmMsg": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberSuccess": "Data '{nama}' feliciter deleta sunt.",
+  "@deleteMemberSuccess": {
+    "placeholders": {
+      "nama": { "type": "String" }
+    }
+  },
+  "deleteMemberError": "Deletio defecit: {error}",
+  "@deleteMemberError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "noMemberDataAdded": "Nulla data sodalarum adhuc relata sunt.",
+  "originPrefix": "Origo",
+  "bornPrefix": "Natus/a",
+  "editDataTooltip": "Recensere Data",
+  "deleteDataTooltip": "Delere Data",
+  "addMemberBtn": "Adde Sodalem",
+  "goToEditPageMsg": "I ad paginam recensionis",
+
+  "addMemberPageTitle": "Registratio Novi Sodalis",
+  "editMemberPageTitle": "Recensere Data Sodalis",
+  "fetchEntityFailed": "Adfectio datorum entitatis defecit: {error}",
+  "@fetchEntityFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "fetchConventusFailed": "Adfectio datorum monasterii defecit: {error}",
+  "@fetchConventusFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "pickImageFailed": "Electio imaginis defecit: {error}",
+  "@pickImageFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectDatePrompt": "Elige Diem",
+  "mandatoryFieldsEmpty": "Nomen, Status, et Entitas expleri debent!",
+  "memberUpdateSuccess": "Data Sodalis feliciter renovata sunt!",
+  "memberAddSuccess": "Data Sodalis feliciter addita sunt!",
+  "processingData": "Data procedunt...",
+  "loadingMemberData": "Data sodalis onerantur...",
+  "saveChangesBtn": "Servare Mutationes",
+  "saveDataBtn": "Servare Data",
+  "nextBtn": "Continuare",
+  "backBtn": "Regredi",
+  "step1Title": "Biographia Personalis",
+  "changePhotoPrompt": "Tange iconem ut imaginem mutes",
+  "fullNameLabel": "Nomen Integrum",
+  "birthCityLabel": "Urbs Nativitatis",
+  "birthCountryLabel": "Patria",
+  "birthDateLabel": "Dies Nativitatis",
+  "step2Title": "Status et Dies Vocationis",
+  "vocationStatusLabel": "Status Vocationis (Requisitum)",
+  "firstProfessionDateLabel": "Dies Professionis Primae",
+  "solemnProfessionDateLabel": "Dies Professionis Sollemnis",
+  "ordinationDateLabel": "Dies Ordinationis",
+  "step3Title": "Assignatio Loci",
+  "entityProvinceLabel": "Entitas / Provincia (Requisitum)",
+  "conventusCommunityLabel": "Monasterium / Communitas (Ad libitum)",
+  "personalRoleLabel": "Partes Personales",
+  "roleHint": "Exemplum: Sodales, Prior, etc.",
+
+  "manageCuriaTitle": "Administrare Curiam et Sub Immediata",
+  "jabatanUpdateSuccess": "Officium '{title}' feliciter renovatum est!",
+  "@jabatanUpdateSuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "jabatanEmptySuccess": "Officium '{title}' feliciter vacuatum est.",
+  "@jabatanEmptySuccess": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "failedToUpdate": "Defecit: {error}",
+  "@failedToUpdate": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "failedToEmpty": "Vacuatio defecit: {error}",
+  "@failedToEmpty": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "selectOrChangeBtn": "Elige / Muta",
+  "searchAndSelectMemberTitle": "Quaere et Elige Sodalem",
+  "typeMemberNameHint": "Scribe Nomen Sodalis..."
 }
