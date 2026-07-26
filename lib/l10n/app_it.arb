@@ -70,5 +70,33 @@
 
   "praeses": "Presidente",
   "sodales": "Membri",
-  "missio": "Missione"
+  "missio": "Missione",
+
+  "unassignedMonastery": "Monastero non assegnato",
+  "unassignedOfficial": "Nessun ufficiale nominato ancora",
+  "communityOrigin": "Comunità di Origine",
+  "birthPlace": "Luogo di Nascita",
+  "birthCountry": "Paese di Nascita",
+  "birthDate": "Data di Nascita",
+  "firstProfession": "Prima Professione",
+  "solemnProfession": "Professione Solenne",
+  "ordinationDate": "Data di Ordinazione",
+  "noCommissionData": "Nessun dato della Commissione ancora registrato.",
+  "unassignedPresident": "Non ancora determinato",
+  "missionTask": "Missione / Compito Apostolico:",
+  "noMissionDesc": "Nessuna descrizione della missione.",
+  "commissionMembersLabel": "Sodales (Membri della Commissione):",
+  "noCommissionMembers": "Nessun membro della commissione ancora aggiunto.",
+  "unknown": "Sconosciuto",
+  "positionLabel": "Posizione",
+  "memberRole": "Membro",
+
+  "episcopiTitle": "Vescovi Assunti dall'Ordine",
+  "titularSee": "Sede Titolare / Diocesi",
+  "episcopalConsecration": "Consacrazione Episcopale",
+  "bishopStatus": "Stato del Vescovo",
+  "activeBishop": "In Attività",
+  "emeritusBishop": "Emerito",
+  "noBishopData": "Nessun dato dei Vescovi trovato.",
+  "searchBishop": "Cerca Vescovo..."
 }

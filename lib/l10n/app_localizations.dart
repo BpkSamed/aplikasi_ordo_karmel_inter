@@ -208,7 +208,7 @@ abstract class AppLocalizations {
   ///
   /// In la, this message translates to:
   /// **'Aperiens: {title}'**
-  String openingMenu(String title);
+  String openingMenu(Object title);
 
   /// No description provided for @logout.
   ///
@@ -497,6 +497,162 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Missio'**
   String get missio;
+
+  /// No description provided for @unassignedMonastery.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasterium nondum constitutum'**
+  String get unassignedMonastery;
+
+  /// No description provided for @unassignedOfficial.
+  ///
+  /// In la, this message translates to:
+  /// **'Nemo officialis adhuc designatus'**
+  String get unassignedOfficial;
+
+  /// No description provided for @communityOrigin.
+  ///
+  /// In la, this message translates to:
+  /// **'Origo Communitatis'**
+  String get communityOrigin;
+
+  /// No description provided for @birthPlace.
+  ///
+  /// In la, this message translates to:
+  /// **'Locus Nativitatis'**
+  String get birthPlace;
+
+  /// No description provided for @birthCountry.
+  ///
+  /// In la, this message translates to:
+  /// **'Patria Nativitatis'**
+  String get birthCountry;
+
+  /// No description provided for @birthDate.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Nativitatis'**
+  String get birthDate;
+
+  /// No description provided for @firstProfession.
+  ///
+  /// In la, this message translates to:
+  /// **'Professio Prima'**
+  String get firstProfession;
+
+  /// No description provided for @solemnProfession.
+  ///
+  /// In la, this message translates to:
+  /// **'Professio Sollemnis'**
+  String get solemnProfession;
+
+  /// No description provided for @ordinationDate.
+  ///
+  /// In la, this message translates to:
+  /// **'Dies Ordinationis Sacrae'**
+  String get ordinationDate;
+
+  /// No description provided for @noCommissionData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Commissionis adhuc inscripta.'**
+  String get noCommissionData;
+
+  /// No description provided for @unassignedPresident.
+  ///
+  /// In la, this message translates to:
+  /// **'Nondum definitus'**
+  String get unassignedPresident;
+
+  /// No description provided for @missionTask.
+  ///
+  /// In la, this message translates to:
+  /// **'Missio / Munus Apostolicum:'**
+  String get missionTask;
+
+  /// No description provided for @noMissionDesc.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla descriptio missionis adhuc exstat.'**
+  String get noMissionDesc;
+
+  /// No description provided for @commissionMembersLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodales (Membri Commissionis):'**
+  String get commissionMembersLabel;
+
+  /// No description provided for @noCommissionMembers.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulli sodales commissioni adhuc additi.'**
+  String get noCommissionMembers;
+
+  /// No description provided for @unknown.
+  ///
+  /// In la, this message translates to:
+  /// **'Incognitus'**
+  String get unknown;
+
+  /// No description provided for @positionLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Officium'**
+  String get positionLabel;
+
+  /// No description provided for @memberRole.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodalis'**
+  String get memberRole;
+
+  /// No description provided for @episcopiTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Episcopi Ex Ordine Assumpti'**
+  String get episcopiTitle;
+
+  /// No description provided for @titularSee.
+  ///
+  /// In la, this message translates to:
+  /// **'Sedes Titularis / Dioecesis'**
+  String get titularSee;
+
+  /// No description provided for @episcopalConsecration.
+  ///
+  /// In la, this message translates to:
+  /// **'Consecratio Episcopalis'**
+  String get episcopalConsecration;
+
+  /// No description provided for @bishopStatus.
+  ///
+  /// In la, this message translates to:
+  /// **'Status Episcopi'**
+  String get bishopStatus;
+
+  /// No description provided for @activeBishop.
+  ///
+  /// In la, this message translates to:
+  /// **'In Officio'**
+  String get activeBishop;
+
+  /// No description provided for @emeritusBishop.
+  ///
+  /// In la, this message translates to:
+  /// **'Emeritus'**
+  String get emeritusBishop;
+
+  /// No description provided for @noBishopData.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data Episcoporum inventa.'**
+  String get noBishopData;
+
+  /// No description provided for @searchBishop.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere Episcopum...'**
+  String get searchBishop;
 }
 
 class _AppLocalizationsDelegate

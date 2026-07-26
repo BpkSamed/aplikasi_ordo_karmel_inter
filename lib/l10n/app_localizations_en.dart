@@ -62,7 +62,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tap the three lines in the top left corner to view the Carmelite Order directory.';
 
   @override
-  String openingMenu(String title) {
+  String openingMenu(Object title) {
     return 'Opening: $title';
   }
 
@@ -214,4 +214,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get missio => 'Mission';
+
+  @override
+  String get unassignedMonastery => 'Monastery not assigned';
+
+  @override
+  String get unassignedOfficial => 'No official appointed yet';
+
+  @override
+  String get communityOrigin => 'Community of Origin';
+
+  @override
+  String get birthPlace => 'Place of Birth';
+
+  @override
+  String get birthCountry => 'Country of Birth';
+
+  @override
+  String get birthDate => 'Date of Birth';
+
+  @override
+  String get firstProfession => 'First Profession';
+
+  @override
+  String get solemnProfession => 'Solemn Profession';
+
+  @override
+  String get ordinationDate => 'Ordination Date';
+
+  @override
+  String get noCommissionData => 'No Commission data registered yet.';
+
+  @override
+  String get unassignedPresident => 'Not yet determined';
+
+  @override
+  String get missionTask => 'Mission / Apostolic Task:';
+
+  @override
+  String get noMissionDesc => 'No mission description yet.';
+
+  @override
+  String get commissionMembersLabel => 'Sodales (Commission Members):';
+
+  @override
+  String get noCommissionMembers => 'No commission members added yet.';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get positionLabel => 'Position';
+
+  @override
+  String get memberRole => 'Member';
+
+  @override
+  String get episcopiTitle => 'Bishops Assumed from the Order';
+
+  @override
+  String get titularSee => 'Titular See / Diocese';
+
+  @override
+  String get episcopalConsecration => 'Episcopal Consecration';
+
+  @override
+  String get bishopStatus => 'Bishop Status';
+
+  @override
+  String get activeBishop => 'Active / In Office';
+
+  @override
+  String get emeritusBishop => 'Emeritus';
+
+  @override
+  String get noBishopData => 'No Bishop data found.';
+
+  @override
+  String get searchBishop => 'Search Bishop...';
 }

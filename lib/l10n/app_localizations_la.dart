@@ -62,7 +62,7 @@ class AppLocalizationsLa extends AppLocalizations {
       'Preme tres lineas in angulo superiore sinistro ad videndum directorium Ordinis Carmelitarum.';
 
   @override
-  String openingMenu(String title) {
+  String openingMenu(Object title) {
     return 'Aperiens: $title';
   }
 
@@ -215,4 +215,82 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get missio => 'Missio';
+
+  @override
+  String get unassignedMonastery => 'Monasterium nondum constitutum';
+
+  @override
+  String get unassignedOfficial => 'Nemo officialis adhuc designatus';
+
+  @override
+  String get communityOrigin => 'Origo Communitatis';
+
+  @override
+  String get birthPlace => 'Locus Nativitatis';
+
+  @override
+  String get birthCountry => 'Patria Nativitatis';
+
+  @override
+  String get birthDate => 'Dies Nativitatis';
+
+  @override
+  String get firstProfession => 'Professio Prima';
+
+  @override
+  String get solemnProfession => 'Professio Sollemnis';
+
+  @override
+  String get ordinationDate => 'Dies Ordinationis Sacrae';
+
+  @override
+  String get noCommissionData => 'Nulla data Commissionis adhuc inscripta.';
+
+  @override
+  String get unassignedPresident => 'Nondum definitus';
+
+  @override
+  String get missionTask => 'Missio / Munus Apostolicum:';
+
+  @override
+  String get noMissionDesc => 'Nulla descriptio missionis adhuc exstat.';
+
+  @override
+  String get commissionMembersLabel => 'Sodales (Membri Commissionis):';
+
+  @override
+  String get noCommissionMembers => 'Nulli sodales commissioni adhuc additi.';
+
+  @override
+  String get unknown => 'Incognitus';
+
+  @override
+  String get positionLabel => 'Officium';
+
+  @override
+  String get memberRole => 'Sodalis';
+
+  @override
+  String get episcopiTitle => 'Episcopi Ex Ordine Assumpti';
+
+  @override
+  String get titularSee => 'Sedes Titularis / Dioecesis';
+
+  @override
+  String get episcopalConsecration => 'Consecratio Episcopalis';
+
+  @override
+  String get bishopStatus => 'Status Episcopi';
+
+  @override
+  String get activeBishop => 'In Officio';
+
+  @override
+  String get emeritusBishop => 'Emeritus';
+
+  @override
+  String get noBishopData => 'Nulla data Episcoporum inventa.';
+
+  @override
+  String get searchBishop => 'Quaere Episcopum...';
 }

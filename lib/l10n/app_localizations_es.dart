@@ -62,7 +62,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Toca las tres líneas en la esquina superior izquierda para ver el directorio de la Orden Carmelita.';
 
   @override
-  String openingMenu(String title) {
+  String openingMenu(Object title) {
     return 'Abriendo: $title';
   }
 
@@ -215,4 +215,83 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get missio => 'Misión';
+
+  @override
+  String get unassignedMonastery => 'Monasterio no asignado';
+
+  @override
+  String get unassignedOfficial => 'Ningún oficial nombrado todavía';
+
+  @override
+  String get communityOrigin => 'Comunidad de Origen';
+
+  @override
+  String get birthPlace => 'Lugar de Nacimiento';
+
+  @override
+  String get birthCountry => 'País de Nacimiento';
+
+  @override
+  String get birthDate => 'Fecha de Nacimiento';
+
+  @override
+  String get firstProfession => 'Primera Profesión';
+
+  @override
+  String get solemnProfession => 'Profesión Solemne';
+
+  @override
+  String get ordinationDate => 'Fecha de Ordenación';
+
+  @override
+  String get noCommissionData => 'Aún no hay datos de la Comisión registrados.';
+
+  @override
+  String get unassignedPresident => 'Aún no determinado';
+
+  @override
+  String get missionTask => 'Misión / Tarea Apostólica:';
+
+  @override
+  String get noMissionDesc => 'Aún no hay descripción de la misión.';
+
+  @override
+  String get commissionMembersLabel => 'Sodales (Miembros de la Comisión):';
+
+  @override
+  String get noCommissionMembers =>
+      'Aún no se han agregado miembros a la comisión.';
+
+  @override
+  String get unknown => 'Desconocido';
+
+  @override
+  String get positionLabel => 'Posición';
+
+  @override
+  String get memberRole => 'Miembro';
+
+  @override
+  String get episcopiTitle => 'Obispos Asumidos del Orden';
+
+  @override
+  String get titularSee => 'Sede Titular / Diócesis';
+
+  @override
+  String get episcopalConsecration => 'Consagración Episcopal';
+
+  @override
+  String get bishopStatus => 'Estado del Obispo';
+
+  @override
+  String get activeBishop => 'En Activo';
+
+  @override
+  String get emeritusBishop => 'Emérito';
+
+  @override
+  String get noBishopData => 'No se encontraron datos de Obispos.';
+
+  @override
+  String get searchBishop => 'Buscar Obispo...';
 }

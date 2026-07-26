@@ -18,13 +18,6 @@
   "universityStudent": "Discipulus Universitatis",
   "drawerInstruction": "Preme tres lineas in angulo superiore sinistro ad videndum directorium Ordinis Carmelitarum.",
   "openingMenu": "Aperiens: {title}",
-  "@openingMenu": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "logout": "Exire",
   "adminDashboardTitle": "Tabula Administratoris",
   "directoryManagementMenu": "Menu Administrationis Directorii",
@@ -77,5 +70,33 @@
 
   "praeses": "Praeses",
   "sodales": "Sodales",
-  "missio": "Missio"
+  "missio": "Missio",
+
+  "unassignedMonastery": "Monasterium nondum constitutum",
+  "unassignedOfficial": "Nemo officialis adhuc designatus",
+  "communityOrigin": "Origo Communitatis",
+  "birthPlace": "Locus Nativitatis",
+  "birthCountry": "Patria Nativitatis",
+  "birthDate": "Dies Nativitatis",
+  "firstProfession": "Professio Prima",
+  "solemnProfession": "Professio Sollemnis",
+  "ordinationDate": "Dies Ordinationis Sacrae",
+  "noCommissionData": "Nulla data Commissionis adhuc inscripta.",
+  "unassignedPresident": "Nondum definitus",
+  "missionTask": "Missio / Munus Apostolicum:",
+  "noMissionDesc": "Nulla descriptio missionis adhuc exstat.",
+  "commissionMembersLabel": "Sodales (Membri Commissionis):",
+  "noCommissionMembers": "Nulli sodales commissioni adhuc additi.",
+  "unknown": "Incognitus",
+  "positionLabel": "Officium",
+  "memberRole": "Sodalis",
+
+  "episcopiTitle": "Episcopi Ex Ordine Assumpti",
+  "titularSee": "Sedes Titularis / Dioecesis",
+  "episcopalConsecration": "Consecratio Episcopalis",
+  "bishopStatus": "Status Episcopi",
+  "activeBishop": "In Officio",
+  "emeritusBishop": "Emeritus",
+  "noBishopData": "Nulla data Episcoporum inventa.",
+  "searchBishop": "Quaere Episcopum..."
 }
