@@ -1384,7 +1384,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get positionPrefix => 'Officium';
 
   @override
-  String get manageAdminTitle => 'Administrare Aditūs';
+  String get manageAdminTitle => 'Administrare Aditus';
 
   @override
   String get adminListTitle => 'Index Administratorum';
@@ -1469,4 +1469,7 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get statisticaSubtitle => 'Data statistica et distributio nationum';
+
+  @override
+  String get adminSubtitle => 'Index et iura accessus administratorum';
 }

@@ -2643,7 +2643,7 @@ abstract class AppLocalizations {
   /// No description provided for @manageAdminTitle.
   ///
   /// In la, this message translates to:
-  /// **'Administrare Aditūs'**
+  /// **'Administrare Aditus'**
   String get manageAdminTitle;
 
   /// No description provided for @adminListTitle.
@@ -2807,6 +2807,12 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Data statistica et distributio nationum'**
   String get statisticaSubtitle;
+
+  /// No description provided for @adminSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index et iura accessus administratorum'**
+  String get adminSubtitle;
 }
 
 class _AppLocalizationsDelegate

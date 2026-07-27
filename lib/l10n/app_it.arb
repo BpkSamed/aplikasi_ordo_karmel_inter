@@ -606,5 +606,7 @@
   "institutaSubtitle": "Istituti secolari affiliati",
   "ministriesTitle": "Ministeri",
   "ministriesSubtitle": "Parrocchie, scuole, case di ritiro, ecc.",
-  "statisticaSubtitle": "Dati statistici e distribuzione per paese"
+  "statisticaSubtitle": "Dati statistici e distribuzione per paese",
+  "manageAdminTitle": "Gestisci Amministratore",
+  "adminSubtitle": "Elenco e diritti di accesso degli amministratori"
 }

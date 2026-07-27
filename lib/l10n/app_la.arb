@@ -606,5 +606,7 @@
   "institutaSubtitle": "Instituta saecularia affiliata",
   "ministriesTitle": "Ministeria",
   "ministriesSubtitle": "Paroeciae, scholae, domus exercitiorum, etc.",
-  "statisticaSubtitle": "Data statistica et distributio nationum"
+  "statisticaSubtitle": "Data statistica et distributio nationum",
+  "manageAdminTitle": "Administrare Aditus",
+  "adminSubtitle": "Index et iura accessus administratorum"
 }

@@ -1372,7 +1372,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get positionPrefix => 'Position';
 
   @override
-  String get manageAdminTitle => 'Manage Admin Access';
+  String get manageAdminTitle => 'Manage Admin';
 
   @override
   String get adminListTitle => 'Admin List';
@@ -1456,4 +1456,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statisticaSubtitle => 'Statistical data & country distribution';
+
+  @override
+  String get adminSubtitle => 'List & access rights of administrators';
 }

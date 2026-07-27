@@ -606,5 +606,7 @@
   "institutaSubtitle": "Affiliated secular institutes",
   "ministriesTitle": "Ministries",
   "ministriesSubtitle": "Parishes, schools, retreat houses, etc.",
-  "statisticaSubtitle": "Statistical data & country distribution"
+  "statisticaSubtitle": "Statistical data & country distribution",
+  "manageAdminTitle": "Manage Admin",
+  "adminSubtitle": "List & access rights of administrators"
 }

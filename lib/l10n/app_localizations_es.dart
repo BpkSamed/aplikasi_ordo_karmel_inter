@@ -1478,4 +1478,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get statisticaSubtitle => 'Datos estadísticos y distribución por país';
+
+  @override
+  String get adminSubtitle =>
+      'Lista y derechos de acceso de los administradores';
 }
