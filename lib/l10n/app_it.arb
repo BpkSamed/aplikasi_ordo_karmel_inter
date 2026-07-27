@@ -486,5 +486,32 @@
   },
   "selectOrChangeBtn": "Seleziona / Cambia",
   "searchAndSelectMemberTitle": "Cerca e Seleziona Membro",
-  "typeMemberNameHint": "Digita Nome del Membro..."
+  "typeMemberNameHint": "Digita Nome del Membro...",
+
+  "episcopiListTitle": "Elenco dei Vescovi",
+  "deleteEpiscopusConfirmTitle": "Conferma Eliminazione Vescovo",
+  "deleteEpiscopusConfirmMsg": "Sei sicuro di voler eliminare i dati del vescovo '{nama}'?",
+  "@deleteEpiscopusConfirmMsg": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "deleteEpiscopusSuccess": "Dati '{nama}' eliminati con successo.",
+  "@deleteEpiscopusSuccess": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "noEpiscopusDataAdded": "Nessun dato sui vescovi ancora.",
+  "addEpiscopusBtn": "Aggiungi Vescovo",
+  "episcopusTitle": "Vescovo",
+
+  "addEpiscopusPageTitle": "Registrazione Nuovo Vescovo",
+  "editEpiscopusPageTitle": "Modifica Dati Vescovo",
+  "episcopusNameLabel": "Nome Vescovo",
+  "dioceseLabel": "Diocesi",
+  "episcopusUpdateSuccess": "Dati del vescovo aggiornati con successo!",
+  "episcopusAddSuccess": "Dati del vescovo aggiunti con successo!",
+  "saveEpiscopusBtn": "Salva Vescovo",
+  "updateEpiscopusBtn": "Aggiorna Vescovo",
+  "errorSavingEpiscopus": "Errore nel salvataggio dei dati del vescovo: {error}",
+  "@errorSavingEpiscopus": {
+    "placeholders": { "error": { "type": "String" } }
+  }
 }

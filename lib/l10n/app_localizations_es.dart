@@ -1194,4 +1194,59 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get typeMemberNameHint => 'Escriba el Nombre del Miembro...';
+
+  @override
+  String get episcopiListTitle => 'Lista de Obispos';
+
+  @override
+  String get deleteEpiscopusConfirmTitle => 'Confirmar Eliminación de Obispo';
+
+  @override
+  String deleteEpiscopusConfirmMsg(String nama) {
+    return '¿Está seguro de que desea eliminar los datos del obispo \'$nama\'?';
+  }
+
+  @override
+  String deleteEpiscopusSuccess(String nama) {
+    return 'Datos \'$nama\' eliminados con éxito.';
+  }
+
+  @override
+  String get noEpiscopusDataAdded => 'Aún no hay datos de obispos.';
+
+  @override
+  String get addEpiscopusBtn => 'Agregar Obispo';
+
+  @override
+  String get episcopusTitle => 'Obispo';
+
+  @override
+  String get addEpiscopusPageTitle => 'Registro de Nuevo Obispo';
+
+  @override
+  String get editEpiscopusPageTitle => 'Editar Datos del Obispo';
+
+  @override
+  String get episcopusNameLabel => 'Nombre del Obispo';
+
+  @override
+  String get dioceseLabel => 'Diócesis';
+
+  @override
+  String get episcopusUpdateSuccess =>
+      '¡Datos del obispo actualizados con éxito!';
+
+  @override
+  String get episcopusAddSuccess => '¡Datos del obispo agregados con éxito!';
+
+  @override
+  String get saveEpiscopusBtn => 'Guardar Obispo';
+
+  @override
+  String get updateEpiscopusBtn => 'Actualizar Obispo';
+
+  @override
+  String errorSavingEpiscopus(String error) {
+    return 'Error al guardar los datos del obispo: $error';
+  }
 }

@@ -486,5 +486,32 @@
   },
   "selectOrChangeBtn": "Seleccionar / Cambiar",
   "searchAndSelectMemberTitle": "Buscar y Seleccionar Miembro",
-  "typeMemberNameHint": "Escriba el Nombre del Miembro..."
+  "typeMemberNameHint": "Escriba el Nombre del Miembro...",
+
+  "episcopiListTitle": "Lista de Obispos",
+  "deleteEpiscopusConfirmTitle": "Confirmar Eliminación de Obispo",
+  "deleteEpiscopusConfirmMsg": "¿Está seguro de que desea eliminar los datos del obispo '{nama}'?",
+  "@deleteEpiscopusConfirmMsg": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "deleteEpiscopusSuccess": "Datos '{nama}' eliminados con éxito.",
+  "@deleteEpiscopusSuccess": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "noEpiscopusDataAdded": "Aún no hay datos de obispos.",
+  "addEpiscopusBtn": "Agregar Obispo",
+  "episcopusTitle": "Obispo",
+
+  "addEpiscopusPageTitle": "Registro de Nuevo Obispo",
+  "editEpiscopusPageTitle": "Editar Datos del Obispo",
+  "episcopusNameLabel": "Nombre del Obispo",
+  "dioceseLabel": "Diócesis",
+  "episcopusUpdateSuccess": "¡Datos del obispo actualizados con éxito!",
+  "episcopusAddSuccess": "¡Datos del obispo agregados con éxito!",
+  "saveEpiscopusBtn": "Guardar Obispo",
+  "updateEpiscopusBtn": "Actualizar Obispo",
+  "errorSavingEpiscopus": "Error al guardar los datos del obispo: {error}",
+  "@errorSavingEpiscopus": {
+    "placeholders": { "error": { "type": "String" } }
+  }
 }

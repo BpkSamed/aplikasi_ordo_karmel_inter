@@ -1192,4 +1192,59 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get typeMemberNameHint => 'Digita Nome del Membro...';
+
+  @override
+  String get episcopiListTitle => 'Elenco dei Vescovi';
+
+  @override
+  String get deleteEpiscopusConfirmTitle => 'Conferma Eliminazione Vescovo';
+
+  @override
+  String deleteEpiscopusConfirmMsg(String nama) {
+    return 'Sei sicuro di voler eliminare i dati del vescovo \'$nama\'?';
+  }
+
+  @override
+  String deleteEpiscopusSuccess(String nama) {
+    return 'Dati \'$nama\' eliminati con successo.';
+  }
+
+  @override
+  String get noEpiscopusDataAdded => 'Nessun dato sui vescovi ancora.';
+
+  @override
+  String get addEpiscopusBtn => 'Aggiungi Vescovo';
+
+  @override
+  String get episcopusTitle => 'Vescovo';
+
+  @override
+  String get addEpiscopusPageTitle => 'Registrazione Nuovo Vescovo';
+
+  @override
+  String get editEpiscopusPageTitle => 'Modifica Dati Vescovo';
+
+  @override
+  String get episcopusNameLabel => 'Nome Vescovo';
+
+  @override
+  String get dioceseLabel => 'Diocesi';
+
+  @override
+  String get episcopusUpdateSuccess =>
+      'Dati del vescovo aggiornati con successo!';
+
+  @override
+  String get episcopusAddSuccess => 'Dati del vescovo aggiunti con successo!';
+
+  @override
+  String get saveEpiscopusBtn => 'Salva Vescovo';
+
+  @override
+  String get updateEpiscopusBtn => 'Aggiorna Vescovo';
+
+  @override
+  String errorSavingEpiscopus(String error) {
+    return 'Errore nel salvataggio dei dati del vescovo: $error';
+  }
 }

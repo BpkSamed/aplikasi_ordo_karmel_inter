@@ -486,5 +486,32 @@
   },
   "selectOrChangeBtn": "Select / Change",
   "searchAndSelectMemberTitle": "Search & Select Member",
-  "typeMemberNameHint": "Type Member Name..."
+  "typeMemberNameHint": "Type Member Name...",
+
+  "episcopiListTitle": "Bishop List",
+  "deleteEpiscopusConfirmTitle": "Confirm Bishop Deletion",
+  "deleteEpiscopusConfirmMsg": "Are you sure you want to delete bishop data '{nama}'?",
+  "@deleteEpiscopusConfirmMsg": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "deleteEpiscopusSuccess": "Data '{nama}' successfully deleted.",
+  "@deleteEpiscopusSuccess": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "noEpiscopusDataAdded": "No bishop data yet.",
+  "addEpiscopusBtn": "Add Bishop",
+  "episcopusTitle": "Bishop",
+
+  "addEpiscopusPageTitle": "New Bishop Registration",
+  "editEpiscopusPageTitle": "Edit Bishop Data",
+  "episcopusNameLabel": "Bishop Name",
+  "dioceseLabel": "Diocese",
+  "episcopusUpdateSuccess": "Bishop data successfully updated!",
+  "episcopusAddSuccess": "Bishop data successfully added!",
+  "saveEpiscopusBtn": "Save Bishop",
+  "updateEpiscopusBtn": "Update Bishop",
+  "errorSavingEpiscopus": "Error saving bishop data: {error}",
+  "@errorSavingEpiscopus": {
+    "placeholders": { "error": { "type": "String" } }
+  }
 }

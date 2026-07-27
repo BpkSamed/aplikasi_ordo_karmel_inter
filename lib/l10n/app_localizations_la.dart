@@ -1187,4 +1187,59 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get typeMemberNameHint => 'Scribe Nomen Sodalis...';
+
+  @override
+  String get episcopiListTitle => 'Index Episcoporum';
+
+  @override
+  String get deleteEpiscopusConfirmTitle => 'Confirmatio Deletionis Episcopi';
+
+  @override
+  String deleteEpiscopusConfirmMsg(String nama) {
+    return 'Certe vis delere data episcopi \'$nama\'?';
+  }
+
+  @override
+  String deleteEpiscopusSuccess(String nama) {
+    return 'Data \'$nama\' feliciter deleta sunt.';
+  }
+
+  @override
+  String get noEpiscopusDataAdded =>
+      'Nulla data episcoporum adhuc relata sunt.';
+
+  @override
+  String get addEpiscopusBtn => 'Adde Episcopum';
+
+  @override
+  String get episcopusTitle => 'Episcopus';
+
+  @override
+  String get addEpiscopusPageTitle => 'Registratio Novi Episcopi';
+
+  @override
+  String get editEpiscopusPageTitle => 'Recensere Data Episcopi';
+
+  @override
+  String get episcopusNameLabel => 'Nomen Episcopi';
+
+  @override
+  String get dioceseLabel => 'Dioecesis';
+
+  @override
+  String get episcopusUpdateSuccess => 'Data Episcopi feliciter renovata sunt!';
+
+  @override
+  String get episcopusAddSuccess => 'Data Episcopi feliciter addita sunt!';
+
+  @override
+  String get saveEpiscopusBtn => 'Servare Episcopum';
+
+  @override
+  String get updateEpiscopusBtn => 'Renovare Episcopum';
+
+  @override
+  String errorSavingEpiscopus(String error) {
+    return 'Error servando data episcopi: $error';
+  }
 }

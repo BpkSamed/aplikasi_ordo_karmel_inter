@@ -486,5 +486,32 @@
   },
   "selectOrChangeBtn": "Elige / Muta",
   "searchAndSelectMemberTitle": "Quaere et Elige Sodalem",
-  "typeMemberNameHint": "Scribe Nomen Sodalis..."
+  "typeMemberNameHint": "Scribe Nomen Sodalis...",
+
+  "episcopiListTitle": "Index Episcoporum",
+  "deleteEpiscopusConfirmTitle": "Confirmatio Deletionis Episcopi",
+  "deleteEpiscopusConfirmMsg": "Certe vis delere data episcopi '{nama}'?",
+  "@deleteEpiscopusConfirmMsg": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "deleteEpiscopusSuccess": "Data '{nama}' feliciter deleta sunt.",
+  "@deleteEpiscopusSuccess": {
+    "placeholders": { "nama": { "type": "String" } }
+  },
+  "noEpiscopusDataAdded": "Nulla data episcoporum adhuc relata sunt.",
+  "addEpiscopusBtn": "Adde Episcopum",
+  "episcopusTitle": "Episcopus",
+
+  "addEpiscopusPageTitle": "Registratio Novi Episcopi",
+  "editEpiscopusPageTitle": "Recensere Data Episcopi",
+  "episcopusNameLabel": "Nomen Episcopi",
+  "dioceseLabel": "Dioecesis",
+  "episcopusUpdateSuccess": "Data Episcopi feliciter renovata sunt!",
+  "episcopusAddSuccess": "Data Episcopi feliciter addita sunt!",
+  "saveEpiscopusBtn": "Servare Episcopum",
+  "updateEpiscopusBtn": "Renovare Episcopum",
+  "errorSavingEpiscopus": "Error servando data episcopi: {error}",
+  "@errorSavingEpiscopus": {
+    "placeholders": { "error": { "type": "String" } }
+  }
 }

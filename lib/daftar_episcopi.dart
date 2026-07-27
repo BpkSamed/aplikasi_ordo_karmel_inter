@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'tambah_episcopi.dart';
+import 'tambah_episcopi.dart'; // Impor form tambah/edit uskup
+import 'l10n/app_localizations.dart';
 
 class HalamanDaftarEpiscopi extends StatefulWidget {
   const HalamanDaftarEpiscopi({super.key});
@@ -11,191 +12,125 @@ class HalamanDaftarEpiscopi extends StatefulWidget {
 
 class _HalamanDaftarEpiscopiState extends State<HalamanDaftarEpiscopi> {
   final _supabase = Supabase.instance.client;
-  List<dynamic> _bishops = [];
+  List<dynamic> _episcopiList = [];
   bool _isLoading = true;
-  String _query = "";
 
   @override
   void initState() {
     super.initState();
-    _fetchBishops();
+    _fetchEpiscopi();
   }
 
-  Future<void> _fetchBishops() async {
+  Future<void> _fetchEpiscopi() async {
     setState(() => _isLoading = true);
     try {
       final response = await _supabase
           .from('episcopi')
-          .select('*, addresses(*)')
+          .select('*')
           .order('name', ascending: true);
-      setState(() {
-        _bishops = response as List<dynamic>;
-      });
+      
+      if (mounted) {
+        setState(() => _episcopiList = response as List<dynamic>);
+      }
     } catch (e) {
-      debugPrint("Error fetching bishops: $e");
+      debugPrint("Gagal mengambil data: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _deleteBishop(int id, String name) async {
+  Future<void> _hapusEpiscopus(int id, String nama, AppLocalizations t, double baseWidth) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Konfirmasi Hapus"),
-        content: Text("Apakah Anda yakin ingin menghapus data Uskup '$name'?"),
+        title: Text(t.deleteEpiscopusConfirmTitle ?? "Konfirmasi Hapus", style: TextStyle(fontSize: baseWidth * 0.045)),
+        content: Text(t.deleteEpiscopusConfirmMsg(nama), style: TextStyle(fontSize: baseWidth * 0.038)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Batal")),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(t.cancelButton ?? "Batal")),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Hapus"),
+            child: Text(t.deleteButton ?? "Hapus", style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
 
     if (confirm == true) {
-      setState(() => _isLoading = true);
       try {
         await _supabase.from('episcopi').delete().eq('id', id);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Data '$name' berhasil dihapus.")));
-        _fetchBishops();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.deleteEpiscopusSuccess(nama))));
+        }
+        _fetchEpiscopi();
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal menghapus: $e")));
-        setState(() => _isLoading = false);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.deleteMemberError(e.toString()))));
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final filtered = _bishops.where((b) {
-      return (b['name'] ?? '').toString().toLowerCase().contains(_query);
-    }).toList();
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kelola Data Uskup"),
-        actions: [
-          IconButton(icon: const Icon(Icons.refresh), onPressed: _fetchBishops),
-        ],
+        title: Text(t.episcopiListTitle ?? "Daftar Uskup"),
+        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _fetchEpiscopi)],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              onChanged: (val) => setState(() => _query = val.toLowerCase()),
-              decoration: const InputDecoration(
-                labelText: "Cari Nama Uskup...",
-                prefixIcon: Icon(Icons.search, color: Colors.brown),
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-                : filtered.isEmpty
-                    ? const Center(child: Text("Tidak ada data Uskup ditemukan."))
-                    : ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        itemCount: filtered.length,
-                        itemBuilder: (context, index) {
-                          final bishop = filtered[index];
-                          final addr = bishop['addresses'];
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            elevation: 2,
-                            child: ExpansionTile(
-                              // --- KODE MEMPERBESAR KOTAK (+50% padding) ---
-                              tilePadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
-                              leading: const CircleAvatar(
-                                backgroundColor: Colors.brown,
-                                radius: 25, // Memperbesar icon
-                                child: Icon(Icons.shield, color: Colors.white, size: 28),
-                              ),
-                              title: Text(bishop['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
-                                child: Text("Keuskupan: ${bishop['diocese'] ?? '-'}"),
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  // --- TOMBOL EDIT ---
-                                  IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.blue),
-                                    onPressed: () async {
-                                      final refresh = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HalamanTambahEpiscopi(initialData: bishop),
-                                        ),
-                                      );
-                                      if (refresh == true) _fetchBishops();
-                                    },
-                                  ),
-                                  // --- TOMBOL HAPUS ---
-                                  IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.red),
-                                    onPressed: () => _deleteBishop(bishop['id'], bishop['name']),
-                                  ),
-                                ],
-                              ),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      _buildDetailRow("Status", bishop['status']),
-                                      _buildDetailRow("Asal Entitas", bishop['ex_carmelite_entity']),
-                                      const Divider(),
-                                      Text("Alamat Tinggal Resmi:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700)),
-                                      const SizedBox(height: 4),
-                                      if (addr != null) ...[
-                                        Text("${addr['house_name'] ?? ''} ${addr['street'] ?? ''}".trim()),
-                                        Text("${addr['city'] ?? ''}, ${addr['country'] ?? ''} (${addr['postal_code'] ?? ''})"),
-                                        Text("Telp: ${addr['telephone'] ?? '-'} • Email: ${addr['email'] ?? '-'}"),
-                                      ] else
-                                        const Text("Alamat belum diatur."),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) return const Center(child: CircularProgressIndicator(color: Colors.brown));
+
+          if (_episcopiList.isEmpty) {
+            return Center(child: Text(t.noEpiscopusDataAdded ?? "Belum ada data.", style: TextStyle(fontSize: baseWidth * 0.038)));
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.all(baseWidth * 0.03),
+            itemCount: _episcopiList.length,
+            itemBuilder: (context, index) {
+              final epi = _episcopiList[index];
+              return Card(
+                margin: EdgeInsets.only(bottom: baseWidth * 0.02),
+                child: ListTile(
+                  leading: CircleAvatar(backgroundColor: Colors.brown, child: Icon(Icons.account_balance, color: Colors.white, size: baseWidth * 0.05)),
+                  title: Text(epi['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)),
+                  subtitle: Text("${t.episcopusTitle ?? 'Uskup'}: ${epi['diocese'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.blue, size: baseWidth * 0.05),
+                        onPressed: () { /* Navigasi ke edit */ },
                       ),
-          ),
-        ],
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red, size: baseWidth * 0.05),
+                        onPressed: () => _hapusEpiscopus(epi['id'], epi['name'], t, baseWidth),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
-        label: const Text("Tambah Uskup"),
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: Text(t.addEpiscopusBtn ?? "Tambah Uskup", style: const TextStyle(color: Colors.white)),
         onPressed: () async {
           final refresh = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const HalamanTambahEpiscopi()),
           );
-          if (refresh == true) _fetchBishops();
+          if (refresh == true) _fetchEpiscopi();
         },
-      ),
-    );
-  }
-
-  Widget _buildDetailRow(String label, dynamic value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        children: [
-          Text("$label: ", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-          Text(value?.toString() ?? '-'),
-        ],
       ),
     );
   }

@@ -1176,4 +1176,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get typeMemberNameHint => 'Type Member Name...';
+
+  @override
+  String get episcopiListTitle => 'Bishop List';
+
+  @override
+  String get deleteEpiscopusConfirmTitle => 'Confirm Bishop Deletion';
+
+  @override
+  String deleteEpiscopusConfirmMsg(String nama) {
+    return 'Are you sure you want to delete bishop data \'$nama\'?';
+  }
+
+  @override
+  String deleteEpiscopusSuccess(String nama) {
+    return 'Data \'$nama\' successfully deleted.';
+  }
+
+  @override
+  String get noEpiscopusDataAdded => 'No bishop data yet.';
+
+  @override
+  String get addEpiscopusBtn => 'Add Bishop';
+
+  @override
+  String get episcopusTitle => 'Bishop';
+
+  @override
+  String get addEpiscopusPageTitle => 'New Bishop Registration';
+
+  @override
+  String get editEpiscopusPageTitle => 'Edit Bishop Data';
+
+  @override
+  String get episcopusNameLabel => 'Bishop Name';
+
+  @override
+  String get dioceseLabel => 'Diocese';
+
+  @override
+  String get episcopusUpdateSuccess => 'Bishop data successfully updated!';
+
+  @override
+  String get episcopusAddSuccess => 'Bishop data successfully added!';
+
+  @override
+  String get saveEpiscopusBtn => 'Save Bishop';
+
+  @override
+  String get updateEpiscopusBtn => 'Update Bishop';
+
+  @override
+  String errorSavingEpiscopus(String error) {
+    return 'Error saving bishop data: $error';
+  }
 }

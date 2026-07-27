@@ -2291,6 +2291,102 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Scribe Nomen Sodalis...'**
   String get typeMemberNameHint;
+
+  /// No description provided for @episcopiListTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Episcoporum'**
+  String get episcopiListTitle;
+
+  /// No description provided for @deleteEpiscopusConfirmTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Deletionis Episcopi'**
+  String get deleteEpiscopusConfirmTitle;
+
+  /// No description provided for @deleteEpiscopusConfirmMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere data episcopi \'{nama}\'?'**
+  String deleteEpiscopusConfirmMsg(String nama);
+
+  /// No description provided for @deleteEpiscopusSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data \'{nama}\' feliciter deleta sunt.'**
+  String deleteEpiscopusSuccess(String nama);
+
+  /// No description provided for @noEpiscopusDataAdded.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulla data episcoporum adhuc relata sunt.'**
+  String get noEpiscopusDataAdded;
+
+  /// No description provided for @addEpiscopusBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Episcopum'**
+  String get addEpiscopusBtn;
+
+  /// No description provided for @episcopusTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Episcopus'**
+  String get episcopusTitle;
+
+  /// No description provided for @addEpiscopusPageTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Registratio Novi Episcopi'**
+  String get addEpiscopusPageTitle;
+
+  /// No description provided for @editEpiscopusPageTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Data Episcopi'**
+  String get editEpiscopusPageTitle;
+
+  /// No description provided for @episcopusNameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Episcopi'**
+  String get episcopusNameLabel;
+
+  /// No description provided for @dioceseLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Dioecesis'**
+  String get dioceseLabel;
+
+  /// No description provided for @episcopusUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Episcopi feliciter renovata sunt!'**
+  String get episcopusUpdateSuccess;
+
+  /// No description provided for @episcopusAddSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data Episcopi feliciter addita sunt!'**
+  String get episcopusAddSuccess;
+
+  /// No description provided for @saveEpiscopusBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Servare Episcopum'**
+  String get saveEpiscopusBtn;
+
+  /// No description provided for @updateEpiscopusBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Renovare Episcopum'**
+  String get updateEpiscopusBtn;
+
+  /// No description provided for @errorSavingEpiscopus.
+  ///
+  /// In la, this message translates to:
+  /// **'Error servando data episcopi: {error}'**
+  String errorSavingEpiscopus(String error);
 }
 
 class _AppLocalizationsDelegate
