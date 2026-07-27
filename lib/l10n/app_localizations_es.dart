@@ -115,7 +115,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Organizar las divisiones de comisiones y sus miembros';
 
   @override
-  String get curiaGeneralisTitle => 'Curia General';
+  String get curiaGeneralisTitle => 'Curia Generalis';
 
   @override
   String get consiliumGenerale => 'Consejo General';
@@ -470,7 +470,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get heremitiDirectoryTitle => 'Directorio de Ermitaños';
 
   @override
-  String get heremitiTitle => 'ERMITAÑOS';
+  String get heremitiTitle => 'Ermitaños';
 
   @override
   String get searchHeremiti => 'Buscar Ermitaños...';
@@ -547,7 +547,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sisterMonastery => 'Monasterio';
 
   @override
-  String get monasteriaOrdinisTitle => 'Monasteria Ordinis';
+  String get monasteriaOrdinisTitle => 'Monasterios de la Orden';
 
   @override
   String get entitiesCongregatioTitle => 'Entidades / Congregación';
@@ -1391,4 +1391,91 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get positionPrefix => 'Cargo';
+
+  @override
+  String get manageAdminTitle => 'Gestionar Administrador';
+
+  @override
+  String get adminListTitle => 'Lista de Administradores';
+
+  @override
+  String get addAdminPageTitle => 'Agregar Nuevo Administrador';
+
+  @override
+  String get adminNameLabel => 'Nombre del Administrador';
+
+  @override
+  String get saveAdminBtn => 'GUARDAR ADMINISTRADOR';
+
+  @override
+  String get adminAddSuccess => '¡Administrador agregado con éxito!';
+
+  @override
+  String get deleteAdminConfirm =>
+      '¿Está seguro de que desea eliminar a este administrador?';
+
+  @override
+  String get adminDeleted => 'Administrador eliminado.';
+
+  @override
+  String get appTitle => 'Directorio de la Orden Carmelita';
+
+  @override
+  String get mainDirectoryTitle => 'Directorio Principal de la Orden Carmelita';
+
+  @override
+  String get curiaGeneralisSubtitle => 'Consejo, oficinas y comisiones';
+
+  @override
+  String get episcopiExOrdinesTitle => 'Episcopi Ex Ordine Assumpti';
+
+  @override
+  String get episcopiSubtitle => 'Lista de obispos de la Orden Carmelita';
+
+  @override
+  String get subJurisdictioneTitle => 'Sub Immediata Jurisdictione';
+
+  @override
+  String get subJurisdictioneSubtitle => 'Delegación, CISA, Domus S. Alberti';
+
+  @override
+  String get citocTitle => 'CITOC';
+
+  @override
+  String get citocSubtitle => 'Noticias & informatorum Carmelitanum';
+
+  @override
+  String get fratresTitle => 'Hermanos (Fratres)';
+
+  @override
+  String get fratresSubtitle => 'Provincias, comisariatos y delegaciones';
+
+  @override
+  String get heremitiSubtitle => 'Ermitaños carmelitas (sacerdotes y hermanas)';
+
+  @override
+  String get monialesTitle => 'Monjas (Moniales)';
+
+  @override
+  String get monialesSubtitle => 'Monjas contemplativas carmelitas';
+
+  @override
+  String get monasteriaOrdinisSubtitle =>
+      'Monasterios sui iuris / propriis utuntur';
+
+  @override
+  String get heremitaeSubtitle => 'Ermitaños carmelitas separados';
+
+  @override
+  String get institutaSubtitle => 'Institutos seculares afiliados';
+
+  @override
+  String get ministriesTitle => 'Ministerios';
+
+  @override
+  String get ministriesSubtitle =>
+      'Parroquias, escuelas, casas de retiro, etc.';
+
+  @override
+  String get statisticaSubtitle => 'Datos estadísticos y distribución por país';
 }

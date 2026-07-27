@@ -1,88 +1,60 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+// Import file Lokalisasi
 import 'l10n/app_localizations.dart';
 
+// Import Semua Halaman Menu Anggota / Publik
 import 'curia_generalis.dart';
 import 'episcopi_ex_ordines_assumpti.dart';
-import 'heremitae.dart';
-import 'heremiti.dart';
-import 'instituta.dart';
 import 'jurisdictione_prioris_generalis.dart';
 import 'citoc.dart';
 import 'fratres.dart';
-import 'monasteria_ordinis.dart';
+import 'heremiti.dart';
 import 'moniales.dart';
-import 'statistica.dart';
+import 'monasteria_ordinis.dart';
+import 'heremitae.dart';
+import 'instituta.dart';
 import 'ministries.dart';
-import 'tambah_admin.dart';
-import 'tambah_anggota.dart';
+import 'statistica.dart';
+
+// Import Semua Halaman Manajemen Admin
 import 'daftar_admin.dart';
-import 'daftar_anggota.dart';
-import 'data_non_anggota.dart';
-import 'daftar_data_non_anggota.dart';
 import 'kelola_pejabat_pusat.dart';
-import 'daftar_episcopi.dart';
 import 'kelola_komisi.dart';
 import 'kelola_citoc.dart';
+import 'daftar_anggota.dart';
+import 'daftar_data_non_anggota.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Inisialisasi Supabase (Sesuaikan URL & AnonKey dengan project Supabase Anda)
   await Supabase.initialize(
-    url: 'https://dcvbectolbungkxutiio.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjdmJlY3RvbGJ1bmdreHV0aWlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyMTA3NTAsImV4cCI6MjA5ODc4Njc1MH0.gXn1syMkQ1WvrZS7qxAwcE9InVBjzsj4Qq5ppZEL9ME',
+    url: 'YOUR_SUPABASE_URL',
+    anonKey: 'YOUR_SUPABASE_ANON_KEY',
   );
-  runApp(const AplikasiOrdoKarmel());
+
+  runApp(const MyApp());
 }
 
-class FallbackMaterialLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
-  const FallbackMaterialLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => locale.languageCode == 'la';
-
-  @override
-  Future<MaterialLocalizations> load(Locale locale) {
-    return GlobalMaterialLocalizations.delegate.load(const Locale('en'));
-  }
-
-  @override
-  bool shouldReload(FallbackMaterialLocalizationsDelegate old) => false;
-}
-
-class FallbackCupertinoLocalizationsDelegate extends LocalizationsDelegate<CupertinoLocalizations> {
-  const FallbackCupertinoLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => locale.languageCode == 'la';
-
-  @override
-  Future<CupertinoLocalizations> load(Locale locale) {
-    return GlobalCupertinoLocalizations.delegate.load(const Locale('en'));
-  }
-
-  @override
-  bool shouldReload(FallbackCupertinoLocalizationsDelegate old) => false;
-}
-
-class AplikasiOrdoKarmel extends StatefulWidget {
-  const AplikasiOrdoKarmel({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   static void setLocale(BuildContext context, Locale newLocale) {
-    _AplikasiOrdoKarmelState? state = context.findAncestorStateOfType<_AplikasiOrdoKarmelState>();
-    state?.changeLocale(newLocale);
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
   }
 
   @override
-  State<AplikasiOrdoKarmel> createState() => _AplikasiOrdoKarmelState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _AplikasiOrdoKarmelState extends State<AplikasiOrdoKarmel> {
-  Locale _locale = const Locale('la'); 
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
 
-  void changeLocale(Locale locale) {
+  void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
@@ -91,385 +63,177 @@ class _AplikasiOrdoKarmelState extends State<AplikasiOrdoKarmel> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Direktori Ordo Karmel',
       debugShowCheckedModeBanner: false,
-      title: 'Aplikasi Ordo Karmel',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primary抓Scheme: ColorScheme.fromSeed(seedColor: Colors.brown),
+        scaffoldBackgroundColor: Colors.grey.shade100,
+        useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.brown, 
-          foregroundColor: Colors.white
+          backgroundColor: Colors.brown,
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          elevation: 2,
         ),
       ),
       locale: _locale,
+      supportedLocales: const [
+        Locale('la'), // Latin
+        Locale('en'), // English
+        Locale('it'), // Italiano
+        Locale('es'), // Español
+      ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        FallbackMaterialLocalizationsDelegate(),
-        FallbackCupertinoLocalizationsDelegate(),
       ],
-      supportedLocales: const [
-        Locale('la'),
-        Locale('en'),
-        Locale('it'),
-        Locale('es'),
-      ],
-      home: const HalamanInformasi(),
+      home: const HalamanUtama(),
     );
   }
 }
 
 /// =================================================================
-/// 1. HALAMAN INFORMASI (Gabungan Halaman 1, 2, & 3)
+/// HALAMAN UTAMA (DASHBOARD Utama)
 /// =================================================================
-class HalamanInformasi extends StatelessWidget {
-  const HalamanInformasi({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
-    
-    return Scaffold(
-      appBar: AppBar(title: Text(t.appInfoTitle)),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Menggunakan basis lebar layar untuk kalkulasi ukuran dinamis
-          final double baseWidth = constraints.maxWidth;
-          
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: baseWidth * 0.05,
-              vertical: 20.0,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight - 40),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    SizedBox(height: constraints.maxHeight * 0.03),
-                    // Icon mengikuti persentase ukuran layar
-                    Icon(Icons.church, size: baseWidth * 0.25, color: Colors.brown),
-                    const SizedBox(height: 15),
-                    // Font dinamis
-                    Text(
-                      t.appName, 
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: baseWidth * 0.055, // Proporsional ~22pt
-                        fontWeight: FontWeight.bold, 
-                        color: Colors.brown
-                      ),
-                    ),
-                    Divider(height: constraints.maxHeight * 0.05),
-
-                    ListTile(
-                      leading: Icon(Icons.location_on, color: Colors.brown, size: baseWidth * 0.065),
-                      title: Text(t.headquarters, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(t.headquartersAddress),
-                    ),
-                    const Divider(),
-
-                    ListTile(
-                      leading: Icon(Icons.contact_mail, color: Colors.brown, size: baseWidth * 0.065),
-                      title: Text(t.contactUs, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(t.contactDetails),
-                    ),
-                    
-                    const Spacer(),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, constraints.maxHeight * 0.07), // Tinggi responsif
-                        backgroundColor: Colors.brown,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanLogin()));
-                      },
-                      child: Text(t.continueToLogin, style: TextStyle(fontSize: baseWidth * 0.04)),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// 2. HALAMAN LOGIN DENGAN PILIHAN BAHASA & TEKS SELAMAT DATANG
-/// =================================================================
-class HalamanLogin extends StatefulWidget {
-  const HalamanLogin({super.key});
-
-  @override
-  State<HalamanLogin> createState() => _HalamanLoginState();
-}
-
-class _HalamanLoginState extends State<HalamanLogin> {
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
-    Locale currentLocale = Localizations.localeOf(context);
-
-    return Scaffold(
-      appBar: AppBar(title: Text(t.loginTitle)),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double baseWidth = constraints.maxWidth;
-
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: baseWidth * 0.06,
-              vertical: 20.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: constraints.maxHeight * 0.03),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(Icons.language, color: Colors.brown, size: baseWidth * 0.05),
-                    const SizedBox(width: 8),
-                    DropdownButton<String>(
-                      value: currentLocale.languageCode,
-                      underline: Container(height: 2, color: Colors.brown),
-                      onChanged: (String? newLangCode) {
-                        if (newLangCode != null) {
-                          AplikasiOrdoKarmel.setLocale(context, Locale(newLangCode));
-                        }
-                      },
-                      items: const [
-                        DropdownMenuItem(value: 'la', child: Text('Latin (Default)')),
-                        DropdownMenuItem(value: 'en', child: Text('English')),
-                        DropdownMenuItem(value: 'it', child: Text('Italiano')),
-                        DropdownMenuItem(value: 'es', child: Text('Español')),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: constraints.maxHeight * 0.03),
-
-                Text(
-                  t.welcomeMessage,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: baseWidth * 0.06, // Ukuran font responsif
-                    fontWeight: FontWeight.bold, 
-                    color: Colors.brown
-                  ),
-                ),
-                SizedBox(height: constraints.maxHeight * 0.04),
-
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: t.usernameEmailLabel, 
-                    border: const OutlineInputBorder()
-                  ),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: t.passwordLabel, 
-                    border: const OutlineInputBorder()
-                  ),
-                ),
-                SizedBox(height: constraints.maxHeight * 0.04),
-                
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
-                    backgroundColor: Colors.brown,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanUtama()));
-                  },
-                  child: Text(t.loginAsMember, style: TextStyle(fontSize: baseWidth * 0.04)),
-                ),
-                
-                const SizedBox(height: 15),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.brown,
-                    side: const BorderSide(color: Colors.brown, width: 2),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanAdmin()));
-                  },
-                  child: Text(
-                    t.loginAsAdmin, 
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
-                  ),
-                ),
-                SizedBox(height: constraints.maxHeight * 0.05),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// 3. HALAMAN UTAMA (PROFIL) DENGAN DRAWER (MENU GARIS 3)
-/// =================================================================
-class HalamanUtama extends StatelessWidget {
+class HalamanUtama extends StatefulWidget {
   const HalamanUtama({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
+  State<HalamanUtama> createState() => _HalamanUtamaState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.userProfileTitle),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.brown),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+class _HalamanUtamaState extends State<HalamanUtama> {
+  bool _isAdmin = false; // Status apakah user login sebagai admin
+  String? _adminName;
+
+  // Fungsi Popup Login Admin
+  Future<void> _showLoginDialog(AppLocalizations t, double baseWidth) async {
+    final nameCtrl = TextEditingController();
+    final passCtrl = TextEditingController();
+    bool isLoggingIn = false;
+    String? errorMessage;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              title: Row(
                 children: [
-                  const CircleAvatar(radius: 30, backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.brown)),
-                  const SizedBox(height: 10),
-                  const Text("Abraham", style: TextStyle(color: Colors.white, fontSize: 18)),
-                  Text(t.studentRole, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                  const Icon(Icons.admin_panel_settings, color: Colors.brown),
+                  SizedBox(width: baseWidth * 0.02),
+                  Text(
+                    t.manageAdminTitle ?? "Login Admin",
+                    style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
-            ),
-            _buildMenuItem(context, "Curia Generalis"),
-            _buildMenuItem(context, "Episcopi Ex Ordines Assumpti"),
-            _buildMenuItem(context, "Sub Immediata Jurisdictione Prioris Generalis"),
-            _buildMenuItem(context, "CITOC"),
-            _buildMenuItem(context, "FRATRES"),
-            _buildMenuItem(context, "HEREMITI"),
-            _buildMenuItem(context, "MONIALES"),
-            _buildMenuItem(context, "MONASTERIA ORDINIS..."),
-            _buildMenuItem(context, "HEREMITAE"),
-            _buildMenuItem(context, "INSTITUTA"),
-            _buildMenuItem(context, "STATISTICA"),
-            _buildMenuItem(context, "Ministries"),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(t.logout),
-              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanLogin())),
-            ),
-          ],
-        ),
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double baseWidth = constraints.maxWidth;
-
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(radius: baseWidth * 0.12, child: Icon(Icons.person, size: baseWidth * 0.12)),
-                    const SizedBox(height: 20),
-                    Text(
-                      t.welcomeMessage, 
-                      style: TextStyle(fontSize: baseWidth * 0.05, fontWeight: FontWeight.bold)
-                    ),
-                    const SizedBox(height: 10),
-                    Text(t.universityStudent, style: const TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 20),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (errorMessage != null)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: EdgeInsets.only(bottom: baseWidth * 0.02),
                       child: Text(
-                        t.drawerInstruction, 
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: baseWidth * 0.038),
+                        errorMessage!,
+                        style: TextStyle(color: Colors.red, fontSize: baseWidth * 0.032),
                       ),
                     ),
-                  ],
-                ),
+                  TextField(
+                    controller: nameCtrl,
+                    decoration: InputDecoration(
+                      labelText: t.adminNameLabel ?? "Nama Admin / Username",
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: baseWidth * 0.03),
+                  TextField(
+                    controller: passCtrl,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: t.passwordLabel ?? "Password",
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(t.cancelButton ?? "Batal"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
+                  onPressed: isLoggingIn
+                      ? null
+                      : () async {
+                          setDialogState(() {
+                            isLoggingIn = true;
+                            errorMessage = null;
+                          });
 
-  Widget _buildMenuItem(BuildContext context, String title) {
-    final t = AppLocalizations.of(context)!;
+                          try {
+                            // Cek kredensial ke Supabase tabel 'admins'
+                            final response = await Supabase.instance.client
+                                .from('admins')
+                                .select()
+                                .eq('name', nameCtrl.text.trim())
+                                .eq('password', passCtrl.text.trim())
+                                .maybeSingle();
 
-    return ListTile(
-      title: Text(title),
-      onTap: () {
-        Navigator.pop(context); 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.openingMenu(title))));
-
-        if (title == "Curia Generalis") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanCuriaGeneralis()));
-        } 
-        else if (title == "Episcopi Ex Ordines Assumpti") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanEpiscopi()));
-        }
-        else if (title == "Sub Immediata Jurisdictione Prioris Generalis") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanSubImmediata()));
-        }
-        else if (title == "CITOC") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanCitoc()));
-        }
-        else if (title == "FRATRES") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanFratres()));
-        }
-        else if (title == "HEREMITI") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanHeremiti()));
-        }
-        else if (title == "MONIALES") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMoniales()));
-        }
-        else if (title.contains("MONASTERIA ORDINIS")) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMonasteriaOrdiniss()));
-        }
-        else if (title == "HEREMITAE") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanHeremitae()));
-        }
-        else if (title == "INSTITUTA") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanInstituta()));
-        }
-        else if (title == "STATISTICA") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanStatistica()));
-        }
-        else if (title == "Ministries") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMinistries()));
-        }
+                            if (response != null) {
+                              setState(() {
+                                _isAdmin = true;
+                                _adminName = response['name'];
+                              });
+                              if (mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Selamat datang Admin, ${_adminName ?? ''}!")),
+                                );
+                              }
+                            } else {
+                              setDialogState(() {
+                                isLoggingIn = false;
+                                errorMessage = "Username atau Password salah!";
+                              });
+                            }
+                          } catch (e) {
+                            setDialogState(() {
+                              isLoggingIn = false;
+                              errorMessage = "Gagal login: $e";
+                            });
+                          }
+                        },
+                  child: isLoggingIn
+                      ? SizedBox(
+                          width: baseWidth * 0.04,
+                          height: baseWidth * 0.04,
+                          child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                        )
+                      : const Text("LOGIN"),
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
-}
 
-/// =================================================================
-/// 4. HALAMAN DASBOR ADMIN
-/// =================================================================
-class HalamanAdmin extends StatelessWidget {
-  const HalamanAdmin({super.key});
+  void _logoutAdmin() {
+    setState(() {
+      _isAdmin = false;
+      _adminName = null;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Anda telah keluar dari mode Admin.")),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -477,92 +241,296 @@ class HalamanAdmin extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.adminDashboardTitle),
+        title: Text(t.appTitle ?? "Direktori Ordo Karmel"),
+        actions: [
+          // Pemilih Bahasa (Locale Selector)
+          PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
+            tooltip: "Pilih Bahasa / Select Language",
+            onSelected: (Locale locale) {
+              MyApp.setLocale(context, locale);
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(value: Locale('la'), child: Text("Latin (LA)")),
+              const PopupMenuItem(value: Locale('en'), child: Text("English (EN)")),
+              const PopupMenuItem(value: Locale('it'), child: Text("Italiano (IT)")),
+              const PopupMenuItem(value: Locale('es'), child: Text("Español (ES)")),
+            ],
+          ),
+
+          // Tombol Login / Logout Admin
+          IconButton(
+            icon: Icon(_isAdmin ? Icons.logout : Icons.lock_outline),
+            tooltip: _isAdmin ? "Logout Admin" : "Login Admin",
+            onPressed: () {
+              if (_isAdmin) {
+                _logoutAdmin();
+              } else {
+                final double baseWidth = MediaQuery.of(context).size.width;
+                _showLoginDialog(t, baseWidth);
+              }
+            },
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
 
           return ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: baseWidth * 0.04,
-              vertical: 16.0,
-            ),
+            padding: EdgeInsets.all(baseWidth * 0.04),
             children: [
+              // BISA DITAMPILKAN KARTU STATUS LOGIN JIKA SEBAGAI ADMIN
+              if (_isAdmin) ...[
+                Container(
+                  padding: EdgeInsets.all(baseWidth * 0.035),
+                  margin: EdgeInsets.only(bottom: baseWidth * 0.03),
+                  decoration: BoxDecoration(
+                    color: Colors.brown.shade800,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.verified_user, color: Colors.amber, size: baseWidth * 0.07),
+                      SizedBox(width: baseWidth * 0.03),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Mode Administrator Aktif",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: baseWidth * 0.038,
+                              ),
+                            ),
+                            Text(
+                              "Admin: ${_adminName ?? 'Administrator'}",
+                              style: TextStyle(color: Colors.white70, fontSize: baseWidth * 0.032),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ==========================================
+                // SECTION: MENU KHUSUS ADMIN (HANYA MUNCUL SETELAH LOGIN)
+                // ==========================================
+                Text(
+                  t.manageAdminTitle ?? "Panel Pengelolaan Admin",
+                  style: TextStyle(
+                    fontSize: baseWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown.shade900,
+                  ),
+                ),
+                SizedBox(height: baseWidth * 0.02),
+
+                // 1. MENU KELOLA ADMIN (Daftar Admin & Tambah Admin)
+                _buildMenuCard(
+                  context,
+                  title: t.manageAdminTitle ?? "Kelola Admin",
+                  subtitle: t.adminListTitle ?? "Daftar & Hak Akses Administrator",
+                  icon: Icons.admin_panel_settings,
+                  color: Colors.brown.shade700,
+                  page: const HalamanDaftarAdmin(),
+                  baseWidth: baseWidth,
+                ),
+
+                // 2. MENU KELOLA PEJABAT PUSAT
+                _buildMenuCard(
+                  context,
+                  title: t.manageCuriaTitle ?? "Kelola Curia & Pejabat Pusat",
+                  subtitle: "Penunjukan Pejabat Curia Generalis",
+                  icon: Icons.manage_accounts,
+                  color: Colors.brown.shade700,
+                  page: const HalamanKelolaPejabatPusat(),
+                  baseWidth: baseWidth,
+                ),
+
+                // 3. MENU KELOLA KOMISI
+                _buildMenuCard(
+                  context,
+                  title: t.manageCommissionTitle ?? "Kelola Komisi Jenderal",
+                  subtitle: "Atur Komisi & Anggota Komisi",
+                  icon: Icons.assignment_ind,
+                  color: Colors.brown.shade700,
+                  page: const HalamanKelolaKomisi(),
+                  baseWidth: baseWidth,
+                ),
+
+                // 4. MENU KELOLA BERITA CITOC
+                _buildMenuCard(
+                  context,
+                  title: t.manageCitocNewsTitle ?? "Kelola Berita CITOC",
+                  subtitle: "Tambah/Edit Link Berita Publik",
+                  icon: Icons.edit_document,
+                  color: Colors.brown.shade700,
+                  page: const HalamanKelolaCitoc(),
+                  baseWidth: baseWidth,
+                ),
+
+                // 5. MENU KELOLA ANGGOTA
+                _buildMenuCard(
+                  context,
+                  title: t.memberListTitle ?? "Kelola Data Anggota",
+                  subtitle: "Tambah, Edit, & Hapus Biodata Sodales",
+                  icon: Icons.person_add_alt_1,
+                  color: Colors.brown.shade700,
+                  page: const HalamanDaftarAnggota(),
+                  baseWidth: baseWidth,
+                ),
+
+                // 6. MENU KELOLA DATA NON ANGGOTA
+                _buildMenuCard(
+                  context,
+                  title: t.nonMemberDataListTitle ?? "Kelola Alamat, Entitas & Biara",
+                  subtitle: "Master Data Domicilia & Conventus",
+                  icon: Icons.dataset,
+                  color: Colors.brown.shade700,
+                  page: const HalamanDaftarDataNonAnggota(),
+                  baseWidth: baseWidth,
+                ),
+
+                SizedBox(height: baseWidth * 0.04),
+                const Divider(),
+                SizedBox(height: baseWidth * 0.02),
+              ],
+
+              // ==========================================
+              // SECTION: MENU ANGGOTA / PUBLIK (BISA DITRANSLATE)
+              // ==========================================
               Text(
-                t.directoryManagementMenu,
+                t.mainDirectoryTitle ?? "Direktori Utama Ordo Karmel",
                 style: TextStyle(
-                  fontSize: baseWidth * 0.045, 
-                  fontWeight: FontWeight.bold, 
-                  color: Colors.brown
+                  fontSize: baseWidth * 0.04,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.brown.shade900,
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: baseWidth * 0.025),
 
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageMasterData,
-                subtitle: t.masterDataSubtitle,
-                icon: Icons.domain,
+              _buildMenuCard(
+                context,
+                title: t.curiaGeneralisTitle ?? "Curia Generalis",
+                subtitle: t.curiaGeneralisSubtitle ?? "Consilium, Officia, & Commissiones",
+                icon: Icons.account_balance,
+                color: Colors.brown,
+                page: const HalamanCuriaGeneralis(),
                 baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarDataNonAnggota()));
-                },
               ),
 
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageMemberData,
-                subtitle: t.memberDataSubtitle,
-                icon: Icons.people,
+              _buildMenuCard(
+                context,
+                title: t.episcopiExOrdinesTitle ?? "Episcopi Ex Ordine Assumpti",
+                subtitle: t.episcopiSubtitle ?? "Daftar Uskup dari Ordo Karmel",
+                icon: Icons.person_search,
+                color: Colors.brown,
+                page: const HalamanEpiscopi(),
                 baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()));
-                },
               ),
 
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageCentralOfficials,
-                subtitle: t.centralOfficialsSubtitle,
-                icon: Icons.assignment_ind,
+              _buildMenuCard(
+                context,
+                title: t.subJurisdictioneTitle ?? "Sub Immediata Jurisdictione",
+                subtitle: t.subJurisdictioneSubtitle ?? "Delegatio, CISA, Domus S. Alberti",
+                icon: Icons.gavel,
+                color: Colors.brown,
+                page: const HalamanSubImmediata(),
                 baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaPejabatPusat()));
-                },
               ),
 
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageBishopData,
-                subtitle: t.bishopDataSubtitle,
-                icon: Icons.shield,
-                baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarEpiscopi()));
-                },
-              ),
-
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageCitocNews,
-                subtitle: t.citocNewsSubtitle,
+              _buildMenuCard(
+                context,
+                title: t.citocTitle ?? "CITOC",
+                subtitle: t.citocSubtitle ?? "Berita & Informatorum Carmelitanum",
                 icon: Icons.newspaper,
+                color: Colors.brown,
+                page: const HalamanCitoc(),
                 baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaCitoc()));
-                },
               ),
 
-              _buildAdminMenuCard(
-                context: context,
-                title: t.manageGeneralCommissions,
-                subtitle: t.generalCommissionsSubtitle,
-                icon: Icons.assignment,
+              _buildMenuCard(
+                context,
+                title: t.fratresTitle ?? "FRATRES",
+                subtitle: t.fratresSubtitle ?? "Provincia, Commissariatus, & Delegationes",
+                icon: Icons.groups,
+                color: Colors.brown,
+                page: const HalamanFratres(),
                 baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaKomisi()));
-                },
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.heremitiTitle ?? "HEREMITI",
+                subtitle: t.heremitiSubtitle ?? "Pertapa Carmelita (Sacerdotalis & Sorores)",
+                icon: Icons.self_improvement,
+                color: Colors.brown,
+                page: const HalamanHeremiti(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.monialesTitle ?? "MONIALES",
+                subtitle: t.monialesSubtitle ?? "Suster-Suster Kontemplatif Carmelita",
+                icon: Icons.church,
+                color: Colors.brown,
+                page: const HalamanMoniales(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.monasteriaOrdinisTitle ?? "MONASTERIA ORDINIS",
+                subtitle: t.monasteriaOrdinisSubtitle ?? "Monasteria Sui Iuris / Propriis Utuntur",
+                icon: Icons.holiday_village,
+                color: Colors.brown,
+                page: const HalamanMonasteriaOrdiniss(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.heremitaeTitle ?? "HEREMITAE",
+                subtitle: t.heremitaeSubtitle ?? "Pertapa Carmelita Terpisah",
+                icon: Icons.terrain,
+                color: Colors.brown,
+                page: const HalamanHeremitae(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.institutaTitle ?? "INSTITUTA",
+                subtitle: t.institutaSubtitle ?? "Institut-Institut Secularia Terafiliasi",
+                icon: Icons.domain,
+                color: Colors.brown,
+                page: const HalamanInstituta(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.ministriesTitle ?? "MINISTRIES",
+                subtitle: t.ministriesSubtitle ?? "Paroki, Sekolah, Rumah Retret, dll",
+                icon: Icons.volunteer_activism,
+                color: Colors.brown,
+                page: const HalamanMinistries(),
+                baseWidth: baseWidth,
+              ),
+
+              _buildMenuCard(
+                context,
+                title: t.statisticaTitle ?? "STATISTICA",
+                subtitle: t.statisticaSubtitle ?? "Data Angka Statistik & Persebaran Negara",
+                icon: Icons.bar_chart,
+                color: Colors.brown,
+                page: const HalamanStatistica(),
+                baseWidth: baseWidth,
               ),
             ],
           );
@@ -571,31 +539,43 @@ class HalamanAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildAdminMenuCard({
-    required BuildContext context,
+  // WIDGET CARD REUSABLE DAN RESPONSIF SANGAT FLEKSIBEL
+  Widget _buildMenuCard(
+    BuildContext context, {
     required String title,
     required String subtitle,
     required IconData icon,
+    required Color color,
+    required Widget page,
     required double baseWidth,
-    required VoidCallback onTap,
   }) {
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 2.5,
+      margin: EdgeInsets.only(bottom: baseWidth * 0.025),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.015),
         leading: CircleAvatar(
-          backgroundColor: Colors.brown,
+          backgroundColor: color,
+          radius: baseWidth * 0.055,
           child: Icon(icon, color: Colors.white, size: baseWidth * 0.055),
         ),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+          style: TextStyle(
+            fontSize: baseWidth * 0.038,
+            fontWeight: FontWeight.bold,
+            color: Colors.brown.shade900,
+          ),
         ),
-        subtitle: Text(subtitle),
-        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
-        onTap: onTap,
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(fontSize: baseWidth * 0.03, color: Colors.grey.shade700),
+        ),
+        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04, color: Colors.grey),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+        },
       ),
     );
   }

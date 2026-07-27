@@ -159,7 +159,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordLabel.
   ///
   /// In la, this message translates to:
-  /// **'Tessera'**
+  /// **'Verbum Secretum'**
   String get passwordLabel;
 
   /// No description provided for @loginAsMember.
@@ -987,7 +987,7 @@ abstract class AppLocalizations {
   /// No description provided for @heremitiTitle.
   ///
   /// In la, this message translates to:
-  /// **'HEREMITI'**
+  /// **'Heremiti'**
   String get heremitiTitle;
 
   /// No description provided for @searchHeremiti.
@@ -2639,6 +2639,174 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Officium'**
   String get positionPrefix;
+
+  /// No description provided for @manageAdminTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrare Aditūs'**
+  String get manageAdminTitle;
+
+  /// No description provided for @adminListTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index Administratorum'**
+  String get adminListTitle;
+
+  /// No description provided for @addAdminPageTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Novum Administratorem'**
+  String get addAdminPageTitle;
+
+  /// No description provided for @adminNameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Administratoris'**
+  String get adminNameLabel;
+
+  /// No description provided for @saveAdminBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE ADMINISTRATOREM'**
+  String get saveAdminBtn;
+
+  /// No description provided for @adminAddSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrator feliciter additus est!'**
+  String get adminAddSuccess;
+
+  /// No description provided for @deleteAdminConfirm.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere hunc administratorem?'**
+  String get deleteAdminConfirm;
+
+  /// No description provided for @adminDeleted.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrator deletus est.'**
+  String get adminDeleted;
+
+  /// No description provided for @appTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Ordinis Carmelitarum'**
+  String get appTitle;
+
+  /// No description provided for @mainDirectoryTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Directorium Principale Ordinis Carmelitarum'**
+  String get mainDirectoryTitle;
+
+  /// No description provided for @curiaGeneralisSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Consilium, officia, et commissiones'**
+  String get curiaGeneralisSubtitle;
+
+  /// No description provided for @episcopiExOrdinesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Episcopi Ex Ordine Assumpti'**
+  String get episcopiExOrdinesTitle;
+
+  /// No description provided for @episcopiSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Index episcoporum ex Ordine Carmelitarum'**
+  String get episcopiSubtitle;
+
+  /// No description provided for @subJurisdictioneTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sub Immediata Jurisdictione'**
+  String get subJurisdictioneTitle;
+
+  /// No description provided for @subJurisdictioneSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Delegatio, CISA, Domus S. Alberti'**
+  String get subJurisdictioneSubtitle;
+
+  /// No description provided for @citocTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'CITOC'**
+  String get citocTitle;
+
+  /// No description provided for @citocSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntii et informatorum Carmelitanum'**
+  String get citocSubtitle;
+
+  /// No description provided for @fratresTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Fratres'**
+  String get fratresTitle;
+
+  /// No description provided for @fratresSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Provinciae, commissariatus, et delegationes'**
+  String get fratresSubtitle;
+
+  /// No description provided for @heremitiSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Heremitae Carmelitae (sacerdotes et sorores)'**
+  String get heremitiSubtitle;
+
+  /// No description provided for @monialesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Moniales'**
+  String get monialesTitle;
+
+  /// No description provided for @monialesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Moniales contemplativae Carmelitae'**
+  String get monialesSubtitle;
+
+  /// No description provided for @monasteriaOrdinisSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Monasteria sui iuris / propriis utuntur'**
+  String get monasteriaOrdinisSubtitle;
+
+  /// No description provided for @heremitaeSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Heremitae Carmelitae separati'**
+  String get heremitaeSubtitle;
+
+  /// No description provided for @institutaSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Instituta saecularia affiliata'**
+  String get institutaSubtitle;
+
+  /// No description provided for @ministriesTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Ministeria'**
+  String get ministriesTitle;
+
+  /// No description provided for @ministriesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Paroeciae, scholae, domus exercitiorum, etc.'**
+  String get ministriesSubtitle;
+
+  /// No description provided for @statisticaSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Data statistica et distributio nationum'**
+  String get statisticaSubtitle;
 }
 
 class _AppLocalizationsDelegate

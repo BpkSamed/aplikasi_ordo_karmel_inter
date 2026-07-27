@@ -37,7 +37,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get usernameEmailLabel => 'Nomen Usoris / Email';
 
   @override
-  String get passwordLabel => 'Tessera';
+  String get passwordLabel => 'Verbum Secretum';
 
   @override
   String get loginAsMember => 'Login ut Sodalis';
@@ -470,7 +470,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get heremitiDirectoryTitle => 'Directorium Heremitarum';
 
   @override
-  String get heremitiTitle => 'HEREMITI';
+  String get heremitiTitle => 'Heremiti';
 
   @override
   String get searchHeremiti => 'Quaere Heremitas...';
@@ -1382,4 +1382,91 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get positionPrefix => 'Officium';
+
+  @override
+  String get manageAdminTitle => 'Administrare Aditūs';
+
+  @override
+  String get adminListTitle => 'Index Administratorum';
+
+  @override
+  String get addAdminPageTitle => 'Adde Novum Administratorem';
+
+  @override
+  String get adminNameLabel => 'Nomen Administratoris';
+
+  @override
+  String get saveAdminBtn => 'SERVARE ADMINISTRATOREM';
+
+  @override
+  String get adminAddSuccess => 'Administrator feliciter additus est!';
+
+  @override
+  String get deleteAdminConfirm => 'Certe vis delere hunc administratorem?';
+
+  @override
+  String get adminDeleted => 'Administrator deletus est.';
+
+  @override
+  String get appTitle => 'Directorium Ordinis Carmelitarum';
+
+  @override
+  String get mainDirectoryTitle =>
+      'Directorium Principale Ordinis Carmelitarum';
+
+  @override
+  String get curiaGeneralisSubtitle => 'Consilium, officia, et commissiones';
+
+  @override
+  String get episcopiExOrdinesTitle => 'Episcopi Ex Ordine Assumpti';
+
+  @override
+  String get episcopiSubtitle => 'Index episcoporum ex Ordine Carmelitarum';
+
+  @override
+  String get subJurisdictioneTitle => 'Sub Immediata Jurisdictione';
+
+  @override
+  String get subJurisdictioneSubtitle => 'Delegatio, CISA, Domus S. Alberti';
+
+  @override
+  String get citocTitle => 'CITOC';
+
+  @override
+  String get citocSubtitle => 'Nuntii et informatorum Carmelitanum';
+
+  @override
+  String get fratresTitle => 'Fratres';
+
+  @override
+  String get fratresSubtitle => 'Provinciae, commissariatus, et delegationes';
+
+  @override
+  String get heremitiSubtitle => 'Heremitae Carmelitae (sacerdotes et sorores)';
+
+  @override
+  String get monialesTitle => 'Moniales';
+
+  @override
+  String get monialesSubtitle => 'Moniales contemplativae Carmelitae';
+
+  @override
+  String get monasteriaOrdinisSubtitle =>
+      'Monasteria sui iuris / propriis utuntur';
+
+  @override
+  String get heremitaeSubtitle => 'Heremitae Carmelitae separati';
+
+  @override
+  String get institutaSubtitle => 'Instituta saecularia affiliata';
+
+  @override
+  String get ministriesTitle => 'Ministeria';
+
+  @override
+  String get ministriesSubtitle =>
+      'Paroeciae, scholae, domus exercitiorum, etc.';
+
+  @override
+  String get statisticaSubtitle => 'Data statistica et distributio nationum';
 }
