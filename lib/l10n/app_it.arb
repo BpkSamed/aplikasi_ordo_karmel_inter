@@ -608,5 +608,22 @@
   "ministriesSubtitle": "Parrocchie, scuole, case di ritiro, ecc.",
   "statisticaSubtitle": "Dati statistici e distribuzione per paese",
   "manageAdminTitle": "Gestisci Amministratore",
-  "adminSubtitle": "Elenco e diritti di accesso degli amministratori"
+  "adminSubtitle": "Elenco e diritti di accesso degli amministratori",
+  "faxNumber": "Numero di Fax",
+
+  "usernameLabel": "Nome utente",
+"passwordLabel": "Password",
+"selectEntityFirstPrompt": "Seleziona prima un'Entità/Provincia!",
+
+"memberListTitle": "Elenco dei Membri",
+"searchMemberHint": "Cerca nome, ruolo o stato...",
+"editBtn": "Modifica",
+"deleteBtn": "Elimina",
+"confirmDeleteTitle": "Conferma Eliminazione",
+"confirmDeleteMemberMsg": "Sei sicuro di voler eliminare i dati di questo membro?",
+"cancelBtn": "Annulla",
+"memberDeleteSuccess": "Dati del membro eliminati con successo!",
+"usernameLabel": "Nome utente",
+"passwordLabel": "Password",
+"selectEntityFirstPrompt": "Seleziona prima un'Entità/Provincia!"
 }

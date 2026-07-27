@@ -159,7 +159,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordLabel.
   ///
   /// In la, this message translates to:
-  /// **'Verbum Secretum'**
+  /// **'Tessera'**
   String get passwordLabel;
 
   /// No description provided for @loginAsMember.
@@ -1989,7 +1989,7 @@ abstract class AppLocalizations {
   /// No description provided for @memberListTitle.
   ///
   /// In la, this message translates to:
-  /// **'Index Sodalarum'**
+  /// **'Index Sodalium'**
   String get memberListTitle;
 
   /// No description provided for @deleteMemberConfirmTitle.
@@ -2813,6 +2813,66 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Index et iura accessus administratorum'**
   String get adminSubtitle;
+
+  /// No description provided for @faxNumber.
+  ///
+  /// In la, this message translates to:
+  /// **'Numerus Fax'**
+  String get faxNumber;
+
+  /// No description provided for @usernameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen utentis'**
+  String get usernameLabel;
+
+  /// No description provided for @selectEntityFirstPrompt.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Entitatem/Provinciam prius!'**
+  String get selectEntityFirstPrompt;
+
+  /// No description provided for @searchMemberHint.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaere nomen, munus, vel statum...'**
+  String get searchMemberHint;
+
+  /// No description provided for @editBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere'**
+  String get editBtn;
+
+  /// No description provided for @deleteBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Delere'**
+  String get deleteBtn;
+
+  /// No description provided for @confirmDeleteTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Deletionis'**
+  String get confirmDeleteTitle;
+
+  /// No description provided for @confirmDeleteMemberMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'Esne certus te velle hanc datam sodalis delere?'**
+  String get confirmDeleteMemberMsg;
+
+  /// No description provided for @cancelBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Rescindere'**
+  String get cancelBtn;
+
+  /// No description provided for @memberDeleteSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Data sodalis feliciter deleta est!'**
+  String get memberDeleteSuccess;
 }
 
 class _AppLocalizationsDelegate

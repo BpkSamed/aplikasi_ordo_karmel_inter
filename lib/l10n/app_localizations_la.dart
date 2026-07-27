@@ -37,7 +37,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get usernameEmailLabel => 'Nomen Usoris / Email';
 
   @override
-  String get passwordLabel => 'Verbum Secretum';
+  String get passwordLabel => 'Tessera';
 
   @override
   String get loginAsMember => 'Login ut Sodalis';
@@ -1015,7 +1015,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get saveConventusBtn => 'SERVARE MONASTERIUM';
 
   @override
-  String get memberListTitle => 'Index Sodalarum';
+  String get memberListTitle => 'Index Sodalium';
 
   @override
   String get deleteMemberConfirmTitle => 'Confirmatio Deletionis Sodalis';
@@ -1472,4 +1472,35 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get adminSubtitle => 'Index et iura accessus administratorum';
+
+  @override
+  String get faxNumber => 'Numerus Fax';
+
+  @override
+  String get usernameLabel => 'Nomen utentis';
+
+  @override
+  String get selectEntityFirstPrompt => 'Elige Entitatem/Provinciam prius!';
+
+  @override
+  String get searchMemberHint => 'Quaere nomen, munus, vel statum...';
+
+  @override
+  String get editBtn => 'Recensere';
+
+  @override
+  String get deleteBtn => 'Delere';
+
+  @override
+  String get confirmDeleteTitle => 'Confirmatio Deletionis';
+
+  @override
+  String get confirmDeleteMemberMsg =>
+      'Esne certus te velle hanc datam sodalis delere?';
+
+  @override
+  String get cancelBtn => 'Rescindere';
+
+  @override
+  String get memberDeleteSuccess => 'Data sodalis feliciter deleta est!';
 }

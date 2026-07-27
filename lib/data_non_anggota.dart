@@ -36,6 +36,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   final _countryCtrl = TextEditingController();
   final _postalCodeCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
+  final _faxCtrl = TextEditingController(); // TAMBAHAN: Controller untuk Fax
   final _emailCtrl = TextEditingController();
 
   // Controllers & Variabel untuk TAB 2: ENTITAS
@@ -45,7 +46,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   String? _selectedCategory;
   String? _selectedMinistryType;
   int? _selectedAddressForEntity;
-  final _entityAddressDisplayCtrl = TextEditingController(); // TAMBAHAN: Untuk teks penampil alamat entitas
+  final _entityAddressDisplayCtrl = TextEditingController();
 
   final List<String> _entityCategories = [
     'Provincia', 'Commissariatus Generalis', 'Delegatio Generalis', 
@@ -60,11 +61,11 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   // Controllers & Variabel untuk TAB 3: BIARA (CONVENTUS)
   final _conventusNameCtrl = TextEditingController();
   int? _selectedParentEntity;
-  final _conventusParentDisplayCtrl = TextEditingController(); // TAMBAHAN: Untuk teks penampil induk entitas
+  final _conventusParentDisplayCtrl = TextEditingController();
   int? _selectedAddressForConventus;
-  final _conventusAddressDisplayCtrl = TextEditingController(); // TAMBAHAN: Untuk teks penampil alamat biara
+  final _conventusAddressDisplayCtrl = TextEditingController();
 
-  bool _isLoading = true; // Set true di awal untuk memuat data master
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -76,17 +77,27 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
   @override
   void dispose() {
     _tabController.dispose();
-    // Bersihkan controller baru
+    _houseNameCtrl.dispose();
+    _streetCtrl.dispose();
+    _cityCtrl.dispose();
+    _countryCtrl.dispose();
+    _postalCodeCtrl.dispose();
+    _phoneCtrl.dispose();
+    _faxCtrl.dispose(); // TAMBAHAN: Cleanup Controller Fax
+    _emailCtrl.dispose();
+    _entityNameCtrl.dispose();
+    _historiaCtrl.dispose();
+    _websiteCtrl.dispose();
     _entityAddressDisplayCtrl.dispose();
+    _conventusNameCtrl.dispose();
     _conventusParentDisplayCtrl.dispose();
     _conventusAddressDisplayCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _initializeData() async {
-    await _fetchMasterData(); // Muat data alamat & entitas untuk dropdown
+    await _fetchMasterData();
 
-    // Jika mode Edit, isi nilai form sesuai initialData
     if (widget.initialData != null) {
       if (widget.initialTabIndex == 0) { // Mode Edit Alamat
         _editAlamatId = widget.initialData!['id'];
@@ -96,6 +107,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
         _countryCtrl.text = widget.initialData!['country'] ?? '';
         _postalCodeCtrl.text = widget.initialData!['postal_code'] ?? '';
         _phoneCtrl.text = widget.initialData!['telephone'] ?? '';
+        _faxCtrl.text = widget.initialData!['fax'] ?? widget.initialData!['faxcimile'] ?? ''; // TAMBAHAN: Pre-fill Fax
         _emailCtrl.text = widget.initialData!['email'] ?? '';
       } 
       else if (widget.initialTabIndex == 1) { // Mode Edit Entitas
@@ -113,7 +125,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
         final addrId = widget.initialData!['address_id'];
         if (_addresses.any((a) => a['id'] == addrId)) {
           _selectedAddressForEntity = addrId;
-          // Set teks tampilan alamat di mode edit
           final a = _addresses.firstWhere((a) => a['id'] == addrId);
           _entityAddressDisplayCtrl.text = "${a['house_name'] ?? ''} - ${a['city']}, ${a['country']}";
         }
@@ -125,7 +136,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
         final parentId = widget.initialData!['parent_entity_id'];
         if (_entities.any((e) => e['id'] == parentId)) {
           _selectedParentEntity = parentId;
-          // Set teks tampilan entitas induk di mode edit
           final e = _entities.firstWhere((e) => e['id'] == parentId);
           _conventusParentDisplayCtrl.text = "${e['name']} (${e['entity_category']})";
         }
@@ -133,7 +143,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
         final addrId = widget.initialData!['address_id'];
         if (_addresses.any((a) => a['id'] == addrId)) {
           _selectedAddressForConventus = addrId;
-          // Set teks tampilan alamat di mode edit
           final a = _addresses.firstWhere((a) => a['id'] == addrId);
           _conventusAddressDisplayCtrl.text = "${a['house_name'] ?? ''} - ${a['city']}, ${a['country']}";
         }
@@ -157,7 +166,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     }
   }
 
-  // ================= FUNGSI SAKTI POPUP PENCARIAN =================
+  // ================= POPUP PENCARIAN =================
   Future<void> _tampilkanDialogPencarian({
     required BuildContext context,
     required String judul,
@@ -183,7 +192,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
                 }).toList();
 
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(baseWidth * 0.04)),
                   title: Text(
                     t.selectItemTitle(judul), 
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.045)
@@ -198,8 +207,8 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
                             hintText: t.searchItemHint(judul),
                             hintStyle: TextStyle(fontSize: baseWidth * 0.035),
                             prefixIcon: Icon(Icons.search, color: Colors.brown, size: baseWidth * 0.05),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                            contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(baseWidth * 0.025)),
+                            contentPadding: EdgeInsets.zero,
                           ),
                           onChanged: (value) {
                             setStateDialog(() {
@@ -268,6 +277,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
       'country': _countryCtrl.text,
       'postal_code': _postalCodeCtrl.text,
       'telephone': _phoneCtrl.text,
+      'faxcimile': _faxCtrl.text, // TAMBAHAN: Simpan data Fax
       'email': _emailCtrl.text,
     };
 
@@ -275,7 +285,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
       if (_editAlamatId != null) {
         await _supabase.from('addresses').update(data).eq('id', _editAlamatId!);
         _showSnackbar(t.addressUpdateSuccess ?? "Data Alamat berhasil diperbarui!");
-        if (mounted) Navigator.pop(context, true); // Kembali setelah update
+        if (mounted) Navigator.pop(context, true);
       } else {
         await _supabase.from('addresses').insert(data);
         _showSnackbar(t.addressSaveSuccess ?? "Data Alamat berhasil disimpan!");
@@ -373,6 +383,7 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
     _countryCtrl.clear();
     _postalCodeCtrl.clear();
     _phoneCtrl.clear();
+    _faxCtrl.clear(); // TAMBAHAN: Clear controller fax
     _emailCtrl.clear();
   }
 
@@ -492,12 +503,29 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
             )
           ),
           SizedBox(height: baseWidth * 0.025),
-          TextField(
-            controller: _phoneCtrl, 
-            decoration: InputDecoration(
-              labelText: t.telephone ?? "Telepon", 
-              border: const OutlineInputBorder()
-            )
+          // --- BARIS UNTUK TELEPON DAN FAX (DIBUAT ADAPTIF/RESPONSIVE) ---
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _phoneCtrl, 
+                  decoration: InputDecoration(
+                    labelText: t.telephone ?? "Telepon", 
+                    border: const OutlineInputBorder()
+                  )
+                ),
+              ),
+              SizedBox(width: baseWidth * 0.025),
+              Expanded(
+                child: TextField(
+                  controller: _faxCtrl, 
+                  decoration: InputDecoration(
+                    labelText: t.faxNumber ?? "Fax / Faks", 
+                    border: const OutlineInputBorder()
+                  )
+                ),
+              ),
+            ],
           ),
           SizedBox(height: baseWidth * 0.025),
           TextField(
@@ -593,7 +621,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
           ),
           SizedBox(height: baseWidth * 0.025),
           
-          // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (ALAMAT ENTITAS) ---
           TextField(
             controller: _entityAddressDisplayCtrl,
             readOnly: true,
@@ -653,7 +680,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
           ),
           SizedBox(height: baseWidth * 0.035),
           
-          // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (INDUK ENTITAS BIARA) ---
           TextField(
             controller: _conventusParentDisplayCtrl,
             readOnly: true,
@@ -688,7 +714,6 @@ class _HalamanDataNonAnggotaState extends State<HalamanDataNonAnggota> with Sing
           ),
           SizedBox(height: baseWidth * 0.025),
           
-          // --- PENGGANTIAN DROPDOWN MENJADI POPUP PENCARIAN (ALAMAT BIARA) ---
           TextField(
             controller: _conventusAddressDisplayCtrl,
             readOnly: true,

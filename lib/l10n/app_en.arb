@@ -608,5 +608,22 @@
   "ministriesSubtitle": "Parishes, schools, retreat houses, etc.",
   "statisticaSubtitle": "Statistical data & country distribution",
   "manageAdminTitle": "Manage Admin",
-  "adminSubtitle": "List & access rights of administrators"
+  "adminSubtitle": "List & access rights of administrators",
+  "faxNumber": "Fax Number",
+
+  "usernameLabel": "Username",
+"passwordLabel": "Password",
+"selectEntityFirstPrompt": "Please select an Entity/Province first!",
+
+"memberListTitle": "Member List",
+"searchMemberHint": "Search name, role, or status...",
+"editBtn": "Edit",
+"deleteBtn": "Delete",
+"confirmDeleteTitle": "Confirm Deletion",
+"confirmDeleteMemberMsg": "Are you sure you want to delete this member's data?",
+"cancelBtn": "Cancel",
+"memberDeleteSuccess": "Member data successfully deleted!",
+"usernameLabel": "Username",
+"passwordLabel": "Password",
+"selectEntityFirstPrompt": "Please select an Entity/Province first!"
 }

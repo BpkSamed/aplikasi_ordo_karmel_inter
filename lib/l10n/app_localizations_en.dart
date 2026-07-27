@@ -1459,4 +1459,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminSubtitle => 'List & access rights of administrators';
+
+  @override
+  String get faxNumber => 'Fax Number';
+
+  @override
+  String get usernameLabel => 'Username';
+
+  @override
+  String get selectEntityFirstPrompt =>
+      'Please select an Entity/Province first!';
+
+  @override
+  String get searchMemberHint => 'Search name, role, or status...';
+
+  @override
+  String get editBtn => 'Edit';
+
+  @override
+  String get deleteBtn => 'Delete';
+
+  @override
+  String get confirmDeleteTitle => 'Confirm Deletion';
+
+  @override
+  String get confirmDeleteMemberMsg =>
+      'Are you sure you want to delete this member\'s data?';
+
+  @override
+  String get cancelBtn => 'Cancel';
+
+  @override
+  String get memberDeleteSuccess => 'Member data successfully deleted!';
 }

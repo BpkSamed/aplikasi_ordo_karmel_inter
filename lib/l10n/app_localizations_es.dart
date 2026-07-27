@@ -1482,4 +1482,36 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get adminSubtitle =>
       'Lista y derechos de acceso de los administradores';
+
+  @override
+  String get faxNumber => 'Número de Fax';
+
+  @override
+  String get usernameLabel => 'Nombre de usuario';
+
+  @override
+  String get selectEntityFirstPrompt =>
+      '¡Seleccione una Entidad/Provincia primero!';
+
+  @override
+  String get searchMemberHint => 'Buscar nombre, rol o estado...';
+
+  @override
+  String get editBtn => 'Editar';
+
+  @override
+  String get deleteBtn => 'Eliminar';
+
+  @override
+  String get confirmDeleteTitle => 'Confirmar Eliminación';
+
+  @override
+  String get confirmDeleteMemberMsg =>
+      '¿Estás seguro de que deseas eliminar los datos de este miembro?';
+
+  @override
+  String get cancelBtn => 'Cancelar';
+
+  @override
+  String get memberDeleteSuccess => '¡Datos del miembro eliminados con éxito!';
 }
