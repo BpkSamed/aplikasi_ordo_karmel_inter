@@ -52,7 +52,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get studentRole => 'Studente';
 
   @override
-  String get welcomeMessage => 'Benvenuto, Abraham';
+  String get welcomeMessage => 'Benvenuto';
 
   @override
   String get universityStudent => 'Studente Universitario';
@@ -1247,4 +1247,148 @@ class AppLocalizationsIt extends AppLocalizations {
   String errorSavingEpiscopus(String error) {
     return 'Errore nel salvataggio dei dati del vescovo: $error';
   }
+
+  @override
+  String get manageCitocNewsTitle => 'Gestisci Notizie CITOC';
+
+  @override
+  String get deleteNewsTitle => 'Elimina Notizia';
+
+  @override
+  String get deleteNewsConfirmMsg =>
+      'Sei sicuro di voler eliminare questo link di notizia?';
+
+  @override
+  String get newsDeletedSuccess => 'Notizia eliminata.';
+
+  @override
+  String get noCitocNewsYet => 'Nessuna notizia CITOC ancora.';
+
+  @override
+  String get noTitle => 'Nessun Titolo';
+
+  @override
+  String get addNewsBtn => 'Aggiungi Notizia';
+
+  @override
+  String get titleAndUrlRequired =>
+      'Il Titolo e il Link Web (URL) sono obbligatori!';
+
+  @override
+  String get newsUpdateSuccess => 'Notizia aggiornata con successo!';
+
+  @override
+  String get newsAddSuccess => 'Notizia aggiunta con successo!';
+
+  @override
+  String get editCitocNewsTitle => 'Modifica Notizia CITOC';
+
+  @override
+  String get addNewNewsTitle => 'Aggiungi Nuova Notizia';
+
+  @override
+  String get newsTitleLabel => 'Titolo della Notizia';
+
+  @override
+  String get webLinkLabel => 'Link Web (URL)';
+
+  @override
+  String get webLinkHint => 'Esempio: https://ocarm.org/news';
+
+  @override
+  String get saveNewsBtn => 'SALVA NOTIZIA';
+
+  @override
+  String operationFailed(String error) {
+    return 'Operazione fallita: $error';
+  }
+
+  @override
+  String get manageCommissionTitle => 'Gestisci Commissioni Generali';
+
+  @override
+  String get noCommissionsRegistered =>
+      'Nessuna commissione ancora registrata.';
+
+  @override
+  String deleteCommissionConfirmMsg(String name) {
+    return 'Sei sicuro di voler eliminare \'$name\'? Anche tutti i dati di appartenenza in questa commissione verranno eliminati.';
+  }
+
+  @override
+  String get commissionDeletedSuccess => 'Commissione eliminata con successo.';
+
+  @override
+  String failedToDeleteCommission(String error) {
+    return 'Eliminazione fallita: $error';
+  }
+
+  @override
+  String get manageMembersTooltip => 'Gestisci Membri';
+
+  @override
+  String get deleteCommissionTooltip => 'Elimina Commissione';
+
+  @override
+  String get addCommissionBtn => 'Aggiungi Commissione';
+
+  @override
+  String get addNewCommissionTitle => 'Aggiungi Nuova Commissione';
+
+  @override
+  String get fillDataAndSelectPraesesWarning =>
+      'Si prega di completare i dati e selezionare un Praeses!';
+
+  @override
+  String get commissionNameLabel => 'Nome Commissione (Obbligatorio)';
+
+  @override
+  String get commissionNameRequired =>
+      'Il nome della commissione è obbligatorio';
+
+  @override
+  String get missionApostolateTaskLabel => 'Missione / Incarico Apostolico';
+
+  @override
+  String get selectPraesesPresidentLabel => 'Seleziona Presidente (Praeses)';
+
+  @override
+  String get saveCommissionBtn => 'SALVA COMMISSIONE';
+
+  @override
+  String commissionMembersTitle(String name) {
+    return 'Membri: $name';
+  }
+
+  @override
+  String get addCommissionMemberPanelTitle =>
+      'Aggiungi Membro della Commissione';
+
+  @override
+  String get selectMemberNameLabel => 'Seleziona Nome Membro';
+
+  @override
+  String get positionInCommissionLabel => 'Incarico nella Commissione';
+
+  @override
+  String get addToCommissionBtn => 'Aggiungi alla Commissione';
+
+  @override
+  String get memberAddedToCommissionSuccess =>
+      'Membro aggiunto con successo alla commissione';
+
+  @override
+  String memberAlreadyRegisteredOrError(String error) {
+    return 'Già registrato / Errore: $error';
+  }
+
+  @override
+  String get noAdditionalMembersInCommission =>
+      'Questa commissione non ha ancora membri aggiuntivi.';
+
+  @override
+  String get unknownName => 'Sconosciuto';
+
+  @override
+  String get positionPrefix => 'Incarico';
 }

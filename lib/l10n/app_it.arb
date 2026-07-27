@@ -14,7 +14,7 @@
   "loginAsAdmin": "Accedi come Amministratore",
   "userProfileTitle": "Profilo Utente",
   "studentRole": "Studente",
-  "welcomeMessage": "Benvenuto, Abraham",
+  "welcomeMessage": "Benvenuto",
   "universityStudent": "Studente Universitario",
   "drawerInstruction": "Tocca le tre linee in alto a sinistra per visualizzare la directory dell'Ordine Carmelitano.",
   "openingMenu": "Apertura: {title}",
@@ -513,5 +513,64 @@
   "errorSavingEpiscopus": "Errore nel salvataggio dei dati del vescovo: {error}",
   "@errorSavingEpiscopus": {
     "placeholders": { "error": { "type": "String" } }
-  }
+  },
+
+  "manageCitocNewsTitle": "Gestisci Notizie CITOC",
+  "deleteNewsTitle": "Elimina Notizia",
+  "deleteNewsConfirmMsg": "Sei sicuro di voler eliminare questo link di notizia?",
+  "newsDeletedSuccess": "Notizia eliminata.",
+  "noCitocNewsYet": "Nessuna notizia CITOC ancora.",
+  "noTitle": "Nessun Titolo",
+  "addNewsBtn": "Aggiungi Notizia",
+  "titleAndUrlRequired": "Il Titolo e il Link Web (URL) sono obbligatori!",
+  "newsUpdateSuccess": "Notizia aggiornata con successo!",
+  "newsAddSuccess": "Notizia aggiunta con successo!",
+  "editCitocNewsTitle": "Modifica Notizia CITOC",
+  "addNewNewsTitle": "Aggiungi Nuova Notizia",
+  "newsTitleLabel": "Titolo della Notizia",
+  "webLinkLabel": "Link Web (URL)",
+  "webLinkHint": "Esempio: https://ocarm.org/news",
+  "saveNewsBtn": "SALVA NOTIZIA",
+  "operationFailed": "Operazione fallita: {error}",
+  "@operationFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "manageCommissionTitle": "Gestisci Commissioni Generali",
+  "noCommissionsRegistered": "Nessuna commissione ancora registrata.",
+  "deleteCommissionConfirmMsg": "Sei sicuro di voler eliminare '{name}'? Anche tutti i dati di appartenenza in questa commissione verranno eliminati.",
+  "@deleteCommissionConfirmMsg": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "commissionDeletedSuccess": "Commissione eliminata con successo.",
+  "failedToDeleteCommission": "Eliminazione fallita: {error}",
+  "@failedToDeleteCommission": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "manageMembersTooltip": "Gestisci Membri",
+  "deleteCommissionTooltip": "Elimina Commissione",
+  "addCommissionBtn": "Aggiungi Commissione",
+  "addNewCommissionTitle": "Aggiungi Nuova Commissione",
+  "fillDataAndSelectPraesesWarning": "Si prega di completare i dati e selezionare un Praeses!",
+  "commissionNameLabel": "Nome Commissione (Obbligatorio)",
+  "commissionNameRequired": "Il nome della commissione è obbligatorio",
+  "missionApostolateTaskLabel": "Missione / Incarico Apostolico",
+  "selectPraesesPresidentLabel": "Seleziona Presidente (Praeses)",
+  "saveCommissionBtn": "SALVA COMMISSIONE",
+  "commissionMembersTitle": "Membri: {name}",
+  "@commissionMembersTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "addCommissionMemberPanelTitle": "Aggiungi Membro della Commissione",
+  "selectMemberNameLabel": "Seleziona Nome Membro",
+  "positionInCommissionLabel": "Incarico nella Commissione",
+  "addToCommissionBtn": "Aggiungi alla Commissione",
+  "memberAddedToCommissionSuccess": "Membro aggiunto con successo alla commissione",
+  "memberAlreadyRegisteredOrError": "Già registrato / Errore: {error}",
+  "@memberAlreadyRegisteredOrError": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "noAdditionalMembersInCommission": "Questa commissione non ha ancora membri aggiuntivi.",
+  "unknownName": "Sconosciuto",
+  "positionPrefix": "Incarico"
 }

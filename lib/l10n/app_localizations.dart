@@ -189,7 +189,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeMessage.
   ///
   /// In la, this message translates to:
-  /// **'Salve, Abraham'**
+  /// **'Salve'**
   String get welcomeMessage;
 
   /// No description provided for @universityStudent.
@@ -2387,6 +2387,258 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Error servando data episcopi: {error}'**
   String errorSavingEpiscopus(String error);
+
+  /// No description provided for @manageCitocNewsTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrare Nuntios CITOC'**
+  String get manageCitocNewsTitle;
+
+  /// No description provided for @deleteNewsTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Delere Nuntium'**
+  String get deleteNewsTitle;
+
+  /// No description provided for @deleteNewsConfirmMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere hoc vinculum nuntii?'**
+  String get deleteNewsConfirmMsg;
+
+  /// No description provided for @newsDeletedSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntius deletus est.'**
+  String get newsDeletedSuccess;
+
+  /// No description provided for @noCitocNewsYet.
+  ///
+  /// In la, this message translates to:
+  /// **'Nulli nuntii CITOC adhuc sunt.'**
+  String get noCitocNewsYet;
+
+  /// No description provided for @noTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sine Titulo'**
+  String get noTitle;
+
+  /// No description provided for @addNewsBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Nuntium'**
+  String get addNewsBtn;
+
+  /// No description provided for @titleAndUrlRequired.
+  ///
+  /// In la, this message translates to:
+  /// **'Titulus et Vinculum Web (URL) requiruntur!'**
+  String get titleAndUrlRequired;
+
+  /// No description provided for @newsUpdateSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntius feliciter renovatus est!'**
+  String get newsUpdateSuccess;
+
+  /// No description provided for @newsAddSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Nuntius feliciter additus est!'**
+  String get newsAddSuccess;
+
+  /// No description provided for @editCitocNewsTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Recensere Nuntium CITOC'**
+  String get editCitocNewsTitle;
+
+  /// No description provided for @addNewNewsTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Novum Nuntium'**
+  String get addNewNewsTitle;
+
+  /// No description provided for @newsTitleLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Titulus Nuntii'**
+  String get newsTitleLabel;
+
+  /// No description provided for @webLinkLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Vinculum Web (URL)'**
+  String get webLinkLabel;
+
+  /// No description provided for @webLinkHint.
+  ///
+  /// In la, this message translates to:
+  /// **'Exemplum: https://ocarm.org/news'**
+  String get webLinkHint;
+
+  /// No description provided for @saveNewsBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE NUNTIUM'**
+  String get saveNewsBtn;
+
+  /// No description provided for @operationFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Operatio defecit: {error}'**
+  String operationFailed(String error);
+
+  /// No description provided for @manageCommissionTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrare Commissiones Generales'**
+  String get manageCommissionTitle;
+
+  /// No description provided for @noCommissionsRegistered.
+  ///
+  /// In la, this message translates to:
+  /// **'Nullae commissiones descriptae sunt.'**
+  String get noCommissionsRegistered;
+
+  /// No description provided for @deleteCommissionConfirmMsg.
+  ///
+  /// In la, this message translates to:
+  /// **'Certe vis delere \'{name}\'? Omnia data sodalarum in hac commissione etiam delebuntur.'**
+  String deleteCommissionConfirmMsg(String name);
+
+  /// No description provided for @commissionDeletedSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Commissio feliciter deleta est.'**
+  String get commissionDeletedSuccess;
+
+  /// No description provided for @failedToDeleteCommission.
+  ///
+  /// In la, this message translates to:
+  /// **'Deletio defecit: {error}'**
+  String failedToDeleteCommission(String error);
+
+  /// No description provided for @manageMembersTooltip.
+  ///
+  /// In la, this message translates to:
+  /// **'Administrare Sodales'**
+  String get manageMembersTooltip;
+
+  /// No description provided for @deleteCommissionTooltip.
+  ///
+  /// In la, this message translates to:
+  /// **'Delere Commissionem'**
+  String get deleteCommissionTooltip;
+
+  /// No description provided for @addCommissionBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Commissionem'**
+  String get addCommissionBtn;
+
+  /// No description provided for @addNewCommissionTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Novam Commissionem'**
+  String get addNewCommissionTitle;
+
+  /// No description provided for @fillDataAndSelectPraesesWarning.
+  ///
+  /// In la, this message translates to:
+  /// **'Quaeso, exple data et elige Praesidem!'**
+  String get fillDataAndSelectPraesesWarning;
+
+  /// No description provided for @commissionNameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen Commissionis (Requisitum)'**
+  String get commissionNameLabel;
+
+  /// No description provided for @commissionNameRequired.
+  ///
+  /// In la, this message translates to:
+  /// **'Nomen commissionis expleri debet'**
+  String get commissionNameRequired;
+
+  /// No description provided for @missionApostolateTaskLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Missio / Munus Apostolicum'**
+  String get missionApostolateTaskLabel;
+
+  /// No description provided for @selectPraesesPresidentLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Praesidem'**
+  String get selectPraesesPresidentLabel;
+
+  /// No description provided for @saveCommissionBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'SERVARE COMMISSIONEM'**
+  String get saveCommissionBtn;
+
+  /// No description provided for @commissionMembersTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodales: {name}'**
+  String commissionMembersTitle(String name);
+
+  /// No description provided for @addCommissionMemberPanelTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde Sodalem Commissionis'**
+  String get addCommissionMemberPanelTitle;
+
+  /// No description provided for @selectMemberNameLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Elige Nomen Sodalis'**
+  String get selectMemberNameLabel;
+
+  /// No description provided for @positionInCommissionLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Officium in Commissione'**
+  String get positionInCommissionLabel;
+
+  /// No description provided for @addToCommissionBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Adde ad Commissionem'**
+  String get addToCommissionBtn;
+
+  /// No description provided for @memberAddedToCommissionSuccess.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodalis feliciter commissioni additus est'**
+  String get memberAddedToCommissionSuccess;
+
+  /// No description provided for @memberAlreadyRegisteredOrError.
+  ///
+  /// In la, this message translates to:
+  /// **'Iam descriptus / Error: {error}'**
+  String memberAlreadyRegisteredOrError(String error);
+
+  /// No description provided for @noAdditionalMembersInCommission.
+  ///
+  /// In la, this message translates to:
+  /// **'Haec commissio sodales addititios nondum habet.'**
+  String get noAdditionalMembersInCommission;
+
+  /// No description provided for @unknownName.
+  ///
+  /// In la, this message translates to:
+  /// **'Ignotum'**
+  String get unknownName;
+
+  /// No description provided for @positionPrefix.
+  ///
+  /// In la, this message translates to:
+  /// **'Officium'**
+  String get positionPrefix;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
+/// =================================================================
+/// HALAMAN UTAMA: DAFTAR KOMISI
+/// =================================================================
 class HalamanKelolaKomisi extends StatefulWidget {
   const HalamanKelolaKomisi({super.key});
 
@@ -27,29 +31,37 @@ class _HalamanKelolaKomisiState extends State<HalamanKelolaKomisi> {
           .from('commissions')
           .select('*, praeses:members!praeses_id(full_name)')
           .order('name', ascending: true);
-      setState(() {
-        _commissions = response as List<dynamic>;
-      });
+      if (mounted) {
+        setState(() {
+          _commissions = response as List<dynamic>;
+        });
+      }
     } catch (e) {
       debugPrint("Error fetch commissions: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   // Menghapus data komisi induk
-  Future<void> _deleteCommission(int id, String name) async {
+  Future<void> _deleteCommission(int id, String name, AppLocalizations t, double baseWidth) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Hapus Komisi"),
-        content: Text("Apakah Anda yakin ingin menghapus '$name'? Semua data keanggotaan di dalam komisi ini juga akan terhapus."),
+        title: Text(t.deleteCommissionTooltip ?? "Hapus Komisi", style: TextStyle(fontSize: baseWidth * 0.045)),
+        content: Text(
+          t.deleteCommissionConfirmMsg(name),
+          style: TextStyle(fontSize: baseWidth * 0.038),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Batal")),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false), 
+            child: Text(t.cancelButton ?? "Batal", style: TextStyle(fontSize: baseWidth * 0.035))
+          ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Hapus"),
+            child: Text(t.deleteButton ?? "Hapus", style: TextStyle(fontSize: baseWidth * 0.035)),
           ),
         ],
       ),
@@ -60,11 +72,15 @@ class _HalamanKelolaKomisiState extends State<HalamanKelolaKomisi> {
         await _supabase.from('commissions').delete().eq('id', id);
         _fetchCommissions();
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Komisi berhasil dihapus")));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(t.commissionDeletedSuccess ?? "Komisi berhasil dihapus"))
+          );
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal menghapus: $e")));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(t.failedToDeleteCommission(e.toString())))
+          );
         }
       }
     }
@@ -72,71 +88,104 @@ class _HalamanKelolaKomisiState extends State<HalamanKelolaKomisi> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kelola Komisi Jenderal"),
+        title: Text(t.manageCommissionTitle ?? "Kelola Komisi Jenderal"),
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _fetchCommissions),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-          : _commissions.isEmpty
-              ? const Center(child: Text("Belum ada komisi terdaftar."))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: _commissions.length,
-                  itemBuilder: (context, index) {
-                    final komisi = _commissions[index];
-                    final namaPraeses = komisi['praeses']?['full_name'] ?? 'Belum ditentukan';
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
 
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      child: ListTile(
-                        leading: const CircleAvatar(
-                          backgroundColor: Colors.brown,
-                          child: Icon(Icons.assignment, color: Colors.white),
-                        ),
-                        title: Text(komisi['name'] ?? '-', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text("Praeses: $namaPraeses\nMisi: ${komisi['mission'] ?? '-'}"),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.group, color: Colors.blue),
-                              tooltip: "Kelola Anggota",
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HalamanAnggotaKomisi(commission: komisi),
-                                  ),
-                                ).then((_) => _fetchCommissions());
-                              },
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          if (_commissions.isEmpty) {
+            return Center(
+              child: Text(
+                t.noCommissionsRegistered ?? "Belum ada komisi terdaftar.",
+                style: TextStyle(fontSize: baseWidth * 0.04, color: Colors.grey),
+              )
+            );
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.all(baseWidth * 0.03),
+            itemCount: _commissions.length,
+            itemBuilder: (context, index) {
+              final komisi = _commissions[index];
+              final namaPraeses = komisi['praeses']?['full_name'] ?? (t.notDetermined ?? 'Belum ditentukan');
+
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.02),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.brown,
+                    radius: baseWidth * 0.06,
+                    child: Icon(Icons.assignment, color: Colors.white, size: baseWidth * 0.065),
+                  ),
+                  title: Text(
+                    komisi['name'] ?? '-', 
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(top: baseWidth * 0.015),
+                    child: Text(
+                      "Praeses: $namaPraeses\n${t.missionApostolateTaskLabel ?? 'Misi'}: ${komisi['mission'] ?? '-'}",
+                      style: TextStyle(fontSize: baseWidth * 0.032, height: 1.4),
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.group, color: Colors.blue, size: baseWidth * 0.06),
+                        tooltip: t.manageMembersTooltip ?? "Kelola Anggota",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HalamanAnggotaKomisi(commission: komisi),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              tooltip: "Hapus Komisi",
-                              onPressed: () => _deleteCommission(komisi['id'], komisi['name']),
-                            ),
-                          ],
-                        ),
+                          ).then((_) => _fetchCommissions());
+                        },
                       ),
-                    );
-                  },
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red, size: baseWidth * 0.06),
+                        tooltip: t.deleteCommissionTooltip ?? "Hapus Komisi",
+                        onPressed: () => _deleteCommission(komisi['id'], komisi['name'], t, baseWidth),
+                      ),
+                    ],
+                  ),
                 ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
-        label: const Text("Tambah Komisi"),
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HalamanFormKomisi()),
+              );
+            },
           );
-          if (result == true) _fetchCommissions();
-        },
+        }
+      ),
+      floatingActionButton: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = MediaQuery.of(context).size.width;
+          return FloatingActionButton.extended(
+            backgroundColor: Colors.brown,
+            foregroundColor: Colors.white,
+            icon: Icon(Icons.add, size: baseWidth * 0.05),
+            label: Text(t.addCommissionBtn ?? "Tambah Komisi", style: TextStyle(fontSize: baseWidth * 0.038)),
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HalamanFormKomisi()),
+              );
+              if (result == true) _fetchCommissions();
+            },
+          );
+        }
       ),
     );
   }
@@ -170,12 +219,16 @@ class _HalamanFormKomisiState extends State<HalamanFormKomisi> {
 
   Future<void> _fetchMembers() async {
     final response = await _supabase.from('members').select('id, full_name').order('full_name');
-    setState(() => _members = response as List<dynamic>);
+    if (mounted) {
+      setState(() => _members = response as List<dynamic>);
+    }
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(AppLocalizations t) async {
     if (!_formKey.currentState!.validate() || _selectedPraesesId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Mohon lengkapi data dan pilih Praeses!")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.fillDataAndSelectPraesesWarning ?? "Mohon lengkapi data dan pilih Praeses!"))
+      );
       return;
     }
     setState(() => _isLoading = true);
@@ -189,8 +242,11 @@ class _HalamanFormKomisiState extends State<HalamanFormKomisi> {
         Navigator.pop(context, true);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
-      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -203,45 +259,74 @@ class _HalamanFormKomisiState extends State<HalamanFormKomisi> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Komisi Baru")),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      controller: _nameCtrl,
-                      decoration: const InputDecoration(labelText: "Nama Komisi (Wajib)", border: OutlineInputBorder()),
-                      validator: (val) => val!.isEmpty ? "Nama komisi harus diisi" : null,
+      appBar: AppBar(title: Text(t.addNewCommissionTitle ?? "Tambah Komisi Baru")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          return Padding(
+            padding: EdgeInsets.all(baseWidth * 0.04),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  TextFormField(
+                    controller: _nameCtrl,
+                    decoration: InputDecoration(
+                      labelText: t.commissionNameLabel ?? "Nama Komisi (Wajib)", 
+                      border: const OutlineInputBorder()
                     ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: _missionCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(labelText: "Misi / Tugas Kerasulan", border: OutlineInputBorder()),
+                    validator: (val) => val!.isEmpty ? (t.commissionNameRequired ?? "Nama komisi harus diisi") : null,
+                  ),
+                  SizedBox(height: baseWidth * 0.03),
+                  TextFormField(
+                    controller: _missionCtrl,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      labelText: t.missionApostolateTaskLabel ?? "Misi / Tugas Kerasulan", 
+                      border: const OutlineInputBorder()
                     ),
-                    const SizedBox(height: 12),
-                    DropdownButtonFormField<int>(
-                      value: _selectedPraesesId,
-                      isExpanded: true,
-                      decoration: const InputDecoration(labelText: "Pilih Ketua (Praeses)", border: OutlineInputBorder()),
-                      items: _members.map((m) => DropdownMenuItem<int>(value: m['id'], child: Text(m['full_name']))).toList(),
-                      onChanged: (val) => setState(() => _selectedPraesesId = val),
+                  ),
+                  SizedBox(height: baseWidth * 0.03),
+                  DropdownButtonFormField<int>(
+                    value: _selectedPraesesId,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: t.selectPraesesPresidentLabel ?? "Pilih Ketua (Praeses)", 
+                      border: const OutlineInputBorder()
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
-                      onPressed: _submit,
-                      child: const Text("SIMPAN KOMISI"),
-                    )
-                  ],
-                ),
+                    items: _members.map((m) => DropdownMenuItem<int>(
+                      value: m['id'], 
+                      child: Text(m['full_name'])
+                    )).toList(),
+                    onChanged: (val) => setState(() => _selectedPraesesId = val),
+                  ),
+                  SizedBox(height: baseWidth * 0.06),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.brown, 
+                      foregroundColor: Colors.white, 
+                      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.035)
+                    ),
+                    onPressed: () => _submit(t),
+                    child: Text(
+                      t.saveCommissionBtn ?? "SIMPAN KOMISI", 
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
+                    ),
+                  )
+                ],
               ),
             ),
+          );
+        }
+      ),
     );
   }
 }
@@ -264,12 +349,23 @@ class _HalamanAnggotaKomisiState extends State<HalamanAnggotaKomisi> {
   bool _isLoading = true;
 
   int? _selectedMemberId;
-  final _positionCtrl = TextEditingController(text: "Anggota");
+  late TextEditingController _positionCtrl;
 
   @override
   void initState() {
     super.initState();
+    _positionCtrl = TextEditingController();
     _loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Default text jika null
+    if (_positionCtrl.text.isEmpty) {
+      final t = AppLocalizations.of(context);
+      _positionCtrl.text = "Anggota"; 
+    }
   }
 
   Future<void> _loadData() async {
@@ -284,18 +380,20 @@ class _HalamanAnggotaKomisiState extends State<HalamanAnggotaKomisi> {
       // 2. Ambil semua master anggota untuk opsi penambahan
       final resAll = await _supabase.from('members').select('id, full_name').order('full_name');
 
-      setState(() {
-        _comMembers = resCom as List<dynamic>;
-        _allMembers = resAll as List<dynamic>;
-      });
+      if (mounted) {
+        setState(() {
+          _comMembers = resCom as List<dynamic>;
+          _allMembers = resAll as List<dynamic>;
+        });
+      }
     } catch (e) {
       debugPrint("Error load members: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _addMemberToCommission() async {
+  Future<void> _addMemberToCommission(AppLocalizations t) async {
     if (_selectedMemberId == null) return;
     try {
       await _supabase.from('commission_members').insert({
@@ -306,9 +404,17 @@ class _HalamanAnggotaKomisiState extends State<HalamanAnggotaKomisi> {
       _positionCtrl.text = "Anggota";
       _selectedMemberId = null;
       _loadData();
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Anggota berhasil ditambahkan ke komisi")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.memberAddedToCommissionSuccess ?? "Anggota berhasil ditambahkan ke komisi"))
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Sudah terdaftar / Error: $e")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.memberAlreadyRegisteredOrError(e.toString())))
+        );
+      }
     }
   }
 
@@ -329,69 +435,104 @@ class _HalamanAnggotaKomisiState extends State<HalamanAnggotaKomisi> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: Text("Anggota: ${widget.commission['name']}")),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // PANEL PENAMBAHAN ANGGOTA BARU KEDALAM KOMISI
-                Card(
-                  margin: const EdgeInsets.all(12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+      appBar: AppBar(title: Text(t.commissionMembersTitle(widget.commission['name']))),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          return Column(
+            children: [
+              // PANEL PENAMBAHAN ANGGOTA BARU KEDALAM KOMISI
+              Card(
+                margin: EdgeInsets.all(baseWidth * 0.03),
+                child: Padding(
+                  padding: EdgeInsets.all(baseWidth * 0.04),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text("Tambah Anggota Komisi", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
-                      const SizedBox(height: 10),
+                      Text(
+                        t.addCommissionMemberPanelTitle ?? "Tambah Anggota Komisi", 
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.04)
+                      ),
+                      SizedBox(height: baseWidth * 0.025),
                       DropdownButtonFormField<int>(
                         value: _selectedMemberId,
                         isExpanded: true,
-                        decoration: const InputDecoration(labelText: "Pilih Nama Anggota", border: OutlineInputBorder()),
-                        items: _allMembers.map((m) => DropdownMenuItem<int>(value: m['id'], child: Text(m['full_name']))).toList(),
+                        decoration: InputDecoration(
+                          labelText: t.selectMemberNameLabel ?? "Pilih Nama Anggota", 
+                          border: const OutlineInputBorder()
+                        ),
+                        items: _allMembers.map((m) => DropdownMenuItem<int>(
+                          value: m['id'], 
+                          child: Text(m['full_name'])
+                        )).toList(),
                         onChanged: (val) => setState(() => _selectedMemberId = val),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: baseWidth * 0.025),
                       TextField(
                         controller: _positionCtrl,
-                        decoration: const InputDecoration(labelText: "Jabatan di Komisi", border: OutlineInputBorder()),
+                        decoration: InputDecoration(
+                          labelText: t.positionInCommissionLabel ?? "Jabatan di Komisi", 
+                          border: const OutlineInputBorder()
+                        ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: baseWidth * 0.03),
                       ElevatedButton.icon(
-                        icon: const Icon(Icons.person_add),
-                        label: const Text("Masukkan ke Komisi"),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
-                        onPressed: _addMemberToCommission,
+                        icon: Icon(Icons.person_add, size: baseWidth * 0.05),
+                        label: Text(t.addToCommissionBtn ?? "Masukkan ke Komisi", style: TextStyle(fontSize: baseWidth * 0.035)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.brown, 
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: baseWidth * 0.03)
+                        ),
+                        onPressed: () => _addMemberToCommission(t),
                       )
                     ],
                   ),
-                  ),
                 ),
-                const Divider(),
-                // DAFTAR ANGGOTA YANG AKTIF DI KOMISI SAAT INI
-                Expanded(
-                  child: _comMembers.isEmpty
-                      ? const Center(child: Text("Komisi ini belum memiliki anggota tambahan.", style: TextStyle(fontStyle: FontStyle.italic)))
-                      : ListView.builder(
-                          itemCount: _comMembers.length,
-                          itemBuilder: (context, index) {
-                            final cm = _comMembers[index];
-                            final nama = cm['member']?['full_name'] ?? 'Tidak diketahui';
-                            return ListTile(
-                              leading: const Icon(Icons.fiber_manual_record, color: Colors.brown, size: 14),
-                              title: Text(nama, style: const TextStyle(fontWeight: FontWeight.w600)),
-                              subtitle: Text("Jabatan: ${cm['position'] ?? '-'}"),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.person_remove, color: Colors.red),
-                                onPressed: () => _removeMember(cm['id']),
-                              ),
-                            );
-                          },
-                        ),
-                )
-              ],
-            ),
+              ),
+              const Divider(),
+              // DAFTAR ANGGOTA YANG AKTIF DI KOMISI SAAT INI
+              Expanded(
+                child: _comMembers.isEmpty
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(baseWidth * 0.04),
+                          child: Text(
+                            t.noAdditionalMembersInCommission ?? "Komisi ini belum memiliki anggota tambahan.", 
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontStyle: FontStyle.italic, fontSize: baseWidth * 0.038, color: Colors.grey)
+                          ),
+                        )
+                      )
+                    : ListView.builder(
+                        itemCount: _comMembers.length,
+                        itemBuilder: (context, index) {
+                          final cm = _comMembers[index];
+                          final nama = cm['member']?['full_name'] ?? (t.unknownName ?? 'Tidak diketahui');
+                          return ListTile(
+                            leading: Icon(Icons.fiber_manual_record, color: Colors.brown, size: baseWidth * 0.03),
+                            title: Text(nama, style: TextStyle(fontWeight: FontWeight.w600, fontSize: baseWidth * 0.038)),
+                            subtitle: Text("${t.positionPrefix ?? 'Jabatan'}: ${cm['position'] ?? '-'}"),
+                            trailing: IconButton(
+                              icon: Icon(Icons.person_remove, color: Colors.red, size: baseWidth * 0.06),
+                              onPressed: () => _removeMember(cm['id']),
+                            ),
+                          );
+                        },
+                      ),
+              )
+            ],
+          );
+        }
+      ),
     );
   }
 }

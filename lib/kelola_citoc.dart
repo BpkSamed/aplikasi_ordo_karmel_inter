@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 class HalamanKelolaCitoc extends StatefulWidget {
   const HalamanKelolaCitoc({super.key});
@@ -26,28 +27,33 @@ class _HalamanKelolaCitocState extends State<HalamanKelolaCitoc> {
           .from('citoc_news')
           .select()
           .order('id', ascending: false);
-      setState(() {
-        _beritaCitoc = response;
-      });
+      
+      if (mounted) {
+        setState(() {
+          _beritaCitoc = response;
+        });
+      }
     } catch (e) {
       debugPrint("Error fetching CITOC: $e");
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
-  Future<void> _deleteCitoc(int id) async {
+  Future<void> _deleteCitoc(int id, AppLocalizations t, double baseWidth) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Hapus Berita"),
-        content: const Text("Apakah Anda yakin ingin menghapus tautan berita ini?"),
+        title: Text(t.deleteNewsTitle ?? "Hapus Berita", style: TextStyle(fontSize: baseWidth * 0.045)),
+        content: Text(t.deleteNewsConfirmMsg ?? "Apakah Anda yakin ingin menghapus tautan berita ini?", style: TextStyle(fontSize: baseWidth * 0.038)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Batal")),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(t.cancelButton ?? "Batal")),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Hapus"),
+            child: Text(t.deleteButton ?? "Hapus"),
           ),
         ],
       ),
@@ -57,78 +63,107 @@ class _HalamanKelolaCitocState extends State<HalamanKelolaCitoc> {
       try {
         await _supabase.from('citoc_news').delete().eq('id', id);
         _fetchCitoc();
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Berita dihapus.")));
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.newsDeletedSuccess ?? "Berita dihapus.")));
       } catch (e) {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Gagal: $e")));
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.operationFailed(e.toString()))));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Kelola Berita CITOC")),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-          : _beritaCitoc.isEmpty
-              ? const Center(child: Text("Belum ada berita CITOC."))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: _beritaCitoc.length,
-                  itemBuilder: (context, index) {
-                    final berita = _beritaCitoc[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 8), // Margin antar kotak
-                      elevation: 2,
-                      child: ListTile(
-                        // --- MEMPERBESAR UKURAN KOTAK 50% ---
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 18.0),
-                        leading: const CircleAvatar(
-                          backgroundColor: Colors.brown,
-                          radius: 25, // Icon diperbesar sedikit
-                          child: Icon(Icons.newspaper, color: Colors.white, size: 28),
-                        ),
-                        title: Text(berita['title'] ?? 'Tanpa Judul', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 6.0),
-                          child: Text(berita['url'] ?? '-', maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.blue)),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // --- TOMBOL EDIT ---
-                            IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.blue),
-                              onPressed: () async {
-                                final result = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HalamanFormCitoc(initialData: berita),
-                                  ),
-                                );
-                                if (result == true) _fetchCitoc();
-                              },
+      appBar: AppBar(title: Text(t.manageCitocNewsTitle ?? "Kelola Berita CITOC")),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (_isLoading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.brown));
+          }
+
+          if (_beritaCitoc.isEmpty) {
+            return Center(
+              child: Text(
+                t.noCitocNewsYet ?? "Belum ada berita CITOC.",
+                style: TextStyle(fontSize: baseWidth * 0.04, color: Colors.grey),
+              ),
+            );
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.all(baseWidth * 0.03),
+            itemCount: _beritaCitoc.length,
+            itemBuilder: (context, index) {
+              final berita = _beritaCitoc[index];
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: baseWidth * 0.02), // Margin antar kotak
+                elevation: 2,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.03),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.brown,
+                    radius: baseWidth * 0.06, 
+                    child: Icon(Icons.newspaper, color: Colors.white, size: baseWidth * 0.065),
+                  ),
+                  title: Text(
+                    berita['title'] ?? (t.noTitle ?? 'Tanpa Judul'), 
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(top: baseWidth * 0.015),
+                    child: Text(
+                      berita['url'] ?? '-', 
+                      maxLines: 1, 
+                      overflow: TextOverflow.ellipsis, 
+                      style: TextStyle(color: Colors.blue, fontSize: baseWidth * 0.035)
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // --- TOMBOL EDIT ---
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.blue, size: baseWidth * 0.06),
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HalamanFormCitoc(initialData: berita),
                             ),
-                            // --- TOMBOL HAPUS ---
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => _deleteCitoc(berita['id']),
-                            ),
-                          ],
-                        ),
+                          );
+                          if (result == true) _fetchCitoc();
+                        },
                       ),
-                    );
-                  },
+                      // --- TOMBOL HAPUS ---
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red, size: baseWidth * 0.06),
+                        onPressed: () => _deleteCitoc(berita['id'], t, baseWidth),
+                      ),
+                    ],
+                  ),
                 ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
-        label: const Text("Tambah Berita"),
-        onPressed: () async {
-          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanFormCitoc()));
-          if (result == true) _fetchCitoc();
+              );
+            },
+          );
         },
+      ),
+      floatingActionButton: LayoutBuilder(
+        builder: (context, constraints) {
+          final baseWidth = MediaQuery.of(context).size.width;
+          return FloatingActionButton.extended(
+            backgroundColor: Colors.brown,
+            foregroundColor: Colors.white,
+            icon: Icon(Icons.add, size: baseWidth * 0.05),
+            label: Text(t.addNewsBtn ?? "Tambah Berita", style: TextStyle(fontSize: baseWidth * 0.038)),
+            onPressed: () async {
+              final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanFormCitoc()));
+              if (result == true) _fetchCitoc();
+            },
+          );
+        }
       ),
     );
   }
@@ -138,7 +173,7 @@ class _HalamanKelolaCitocState extends State<HalamanKelolaCitoc> {
 /// FORM TAMBAH / EDIT BERITA CITOC
 /// =================================================================
 class HalamanFormCitoc extends StatefulWidget {
-  final Map<String, dynamic>? initialData; // Tambahkan untuk Edit
+  final Map<String, dynamic>? initialData;
 
   const HalamanFormCitoc({super.key, this.initialData});
 
@@ -164,9 +199,9 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
     }
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(AppLocalizations t) async {
     if (_titleCtrl.text.isEmpty || _urlCtrl.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Judul dan Tautan Web (URL) wajib diisi!")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.titleAndUrlRequired ?? "Judul dan Tautan Web (URL) wajib diisi!")));
       return;
     }
 
@@ -186,7 +221,7 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
         }).eq('id', widget.initialData!['id']);
         
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Berita berhasil diperbarui!")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.newsUpdateSuccess ?? "Berita berhasil diperbarui!")));
           Navigator.pop(context, true);
         }
       } else {
@@ -197,45 +232,69 @@ class _HalamanFormCitocState extends State<HalamanFormCitoc> {
         });
         
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Berita berhasil ditambahkan!")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.newsAddSuccess ?? "Berita berhasil ditambahkan!")));
           Navigator.pop(context, true);
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.operationFailed(e.toString()))));
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: Text(_isEdit ? "Edit Berita CITOC" : "Tambah Berita Baru")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _titleCtrl,
-              decoration: const InputDecoration(labelText: "Judul Berita", border: OutlineInputBorder()),
+      appBar: AppBar(title: Text(_isEdit ? (t.editCitocNewsTitle ?? "Edit Berita CITOC") : (t.addNewNewsTitle ?? "Tambah Berita Baru"))),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          return Padding(
+            padding: EdgeInsets.all(baseWidth * 0.04),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _titleCtrl,
+                  decoration: InputDecoration(
+                    labelText: t.newsTitleLabel ?? "Judul Berita", 
+                    border: const OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: baseWidth * 0.04),
+                TextField(
+                  controller: _urlCtrl,
+                  decoration: InputDecoration(
+                    labelText: t.webLinkLabel ?? "Tautan Web (Link URL)", 
+                    hintText: t.webLinkHint ?? "Contoh: https://ocarm.org/news", 
+                    border: const OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: baseWidth * 0.05),
+                _isLoading
+                    ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.brown, 
+                          foregroundColor: Colors.white, 
+                          padding: EdgeInsets.symmetric(vertical: baseWidth * 0.035)
+                        ),
+                        onPressed: () => _submit(t),
+                        child: Text(
+                          _isEdit ? (t.saveChangesBtn ?? "SIMPAN PERUBAHAN") : (t.saveNewsBtn ?? "SIMPAN BERITA"), 
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
+                        ),
+                      )
+              ],
             ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: _urlCtrl,
-              decoration: const InputDecoration(labelText: "Tautan Web (Link URL)", hintText: "Contoh: https://ocarm.org/news", border: OutlineInputBorder()),
-            ),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 15)),
-                    onPressed: _submit,
-                    child: Text(_isEdit ? "SIMPAN PERUBAHAN" : "SIMPAN BERITA", style: const TextStyle(fontWeight: FontWeight.bold)),
-                  )
-          ],
-        ),
+          );
+        }
       ),
     );
   }

@@ -52,7 +52,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get studentRole => 'Discipulus';
 
   @override
-  String get welcomeMessage => 'Salve, Abraham';
+  String get welcomeMessage => 'Salve';
 
   @override
   String get universityStudent => 'Discipulus Universitatis';
@@ -1242,4 +1242,144 @@ class AppLocalizationsLa extends AppLocalizations {
   String errorSavingEpiscopus(String error) {
     return 'Error servando data episcopi: $error';
   }
+
+  @override
+  String get manageCitocNewsTitle => 'Administrare Nuntios CITOC';
+
+  @override
+  String get deleteNewsTitle => 'Delere Nuntium';
+
+  @override
+  String get deleteNewsConfirmMsg => 'Certe vis delere hoc vinculum nuntii?';
+
+  @override
+  String get newsDeletedSuccess => 'Nuntius deletus est.';
+
+  @override
+  String get noCitocNewsYet => 'Nulli nuntii CITOC adhuc sunt.';
+
+  @override
+  String get noTitle => 'Sine Titulo';
+
+  @override
+  String get addNewsBtn => 'Adde Nuntium';
+
+  @override
+  String get titleAndUrlRequired =>
+      'Titulus et Vinculum Web (URL) requiruntur!';
+
+  @override
+  String get newsUpdateSuccess => 'Nuntius feliciter renovatus est!';
+
+  @override
+  String get newsAddSuccess => 'Nuntius feliciter additus est!';
+
+  @override
+  String get editCitocNewsTitle => 'Recensere Nuntium CITOC';
+
+  @override
+  String get addNewNewsTitle => 'Adde Novum Nuntium';
+
+  @override
+  String get newsTitleLabel => 'Titulus Nuntii';
+
+  @override
+  String get webLinkLabel => 'Vinculum Web (URL)';
+
+  @override
+  String get webLinkHint => 'Exemplum: https://ocarm.org/news';
+
+  @override
+  String get saveNewsBtn => 'SERVARE NUNTIUM';
+
+  @override
+  String operationFailed(String error) {
+    return 'Operatio defecit: $error';
+  }
+
+  @override
+  String get manageCommissionTitle => 'Administrare Commissiones Generales';
+
+  @override
+  String get noCommissionsRegistered => 'Nullae commissiones descriptae sunt.';
+
+  @override
+  String deleteCommissionConfirmMsg(String name) {
+    return 'Certe vis delere \'$name\'? Omnia data sodalarum in hac commissione etiam delebuntur.';
+  }
+
+  @override
+  String get commissionDeletedSuccess => 'Commissio feliciter deleta est.';
+
+  @override
+  String failedToDeleteCommission(String error) {
+    return 'Deletio defecit: $error';
+  }
+
+  @override
+  String get manageMembersTooltip => 'Administrare Sodales';
+
+  @override
+  String get deleteCommissionTooltip => 'Delere Commissionem';
+
+  @override
+  String get addCommissionBtn => 'Adde Commissionem';
+
+  @override
+  String get addNewCommissionTitle => 'Adde Novam Commissionem';
+
+  @override
+  String get fillDataAndSelectPraesesWarning =>
+      'Quaeso, exple data et elige Praesidem!';
+
+  @override
+  String get commissionNameLabel => 'Nomen Commissionis (Requisitum)';
+
+  @override
+  String get commissionNameRequired => 'Nomen commissionis expleri debet';
+
+  @override
+  String get missionApostolateTaskLabel => 'Missio / Munus Apostolicum';
+
+  @override
+  String get selectPraesesPresidentLabel => 'Elige Praesidem';
+
+  @override
+  String get saveCommissionBtn => 'SERVARE COMMISSIONEM';
+
+  @override
+  String commissionMembersTitle(String name) {
+    return 'Sodales: $name';
+  }
+
+  @override
+  String get addCommissionMemberPanelTitle => 'Adde Sodalem Commissionis';
+
+  @override
+  String get selectMemberNameLabel => 'Elige Nomen Sodalis';
+
+  @override
+  String get positionInCommissionLabel => 'Officium in Commissione';
+
+  @override
+  String get addToCommissionBtn => 'Adde ad Commissionem';
+
+  @override
+  String get memberAddedToCommissionSuccess =>
+      'Sodalis feliciter commissioni additus est';
+
+  @override
+  String memberAlreadyRegisteredOrError(String error) {
+    return 'Iam descriptus / Error: $error';
+  }
+
+  @override
+  String get noAdditionalMembersInCommission =>
+      'Haec commissio sodales addititios nondum habet.';
+
+  @override
+  String get unknownName => 'Ignotum';
+
+  @override
+  String get positionPrefix => 'Officium';
 }

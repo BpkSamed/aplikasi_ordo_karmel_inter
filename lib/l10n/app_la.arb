@@ -14,7 +14,7 @@
   "loginAsAdmin": "Login ut Administrator",
   "userProfileTitle": "Profilum Usoris",
   "studentRole": "Discipulus",
-  "welcomeMessage": "Salve, Abraham",
+  "welcomeMessage": "Salve",
   "universityStudent": "Discipulus Universitatis",
   "drawerInstruction": "Preme tres lineas in angulo superiore sinistro ad videndum directorium Ordinis Carmelitarum.",
   "openingMenu": "Aperiens: {title}",
@@ -513,5 +513,64 @@
   "errorSavingEpiscopus": "Error servando data episcopi: {error}",
   "@errorSavingEpiscopus": {
     "placeholders": { "error": { "type": "String" } }
-  }
+  },
+
+  "manageCitocNewsTitle": "Administrare Nuntios CITOC",
+  "deleteNewsTitle": "Delere Nuntium",
+  "deleteNewsConfirmMsg": "Certe vis delere hoc vinculum nuntii?",
+  "newsDeletedSuccess": "Nuntius deletus est.",
+  "noCitocNewsYet": "Nulli nuntii CITOC adhuc sunt.",
+  "noTitle": "Sine Titulo",
+  "addNewsBtn": "Adde Nuntium",
+  "titleAndUrlRequired": "Titulus et Vinculum Web (URL) requiruntur!",
+  "newsUpdateSuccess": "Nuntius feliciter renovatus est!",
+  "newsAddSuccess": "Nuntius feliciter additus est!",
+  "editCitocNewsTitle": "Recensere Nuntium CITOC",
+  "addNewNewsTitle": "Adde Novum Nuntium",
+  "newsTitleLabel": "Titulus Nuntii",
+  "webLinkLabel": "Vinculum Web (URL)",
+  "webLinkHint": "Exemplum: https://ocarm.org/news",
+  "saveNewsBtn": "SERVARE NUNTIUM",
+  "operationFailed": "Operatio defecit: {error}",
+  "@operationFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "manageCommissionTitle": "Administrare Commissiones Generales",
+  "noCommissionsRegistered": "Nullae commissiones descriptae sunt.",
+  "deleteCommissionConfirmMsg": "Certe vis delere '{name}'? Omnia data sodalarum in hac commissione etiam delebuntur.",
+  "@deleteCommissionConfirmMsg": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "commissionDeletedSuccess": "Commissio feliciter deleta est.",
+  "failedToDeleteCommission": "Deletio defecit: {error}",
+  "@failedToDeleteCommission": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "manageMembersTooltip": "Administrare Sodales",
+  "deleteCommissionTooltip": "Delere Commissionem",
+  "addCommissionBtn": "Adde Commissionem",
+  "addNewCommissionTitle": "Adde Novam Commissionem",
+  "fillDataAndSelectPraesesWarning": "Quaeso, exple data et elige Praesidem!",
+  "commissionNameLabel": "Nomen Commissionis (Requisitum)",
+  "commissionNameRequired": "Nomen commissionis expleri debet",
+  "missionApostolateTaskLabel": "Missio / Munus Apostolicum",
+  "selectPraesesPresidentLabel": "Elige Praesidem",
+  "saveCommissionBtn": "SERVARE COMMISSIONEM",
+  "commissionMembersTitle": "Sodales: {name}",
+  "@commissionMembersTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "addCommissionMemberPanelTitle": "Adde Sodalem Commissionis",
+  "selectMemberNameLabel": "Elige Nomen Sodalis",
+  "positionInCommissionLabel": "Officium in Commissione",
+  "addToCommissionBtn": "Adde ad Commissionem",
+  "memberAddedToCommissionSuccess": "Sodalis feliciter commissioni additus est",
+  "memberAlreadyRegisteredOrError": "Iam descriptus / Error: {error}",
+  "@memberAlreadyRegisteredOrError": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "noAdditionalMembersInCommission": "Haec commissio sodales addititios nondum habet.",
+  "unknownName": "Ignotum",
+  "positionPrefix": "Officium"
 }

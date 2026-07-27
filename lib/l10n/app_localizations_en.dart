@@ -52,7 +52,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get studentRole => 'Student';
 
   @override
-  String get welcomeMessage => 'Welcome, Abraham';
+  String get welcomeMessage => 'Welcome';
 
   @override
   String get universityStudent => 'University Student';
@@ -1230,4 +1230,144 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorSavingEpiscopus(String error) {
     return 'Error saving bishop data: $error';
   }
+
+  @override
+  String get manageCitocNewsTitle => 'Manage CITOC News';
+
+  @override
+  String get deleteNewsTitle => 'Delete News';
+
+  @override
+  String get deleteNewsConfirmMsg =>
+      'Are you sure you want to delete this news link?';
+
+  @override
+  String get newsDeletedSuccess => 'News deleted.';
+
+  @override
+  String get noCitocNewsYet => 'No CITOC news yet.';
+
+  @override
+  String get noTitle => 'No Title';
+
+  @override
+  String get addNewsBtn => 'Add News';
+
+  @override
+  String get titleAndUrlRequired => 'Title and Web Link (URL) are required!';
+
+  @override
+  String get newsUpdateSuccess => 'News successfully updated!';
+
+  @override
+  String get newsAddSuccess => 'News successfully added!';
+
+  @override
+  String get editCitocNewsTitle => 'Edit CITOC News';
+
+  @override
+  String get addNewNewsTitle => 'Add New News';
+
+  @override
+  String get newsTitleLabel => 'News Title';
+
+  @override
+  String get webLinkLabel => 'Web Link (URL)';
+
+  @override
+  String get webLinkHint => 'Example: https://ocarm.org/news';
+
+  @override
+  String get saveNewsBtn => 'SAVE NEWS';
+
+  @override
+  String operationFailed(String error) {
+    return 'Operation failed: $error';
+  }
+
+  @override
+  String get manageCommissionTitle => 'Manage General Commissions';
+
+  @override
+  String get noCommissionsRegistered => 'No commissions registered yet.';
+
+  @override
+  String deleteCommissionConfirmMsg(String name) {
+    return 'Are you sure you want to delete \'$name\'? All membership data in this commission will also be deleted.';
+  }
+
+  @override
+  String get commissionDeletedSuccess => 'Commission successfully deleted.';
+
+  @override
+  String failedToDeleteCommission(String error) {
+    return 'Failed to delete: $error';
+  }
+
+  @override
+  String get manageMembersTooltip => 'Manage Members';
+
+  @override
+  String get deleteCommissionTooltip => 'Delete Commission';
+
+  @override
+  String get addCommissionBtn => 'Add Commission';
+
+  @override
+  String get addNewCommissionTitle => 'Add New Commission';
+
+  @override
+  String get fillDataAndSelectPraesesWarning =>
+      'Please complete the data and select a Praeses!';
+
+  @override
+  String get commissionNameLabel => 'Commission Name (Required)';
+
+  @override
+  String get commissionNameRequired => 'Commission name must be filled';
+
+  @override
+  String get missionApostolateTaskLabel => 'Mission / Apostolate Task';
+
+  @override
+  String get selectPraesesPresidentLabel => 'Select President (Praeses)';
+
+  @override
+  String get saveCommissionBtn => 'SAVE COMMISSION';
+
+  @override
+  String commissionMembersTitle(String name) {
+    return 'Members: $name';
+  }
+
+  @override
+  String get addCommissionMemberPanelTitle => 'Add Commission Member';
+
+  @override
+  String get selectMemberNameLabel => 'Select Member Name';
+
+  @override
+  String get positionInCommissionLabel => 'Position in Commission';
+
+  @override
+  String get addToCommissionBtn => 'Add to Commission';
+
+  @override
+  String get memberAddedToCommissionSuccess =>
+      'Member successfully added to the commission';
+
+  @override
+  String memberAlreadyRegisteredOrError(String error) {
+    return 'Already registered / Error: $error';
+  }
+
+  @override
+  String get noAdditionalMembersInCommission =>
+      'This commission has no additional members yet.';
+
+  @override
+  String get unknownName => 'Unknown';
+
+  @override
+  String get positionPrefix => 'Position';
 }
