@@ -1,6 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // UNTUK CLIPBOARD (SALIN TEKS)
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
+
+/// =================================================================
+/// HELPER: ROW INFORMASI DENGAN FITUR SALIN DENGAN MENAHAN (LONG PRESS)
+/// =================================================================
+Widget _buildCopyableRow({
+  required BuildContext context,
+  required String label,
+  required String value,
+  required double baseWidth,
+  bool isCopyable = true,
+}) {
+  final bool canCopy = isCopyable && value != '-' && value.trim().isNotEmpty;
+
+  return InkWell(
+    onLongPress: canCopy
+        ? () {
+            Clipboard.setData(ClipboardData(text: value));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("$label $value berhasil disalin"),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        : null,
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.012),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: baseWidth * 0.28,
+            child: Text(
+              "$label: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade700,
+                fontSize: baseWidth * 0.035,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: baseWidth * 0.035,
+                      color: canCopy ? Colors.brown.shade900 : Colors.black87,
+                      fontWeight: canCopy ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                if (canCopy)
+                  Padding(
+                    padding: EdgeInsets.only(left: baseWidth * 0.01),
+                    child: Icon(Icons.copy, size: baseWidth * 0.035, color: Colors.grey),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 /// =================================================================
 /// 1. HALAMAN UTAMA FRATRES (PILIHAN PAYUNG KATEGORI)
@@ -186,6 +255,26 @@ class HalamanDetailEntitasFratres extends StatelessWidget {
 
   const HalamanDetailEntitasFratres({super.key, required this.entity, required this.categoryName});
 
+  /// Fungsi launcher eksternal ketika link diklik di dalam halaman kotak
+  Future<void> _launchExternalURL(BuildContext context, String urlString) async {
+    String finalUrl = urlString.trim();
+    if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+      finalUrl = 'https://$finalUrl';
+    }
+    final Uri url = Uri.parse(finalUrl);
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Gagal membuka tautan web: $finalUrl")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
@@ -209,8 +298,56 @@ class HalamanDetailEntitasFratres extends StatelessWidget {
                 _bukaHalamanInfo(context, t.historia ?? "Historia", entity['historia'] ?? (t.noHistory ?? "Belum ada riwayat sejarah."));
               }, baseWidth),
               
+              // SEKARANG MASUK KE HALAMAN KOTAK DULU BARU BISA DIKLIK KELUAR
               _buildSubMenuTile(context, t.website ?? "Website", Icons.language, () {
-                _bukaHalamanInfo(context, t.officialWebsite ?? "Website Resmi", "${t.webLink ?? 'Tautan Web'}: ${entity['website_url'] ?? (t.noWebsite ?? 'Tidak ada website')}");
+                final String? webUrl = entity['website_url'];
+                if (webUrl == null || webUrl.trim().isEmpty) {
+                  _bukaHalamanInfo(context, t.officialWebsite ?? "Website Resmi", t.noWebsite ?? 'Tidak ada website');
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        appBar: AppBar(title: Text(t.officialWebsite ?? "Website Resmi")),
+                        body: Padding(
+                          padding: EdgeInsets.all(baseWidth * 0.05),
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(baseWidth * 0.04),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.brown.shade200),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${t.webLink ?? 'Tautan Web'}:",
+                                  style: TextStyle(fontSize: baseWidth * 0.035, fontWeight: FontWeight.bold, color: Colors.grey),
+                                ),
+                                SizedBox(height: baseWidth * 0.02),
+                                InkWell(
+                                  onTap: () => _launchExternalURL(context, webUrl),
+                                  child: Text(
+                                    webUrl,
+                                    style: TextStyle(
+                                      fontSize: baseWidth * 0.038,
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
               }, baseWidth),
               
               _buildSubMenuTile(context, t.consiliumCouncil ?? "Consilium", Icons.assignment_ind, () {
@@ -228,11 +365,15 @@ class HalamanDetailEntitasFratres extends StatelessWidget {
               
               _buildSubMenuTile(context, t.domusAddress ?? "Domus", Icons.mail_outline, () {
                 final addr = entity['addresses'];
-                String fullAddr = t.addressNotAvailable ?? "Alamat tidak tersedia.";
-                if (addr != null) {
-                  fullAddr = "${t.monasteryBuilding ?? 'Biara/Gedung'}: ${addr['house_name'] ?? '-'}\n${t.street ?? 'Jalan'}: ${addr['street'] ?? '-'}\n${t.city ?? 'Kota'}: ${addr['city'] ?? '-'}\n${t.country ?? 'Negara'}: ${addr['country'] ?? '-'}\n${t.postalCode ?? 'Kode Pos'}: ${addr['postal_code'] ?? '-'}\n${t.telephone ?? 'Telp'}: ${addr['telephone'] ?? '-'}\n${t.faxcimile ?? 'Fax'}: ${addr['faxcimile'] ?? '-'}\n${t.email ?? 'Email'}: ${addr['email'] ?? '-'}";
-                }
-                _bukaHalamanInfo(context, t.officialDomus ?? "Domus Resmi", fullAddr);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HalamanDomusDetailFratres(
+                      title: t.officialDomus ?? "Domus Resmi",
+                      address: addr,
+                    ),
+                  ),
+                );
               }, baseWidth),
               
               _buildSubMenuTile(context, t.conventusList ?? "Conventus", Icons.maps_home_work, () {
@@ -290,6 +431,70 @@ class HalamanDetailEntitasFratres extends StatelessWidget {
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// HALAMAN DETAIL DOMUS (KETERANGAN TEKS LAMA DI ATAS SUDAH DIHAPUS)
+/// =================================================================
+class HalamanDomusDetailFratres extends StatelessWidget {
+  final String title;
+  final dynamic address;
+
+  const HalamanDomusDetailFratres({super.key, required this.title, required this.address});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final double baseWidth = constraints.maxWidth;
+
+          if (address == null) {
+            return Center(
+              child: Text(
+                t.addressNotAvailable ?? "Alamat tidak tersedia.",
+                style: TextStyle(fontSize: baseWidth * 0.038, color: Colors.grey),
+              ),
+            );
+          }
+
+          return ListView(
+            padding: EdgeInsets.all(baseWidth * 0.05),
+            children: [
+              Card(
+                elevation: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(baseWidth * 0.04),
+                  child: Column(
+                    children: [
+                      _buildCopyableRow(context: context, label: t.monasteryBuilding ?? "Biara/Gedung", value: address['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.street ?? "Jalan", value: address['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.city ?? "Kota", value: address['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.country ?? "Negara", value: address['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.postalCode ?? "Kode Pos", value: address['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.telephone ?? "Telp", value: address['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.faxcimile ?? "Fax", value: address['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                      const Divider(),
+                      _buildCopyableRow(context: context, label: t.email ?? "Email", value: address['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -358,12 +563,19 @@ class _HalamanSubMenuAnggotaFratresState extends State<HalamanSubMenuAnggotaFrat
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final member = snapshot.data![index];
+                  final String? photoUrl = member['photo_url'];
+
                   return Card(
                     child: ExpansionTile(
                       leading: CircleAvatar(
                         backgroundColor: Colors.brown, 
                         radius: baseWidth * 0.05,
-                        child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                        backgroundImage: (photoUrl != null && photoUrl.trim().isNotEmpty)
+                            ? NetworkImage(photoUrl)
+                            : null,
+                        child: (photoUrl == null || photoUrl.trim().isEmpty)
+                            ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                            : null,
                       ),
                       title: Text(
                         member['full_name'] ?? '-', 
@@ -419,7 +631,7 @@ class _HalamanSubMenuAnggotaFratresState extends State<HalamanSubMenuAnggotaFrat
 }
 
 /// =================================================================
-/// 5. SUB-MENU DAFTAR BIARA (CONVENTUS)
+/// 5. SUB-MENU DAFTAR BIARA (CONVENTUS) - STRUKTUR KURUNG DIJAMIN VALID
 /// =================================================================
 class HalamanSubMenuConventusFratres extends StatelessWidget {
   final int entityId;
@@ -458,53 +670,54 @@ class HalamanSubMenuConventusFratres extends StatelessWidget {
                 return Center(child: Text(t.noRegisteredMonastery ?? "Belum ada data biara terdaftar.", style: TextStyle(fontSize: baseWidth * 0.038)));
               }
 
-          return ListView.builder(
-            padding: EdgeInsets.all(baseWidth * 0.03),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final conv = snapshot.data![index];
-              final addr = conv['addresses'];
-              return Card(
-                child: ExpansionTile(
-                  leading: Icon(Icons.maps_home_work, color: Colors.brown, size: baseWidth * 0.055),
-                  title: Text(
-                    conv['name'] ?? '-', 
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
-                  ),
-                  subtitle: Text(
-                    "${t.city ?? 'Kota'}: ${addr?['city'] ?? '-'}",
-                    style: TextStyle(fontSize: baseWidth * 0.032)
-                  ),
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(baseWidth * 0.04),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            t.completeMonasteryAddress ?? "Alamat Lengkap Biara:", 
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)
-                          ),
-                          SizedBox(height: baseWidth * 0.01),
-                          if (addr != null) ...[
-                            Text("${t.street ?? 'Jalan'}: ${addr['street'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                            Text("${t.country ?? 'Negara'}: ${addr['country'] ?? '-'} (${addr['postal_code'] ?? '-'})", style: TextStyle(fontSize: baseWidth * 0.035)),
-                            Text("${t.telephone ?? 'Telp'}: ${addr['telephone'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                            Text("${t.faxcimile ?? 'Fax'}: ${addr['faxcimile'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                            Text("${t.email ?? 'Email'}: ${addr['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                          ] else
-                            Text(t.addressNotFilled ?? "Detail alamat belum diisi.", style: TextStyle(fontSize: baseWidth * 0.035)),
-                        ],
+              return ListView.builder(
+                padding: EdgeInsets.all(baseWidth * 0.03),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final conv = snapshot.data![index];
+                  final addr = conv['addresses'];
+                  return Card(
+                    child: ExpansionTile(
+                      leading: Icon(Icons.maps_home_work, color: Colors.brown, size: baseWidth * 0.055),
+                      title: Text(
+                        conv['name'] ?? '-', 
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)
                       ),
-                    )
-                  ],
-                ),
+                      subtitle: Text(
+                        "${t.city ?? 'Kota'}: ${addr?['city'] ?? '-'}",
+                        style: TextStyle(fontSize: baseWidth * 0.032)
+                      ),
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(baseWidth * 0.04),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                t.completeMonasteryAddress ?? "Alamat Lengkap Biara:", 
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)
+                              ),
+                              SizedBox(height: baseWidth * 0.015),
+                              if (addr != null) ...[
+                                _buildCopyableRow(context: context, label: t.street ?? "Jalan", value: addr['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                _buildCopyableRow(context: context, label: t.country ?? "Negara", value: "${addr['country'] ?? '-'} (${addr['postal_code'] ?? '-'})", baseWidth: baseWidth, isCopyable: false),
+                                _buildCopyableRow(context: context, label: t.postalCode ?? "Kode Pos", value: addr['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                _buildCopyableRow(context: context, label: t.telephone ?? "Telp", value: addr['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                _buildCopyableRow(context: context, label: t.faxcimile ?? "Fax", value: addr['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                _buildCopyableRow(context: context, label: t.email ?? "Email", value: addr['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                              ] else
+                                Text(t.addressNotFilled ?? "Detail alamat belum diisi.", style: TextStyle(fontSize: baseWidth * 0.035)),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
               );
             },
           );
         },
-      );
-    },
       ),
     );
   }

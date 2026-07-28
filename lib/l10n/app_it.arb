@@ -651,5 +651,9 @@
   "subImmediataTitle": "Sub Immediata Giurisdizione",
   "officersLabel": "Ufficiali / Dirigenti:",
   "membersLabel": "Membri",
-  "noDataAvailable": "Nessun dato disponibile"
+  "noDataAvailable": "Nessun dato disponibile",
+
+  "heremitiEntitiesSubtitle": "Elenco degli Eremi, Storia e Sito Ufficiale",
+  "heremitiConventusSubtitle": "Elenco delle Case/Edifici dell'Eremo e Contatti Ufficiali",
+  "heremitiMembersSubtitle": "Elenco dei Membri, Date dei Voti e Ordinazione Sacerdotale"
 }

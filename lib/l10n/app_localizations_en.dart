@@ -1509,4 +1509,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDataAvailable => 'No data available';
+
+  @override
+  String get heremitiEntitiesSubtitle =>
+      'List of Hermitages, History, & Official Website';
+
+  @override
+  String get heremitiConventusSubtitle =>
+      'List of Hermitage Houses/Buildings and Official Contacts';
+
+  @override
+  String get heremitiMembersSubtitle =>
+      'List of Members, Vow Dates, & Priestly Ordination';
 }

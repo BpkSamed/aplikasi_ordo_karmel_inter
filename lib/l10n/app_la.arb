@@ -679,5 +679,9 @@
   "subImmediataTitle": "Sub Immediata Jurisdictione",
   "officersLabel": "Praefecti / Practiones:",
   "membersLabel": "Sodales",
-  "noDataAvailable": "Data non praesto sunt"
+  "noDataAvailable": "Data non praesto sunt",
+
+  "heremitiEntitiesSubtitle": "Elenchus Eremorum, Historia, et Situs Interretialis",
+  "heremitiConventusSubtitle": "Elenchus Domorum Eremiticorum et Contactus Publici",
+  "heremitiMembersSubtitle": "Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis"
 }

@@ -1531,4 +1531,16 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get noDataAvailable => 'Nessun dato disponibile';
+
+  @override
+  String get heremitiEntitiesSubtitle =>
+      'Elenco degli Eremi, Storia e Sito Ufficiale';
+
+  @override
+  String get heremitiConventusSubtitle =>
+      'Elenco delle Case/Edifici dell\'Eremo e Contatti Ufficiali';
+
+  @override
+  String get heremitiMembersSubtitle =>
+      'Elenco dei Membri, Date dei Voti e Ordinazione Sacerdotale';
 }

@@ -1521,4 +1521,16 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get noDataAvailable => 'Data non praesto sunt';
+
+  @override
+  String get heremitiEntitiesSubtitle =>
+      'Elenchus Eremorum, Historia, et Situs Interretialis';
+
+  @override
+  String get heremitiConventusSubtitle =>
+      'Elenchus Domorum Eremiticorum et Contactus Publici';
+
+  @override
+  String get heremitiMembersSubtitle =>
+      'Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis';
 }

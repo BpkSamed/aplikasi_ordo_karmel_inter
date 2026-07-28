@@ -2909,6 +2909,24 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Data non praesto sunt'**
   String get noDataAvailable;
+
+  /// No description provided for @heremitiEntitiesSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Elenchus Eremorum, Historia, et Situs Interretialis'**
+  String get heremitiEntitiesSubtitle;
+
+  /// No description provided for @heremitiConventusSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Elenchus Domorum Eremiticorum et Contactus Publici'**
+  String get heremitiConventusSubtitle;
+
+  /// No description provided for @heremitiMembersSubtitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis'**
+  String get heremitiMembersSubtitle;
 }
 
 class _AppLocalizationsDelegate

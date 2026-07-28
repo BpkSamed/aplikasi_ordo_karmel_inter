@@ -1532,4 +1532,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noDataAvailable => 'No hay datos disponibles';
+
+  @override
+  String get heremitiEntitiesSubtitle =>
+      'Lista de Ermitas, Historia y Sitio Web Oficial';
+
+  @override
+  String get heremitiConventusSubtitle =>
+      'Lista de Casas/Edificios de la Ermita y Contactos Oficiales';
+
+  @override
+  String get heremitiMembersSubtitle =>
+      'Lista de Miembros, Fechas de Votos y Ordenación Sacerdotal';
 }

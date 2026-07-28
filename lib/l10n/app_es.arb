@@ -651,5 +651,9 @@
   "subImmediataTitle": "Sub Immediata Jurisdicción",
   "officersLabel": "Oficiales / Líderes:",
   "membersLabel": "Miembros",
-  "noDataAvailable": "No hay datos disponibles"
+  "noDataAvailable": "No hay datos disponibles",
+
+  "heremitiEntitiesSubtitle": "Lista de Ermitas, Historia y Sitio Web Oficial",
+  "heremitiConventusSubtitle": "Lista de Casas/Edificios de la Ermita y Contactos Oficiales",
+  "heremitiMembersSubtitle": "Lista de Miembros, Fechas de Votos y Ordenación Sacerdotal"
 }
