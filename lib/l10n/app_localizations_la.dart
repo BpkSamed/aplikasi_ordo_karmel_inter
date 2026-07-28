@@ -880,23 +880,23 @@ class AppLocalizationsLa extends AppLocalizations {
   String get location => 'Locus';
 
   @override
-  String get editTooltip => 'Recensere';
+  String get editTooltip => 'Edere';
 
   @override
-  String selectItemTitle(String judul) {
-    return 'Elige $judul';
+  String selectItemTitle(String item) {
+    return 'Elige $item';
   }
 
   @override
-  String searchItemHint(String judul) {
-    return 'Quaere $judul...';
+  String searchItemHint(String item) {
+    return 'Quaere $item...';
   }
 
   @override
-  String get dataNotFound => 'Data non inventa sunt';
+  String get dataNotFound => 'Data non inventa';
 
   @override
-  String get closeButton => 'Claudere';
+  String get closeButton => 'Claude';
 
   @override
   String get cityCountryRequired => 'Civitas et Patria requiruntur!';
@@ -1506,4 +1506,19 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get addEpiscopiBtn => 'Addere Episcopum';
+
+  @override
+  String get editCommissionTitle => 'Edere Commissionem';
+
+  @override
+  String get updateCommissionBtn => 'RENOVARE COMMISSIONEM';
+
+  @override
+  String get officersLabel => 'Praefecti / Practiones:';
+
+  @override
+  String get membersLabel => 'Sodales';
+
+  @override
+  String get noDataAvailable => 'Data non praesto sunt';
 }

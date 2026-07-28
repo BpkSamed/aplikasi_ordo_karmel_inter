@@ -1737,31 +1737,31 @@ abstract class AppLocalizations {
   /// No description provided for @editTooltip.
   ///
   /// In la, this message translates to:
-  /// **'Recensere'**
+  /// **'Edere'**
   String get editTooltip;
 
   /// No description provided for @selectItemTitle.
   ///
   /// In la, this message translates to:
-  /// **'Elige {judul}'**
-  String selectItemTitle(String judul);
+  /// **'Elige {item}'**
+  String selectItemTitle(String item);
 
   /// No description provided for @searchItemHint.
   ///
   /// In la, this message translates to:
-  /// **'Quaere {judul}...'**
-  String searchItemHint(String judul);
+  /// **'Quaere {item}...'**
+  String searchItemHint(String item);
 
   /// No description provided for @dataNotFound.
   ///
   /// In la, this message translates to:
-  /// **'Data non inventa sunt'**
+  /// **'Data non inventa'**
   String get dataNotFound;
 
   /// No description provided for @closeButton.
   ///
   /// In la, this message translates to:
-  /// **'Claudere'**
+  /// **'Claude'**
   String get closeButton;
 
   /// No description provided for @cityCountryRequired.
@@ -2879,6 +2879,36 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Addere Episcopum'**
   String get addEpiscopiBtn;
+
+  /// No description provided for @editCommissionTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Edere Commissionem'**
+  String get editCommissionTitle;
+
+  /// No description provided for @updateCommissionBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'RENOVARE COMMISSIONEM'**
+  String get updateCommissionBtn;
+
+  /// No description provided for @officersLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Praefecti / Practiones:'**
+  String get officersLabel;
+
+  /// No description provided for @membersLabel.
+  ///
+  /// In la, this message translates to:
+  /// **'Sodales'**
+  String get membersLabel;
+
+  /// No description provided for @noDataAvailable.
+  ///
+  /// In la, this message translates to:
+  /// **'Data non praesto sunt'**
+  String get noDataAvailable;
 }
 
 class _AppLocalizationsDelegate

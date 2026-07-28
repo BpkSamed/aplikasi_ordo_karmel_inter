@@ -627,5 +627,29 @@
 "passwordLabel": "Password",
 "selectEntityFirstPrompt": "Seleziona prima un'Entità/Provincia!",
 "episcopiListTitle": "Vescovi Ex Ordine Assumpti",
-"addEpiscopiBtn": "Aggiungi Vescovo"
+"addEpiscopiBtn": "Aggiungi Vescovo",
+
+"selectItemTitle": "Seleziona {item}",
+  "searchItemHint": "Cerca {item}...",
+  "dataNotFound": "Dati non trovati",
+  "closeButton": "Chiudi",
+  "editTooltip": "Modifica",
+  "editCommissionTitle": "Modifica Commissione",
+  "updateCommissionBtn": "AGGIORNA COMMISSIONE",
+  "positionInCommissionLabel": "Posizione nella Commissione",
+  "positionPrefix": "Posizione",
+
+  "selectItemTitle": "Seleziona {item}",
+  "searchItemHint": "Cerca {item}...",
+  "dataNotFound": "Dati non trovati",
+  "closeButton": "Chiudi",
+  "editTooltip": "Modifica",
+  "editCommissionTitle": "Modifica Commissione",
+  "updateCommissionBtn": "AGGIORNA COMMISSIONE",
+  "positionInCommissionLabel": "Posizione nella Commissione",
+  "positionPrefix": "Posizione",
+  "subImmediataTitle": "Sub Immediata Giurisdizione",
+  "officersLabel": "Ufficiali / Dirigenti:",
+  "membersLabel": "Membri",
+  "noDataAvailable": "Nessun dato disponibile"
 }

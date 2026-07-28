@@ -875,13 +875,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editTooltip => 'Edit';
 
   @override
-  String selectItemTitle(String judul) {
-    return 'Select $judul';
+  String selectItemTitle(String item) {
+    return 'Select $item';
   }
 
   @override
-  String searchItemHint(String judul) {
-    return 'Search $judul...';
+  String searchItemHint(String item) {
+    return 'Search $item...';
   }
 
   @override
@@ -1494,4 +1494,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addEpiscopiBtn => 'Add Bishop';
+
+  @override
+  String get editCommissionTitle => 'Edit Commission';
+
+  @override
+  String get updateCommissionBtn => 'UPDATE COMMISSION';
+
+  @override
+  String get officersLabel => 'Officers / Leaders:';
+
+  @override
+  String get membersLabel => 'Members';
+
+  @override
+  String get noDataAvailable => 'No data available';
 }

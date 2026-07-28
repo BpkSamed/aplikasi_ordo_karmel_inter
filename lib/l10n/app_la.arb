@@ -627,5 +627,57 @@
 "passwordLabel": "Tessera",
 "selectEntityFirstPrompt": "Elige Entitatem/Provinciam prius!",
 "episcopiListTitle": "Episcopi Ex Ordine Assumpti",
-"addEpiscopiBtn": "Addere Episcopum"
+"addEpiscopiBtn": "Addere Episcopum",
+
+"selectItemTitle": "Elige {item}",
+  "@selectItemTitle": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "searchItemHint": "Quaere {item}...",
+  "@searchItemHint": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "dataNotFound": "Data non inventa",
+  "closeButton": "Claude",
+  "editTooltip": "Edere",
+  "editCommissionTitle": "Edere Commissionem",
+  "updateCommissionBtn": "RENOVARE COMMISSIONEM",
+  "positionInCommissionLabel": "Officium in Commissione",
+  "positionPrefix": "Officium",
+
+  "selectItemTitle": "Elige {item}",
+  "@selectItemTitle": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "searchItemHint": "Quaere {item}...",
+  "@searchItemHint": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "dataNotFound": "Data non inventa",
+  "closeButton": "Claude",
+  "editTooltip": "Edere",
+  "editCommissionTitle": "Edere Commissionem",
+  "updateCommissionBtn": "RENOVARE COMMISSIONEM",
+  "positionInCommissionLabel": "Officium in Commissione",
+  "positionPrefix": "Officium",
+  "subImmediataTitle": "Sub Immediata Jurisdictione",
+  "officersLabel": "Praefecti / Practiones:",
+  "membersLabel": "Sodales",
+  "noDataAvailable": "Data non praesto sunt"
 }

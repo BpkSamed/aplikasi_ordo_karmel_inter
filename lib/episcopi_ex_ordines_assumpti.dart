@@ -44,6 +44,7 @@ class HalamanEpiscopi extends StatelessWidget {
                   "diocese": "-",
                   "ex_carmelite_entity": "-",
                   "status": "-",
+                  "photo_url": null,
                   "addresses": {
                     "house_name": "-",
                     "street": "-",
@@ -68,6 +69,8 @@ class HalamanEpiscopi extends StatelessWidget {
                 itemCount: daftarUskup.length,
                 itemBuilder: (context, index) {
                   final uskup = daftarUskup[index];
+                  final String? photoUrl = uskup["photo_url"];
+
                   return Card(
                     elevation: 2,
                     margin: EdgeInsets.only(bottom: baseWidth * 0.03),
@@ -76,10 +79,16 @@ class HalamanEpiscopi extends StatelessWidget {
                         horizontal: baseWidth * 0.04, 
                         vertical: baseWidth * 0.02
                       ),
+                      // MENAMPILKAN FOTO DI DAFTAR USKUP
                       leading: CircleAvatar(
-                        radius: baseWidth * 0.05,
+                        radius: baseWidth * 0.06,
                         backgroundColor: Colors.brown,
-                        child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05),
+                        backgroundImage: (photoUrl != null && photoUrl.toString().trim().isNotEmpty)
+                            ? NetworkImage(photoUrl)
+                            : null,
+                        child: (photoUrl == null || photoUrl.toString().trim().isEmpty)
+                            ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.065)
+                            : null,
                       ),
                       title: Text(
                         uskup["name"] ?? '-', 
@@ -134,6 +143,7 @@ class HalamanDetailEpiscopi extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!; // Inisialisasi lokalisasi
     final Map<String, dynamic> address = dataUskup["addresses"] ?? {};
+    final String? photoUrl = dataUskup["photo_url"];
 
     return Scaffold(
       appBar: AppBar(
@@ -148,14 +158,20 @@ class HalamanDetailEpiscopi extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Bagian Header (Nama dan Keuskupan)
+                // Bagian Header (Nama, Keuskupan, dan Foto)
                 Center(
                   child: Column(
                     children: [
+                      // MENAMPILKAN FOTO DI HALAMAN DETAIL
                       CircleAvatar(
                         radius: baseWidth * 0.12,
                         backgroundColor: Colors.brown,
-                        child: Icon(Icons.person, size: baseWidth * 0.12, color: Colors.white),
+                        backgroundImage: (photoUrl != null && photoUrl.toString().trim().isNotEmpty)
+                            ? NetworkImage(photoUrl)
+                            : null,
+                        child: (photoUrl == null || photoUrl.toString().trim().isEmpty)
+                            ? Icon(Icons.person, size: baseWidth * 0.12, color: Colors.white)
+                            : null,
                       ),
                       SizedBox(height: baseWidth * 0.04),
                       Text(

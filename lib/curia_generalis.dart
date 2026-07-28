@@ -55,9 +55,10 @@ class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
           .select('*, members(*, conventus(name))');
 
       // 2. Kueri Spesifik Menggunakan Kolom ID untuk Menghindari Ambiguitas Relasi
+      // Mengambil data komisi lengkap dengan foto Praeses dan foto Anggota Komisi
       final commissionsResponse = await _supabase
           .from('commissions')
-          .select('*, praeses:praeses_id(full_name), commission_members(*, member:member_id(full_name))');
+          .select('*, praeses:praeses_id(full_name, photo_url), commission_members(*, member:member_id(full_name, photo_url))');
 
       setState(() {
         _pejabatCuria = curiaResponse as List<dynamic>;
@@ -119,6 +120,7 @@ class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
     if (match.isNotEmpty && match.first['members'] != null) {
       final member = match.first['members'];
       final conventusName = member['conventus']?['name'] ?? t.unassignedMonastery;
+      final String? photoUrl = member['photo_url'];
 
       return Card(
         margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
@@ -126,7 +128,12 @@ class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
           leading: CircleAvatar(
             radius: baseWidth * 0.05,
             backgroundColor: Colors.brown,
-            child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05),
+            backgroundImage: (photoUrl != null && photoUrl.trim().isNotEmpty)
+                ? NetworkImage(photoUrl)
+                : null,
+            child: (photoUrl == null || photoUrl.trim().isEmpty)
+                ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                : null,
           ),
           title: Text(
             localizedRole,
@@ -251,12 +258,25 @@ class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
                           final komisi = _daftarKomisi[index];
                           final praeses = komisi['praeses'];
                           final membersList = komisi['commission_members'] as List<dynamic>? ?? [];
+                          
+                          // Mendapatkan URL foto dari Praeses (Pemimpin Komisi)
+                          final String? fotoPraeses = praeses?['photo_url'];
 
                           return Card(
                             margin: EdgeInsets.symmetric(vertical: baseWidth * 0.02),
                             elevation: 3,
                             child: ExpansionTile(
-                              leading: Icon(Icons.assignment, color: Colors.brown, size: baseWidth * 0.06),
+                              // MENAMPILKAN FOTO PEMIMPIN KOMISI (PRAESES)
+                              leading: CircleAvatar(
+                                radius: baseWidth * 0.05,
+                                backgroundColor: Colors.brown,
+                                backgroundImage: (fotoPraeses != null && fotoPraeses.trim().isNotEmpty)
+                                    ? NetworkImage(fotoPraeses)
+                                    : null,
+                                child: (fotoPraeses == null || fotoPraeses.trim().isEmpty)
+                                    ? Icon(Icons.assignment, color: Colors.white, size: baseWidth * 0.05)
+                                    : null,
+                              ),
                               title: Text(
                                 komisi['name'] ?? '-',
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.038),
@@ -296,9 +316,21 @@ class _HalamanCuriaGeneralisState extends State<HalamanCuriaGeneralis> {
                                           children: membersList.map((cm) {
                                             final namaAnggota = cm['member']?['full_name'] ?? t.unknown;
                                             final jabatanDiKomisi = cm['position'] ?? t.memberRole;
+                                            final String? fotoAnggota = cm['member']?['photo_url'];
+
                                             return ListTile(
-                                              contentPadding: EdgeInsets.zero,
-                                              leading: Icon(Icons.fiber_manual_record, size: baseWidth * 0.03, color: Colors.brown),
+                                              contentPadding: EdgeInsets.symmetric(vertical: baseWidth * 0.01),
+                                              // MENAMPILKAN FOTO ANGGOTA KOMISI
+                                              leading: CircleAvatar(
+                                                radius: baseWidth * 0.04,
+                                                backgroundColor: Colors.brown.shade200,
+                                                backgroundImage: (fotoAnggota != null && fotoAnggota.trim().isNotEmpty)
+                                                    ? NetworkImage(fotoAnggota)
+                                                    : null,
+                                                child: (fotoAnggota == null || fotoAnggota.trim().isEmpty)
+                                                    ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.04)
+                                                    : null,
+                                              ),
                                               title: Text(namaAnggota, style: TextStyle(fontWeight: FontWeight.w600, fontSize: baseWidth * 0.035)),
                                               subtitle: Text("${t.positionLabel}: $jabatanDiKomisi", style: TextStyle(fontSize: baseWidth * 0.032)),
                                             );

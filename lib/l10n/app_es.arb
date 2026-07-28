@@ -627,5 +627,29 @@
 "passwordLabel": "Contraseña",
 "selectEntityFirstPrompt": "¡Seleccione una Entidad/Provincia primero!",
 "episcopiListTitle": "Obispos Ex Ordine Assumpti",
-"addEpiscopiBtn": "Añadir Obispo"
+"addEpiscopiBtn": "Añadir Obispo",
+
+"selectItemTitle": "Seleccionar {item}",
+  "searchItemHint": "Buscar {item}...",
+  "dataNotFound": "Datos no encontrados",
+  "closeButton": "Cerrar",
+  "editTooltip": "Editar",
+  "editCommissionTitle": "Editar Comisión",
+  "updateCommissionBtn": "ACTUALIZAR COMISIÓN",
+  "positionInCommissionLabel": "Posición en la Comisión",
+  "positionPrefix": "Posición",
+
+  "selectItemTitle": "Seleccionar {item}",
+  "searchItemHint": "Buscar {item}...",
+  "dataNotFound": "Datos no encontrados",
+  "closeButton": "Cerrar",
+  "editTooltip": "Editar",
+  "editCommissionTitle": "Editar Comisión",
+  "updateCommissionBtn": "ACTUALIZAR COMISIÓN",
+  "positionInCommissionLabel": "Posición en la Comisión",
+  "positionPrefix": "Posición",
+  "subImmediataTitle": "Sub Immediata Jurisdicción",
+  "officersLabel": "Oficiales / Líderes:",
+  "membersLabel": "Miembros",
+  "noDataAvailable": "No hay datos disponibles"
 }

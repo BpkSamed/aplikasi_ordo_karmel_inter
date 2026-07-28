@@ -627,5 +627,29 @@
 "passwordLabel": "Password",
 "selectEntityFirstPrompt": "Please select an Entity/Province first!",
 "episcopiListTitle": "Bishops Ex Ordine Assumpti",
-"addEpiscopiBtn": "Add Bishop"
+"addEpiscopiBtn": "Add Bishop",
+
+"selectItemTitle": "Select {item}",
+  "searchItemHint": "Search {item}...",
+  "dataNotFound": "Data not found",
+  "closeButton": "Close",
+  "editTooltip": "Edit",
+  "editCommissionTitle": "Edit Commission",
+  "updateCommissionBtn": "UPDATE COMMISSION",
+  "positionInCommissionLabel": "Position in Commission",
+  "positionPrefix": "Position",
+
+  "selectItemTitle": "Select {item}",
+  "searchItemHint": "Search {item}...",
+  "dataNotFound": "Data not found",
+  "closeButton": "Close",
+  "editTooltip": "Edit",
+  "editCommissionTitle": "Edit Commission",
+  "updateCommissionBtn": "UPDATE COMMISSION",
+  "positionInCommissionLabel": "Position in Commission",
+  "positionPrefix": "Position",
+  "subImmediataTitle": "Sub Immediata Jurisdiction",
+  "officersLabel": "Officers / Leaders:",
+  "membersLabel": "Members",
+  "noDataAvailable": "No data available"
 }

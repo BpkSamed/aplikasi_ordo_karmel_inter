@@ -348,7 +348,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get email => 'E-mail';
 
   @override
-  String get subImmediataTitle => 'Giurisdizione Sub Immediata';
+  String get subImmediataTitle => 'Sub Immediata Giurisdizione';
 
   @override
   String get noSubImmediataData => 'Nessun dato ancora registrato.';
@@ -886,13 +886,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get editTooltip => 'Modifica';
 
   @override
-  String selectItemTitle(String judul) {
-    return 'Seleziona $judul';
+  String selectItemTitle(String item) {
+    return 'Seleziona $item';
   }
 
   @override
-  String searchItemHint(String judul) {
-    return 'Cerca $judul...';
+  String searchItemHint(String item) {
+    return 'Cerca $item...';
   }
 
   @override
@@ -1368,7 +1368,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get selectMemberNameLabel => 'Seleziona Nome Membro';
 
   @override
-  String get positionInCommissionLabel => 'Incarico nella Commissione';
+  String get positionInCommissionLabel => 'Posizione nella Commissione';
 
   @override
   String get addToCommissionBtn => 'Aggiungi alla Commissione';
@@ -1390,7 +1390,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get unknownName => 'Sconosciuto';
 
   @override
-  String get positionPrefix => 'Incarico';
+  String get positionPrefix => 'Posizione';
 
   @override
   String get manageAdminTitle => 'Gestisci Amministratore';
@@ -1516,4 +1516,19 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get addEpiscopiBtn => 'Aggiungi Vescovo';
+
+  @override
+  String get editCommissionTitle => 'Modifica Commissione';
+
+  @override
+  String get updateCommissionBtn => 'AGGIORNA COMMISSIONE';
+
+  @override
+  String get officersLabel => 'Ufficiali / Dirigenti:';
+
+  @override
+  String get membersLabel => 'Membri';
+
+  @override
+  String get noDataAvailable => 'Nessun dato disponibile';
 }
