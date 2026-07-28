@@ -45,9 +45,10 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
   Future<void> _fetchPejabat() async {
     setState(() => _isLoading = true);
     try {
+      // TAMBAHAN: Menambahkan photo_url pada query select
       final response = await _supabase
           .from('curia_officers')
-          .select('*, members:members!member_id(full_name, conventus(name))');
+          .select('*, members:members!member_id(full_name, photo_url, conventus(name))');
       if (mounted) {
         setState(() {
           _pejabatAktif = response as List<dynamic>;
@@ -58,17 +59,6 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
-  }
-
-  // Mencari nama anggota berdasarkan nama jabatannya
-  String _getNamaPejabat(String officeTitle, AppLocalizations t) {
-    final pejabat = _pejabatAktif.where((p) => p['office_title'] == officeTitle).toList();
-    if (pejabat.isNotEmpty && pejabat.first['members'] != null) {
-      final nama = pejabat.first['members']['full_name'];
-      final biara = pejabat.first['members']['conventus']?['name'] ?? '';
-      return biara.isNotEmpty ? "$nama\n(${t.originPrefix ?? 'Asal'}: $biara)" : nama;
-    }
-    return t.notDetermined ?? "Belum ditentukan";
   }
 
   // Memeriksa apakah suatu jabatan saat ini sedang terisi atau tidak
@@ -174,16 +164,42 @@ class _HalamanKelolaPejabatPusatState extends State<HalamanKelolaPejabatPusat> {
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.04)
                   ),
                   children: titles.map((title) {
-                    final namaPejabat = _getNamaPejabat(title, t);
-                    final isKosong = !_isJabatanTerisi(title);
+                    
+                    // MENGAMBIL DATA ANGGOTA DAN FOTO UNTUK JABATAN INI
+                    final pejabatList = _pejabatAktif.where((p) => p['office_title'] == title).toList();
+                    final memberData = (pejabatList.isNotEmpty && pejabatList.first['member_id'] != null) 
+                        ? pejabatList.first['members'] 
+                        : null;
+                    
+                    final isKosong = memberData == null;
+                    final String? photoUrl = memberData?['photo_url'];
+                    
+                    // Memformat nama yang akan ditampilkan
+                    String namaTampil = t.notDetermined ?? "Belum ditentukan";
+                    if (memberData != null) {
+                      final nama = memberData['full_name'] ?? '';
+                      final biara = memberData['conventus']?['name'] ?? '';
+                      namaTampil = biara.isNotEmpty ? "$nama\n(${t.originPrefix ?? 'Asal'}: $biara)" : nama;
+                    }
                     
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.015),
+                      // TAMBAHAN: FOTO PROFIL UNTUK LISTTILE UTAMA
+                      leading: CircleAvatar(
+                        radius: baseWidth * 0.06,
+                        backgroundColor: Colors.grey.shade300,
+                        backgroundImage: photoUrl != null && photoUrl.toString().isNotEmpty
+                            ? NetworkImage(photoUrl)
+                            : null,
+                        child: photoUrl == null || photoUrl.toString().isEmpty
+                            ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.06)
+                            : null,
+                      ),
                       title: Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: baseWidth * 0.038)),
                       subtitle: Padding(
                         padding: EdgeInsets.only(top: baseWidth * 0.01),
                         child: Text(
-                          namaPejabat, 
+                          namaTampil, 
                           style: TextStyle(
                             fontSize: baseWidth * 0.035,
                             color: isKosong ? Colors.red : Colors.green.shade800, 
@@ -257,9 +273,10 @@ class _HalamanPilihAnggotaState extends State<HalamanPilihAnggota> {
 
   Future<void> _fetchMembers() async {
     try {
+      // TAMBAHAN: Menambahkan photo_url pada query select anggota
       final response = await Supabase.instance.client
           .from('members')
-          .select('id, full_name, conventus(name)')
+          .select('id, full_name, photo_url, conventus(name)')
           .order('full_name');
       if (mounted) {
         setState(() => _members = response as List<dynamic>);
@@ -305,12 +322,20 @@ class _HalamanPilihAnggotaState extends State<HalamanPilihAnggota> {
                           itemCount: filtered.length,
                           itemBuilder: (context, index) {
                             final member = filtered[index];
+                            final String? photoUrl = member['photo_url']; // Variabel untuk foto
+                            
                             return ListTile(
                               contentPadding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: baseWidth * 0.01),
+                              // TAMBAHAN: FOTO PROFIL UNTUK POP-UP PENCARIAN
                               leading: CircleAvatar(
-                                backgroundColor: Colors.brown,
+                                backgroundColor: Colors.brown.shade300,
                                 radius: baseWidth * 0.05,
-                                child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                                backgroundImage: photoUrl != null && photoUrl.toString().isNotEmpty
+                                    ? NetworkImage(photoUrl)
+                                    : null,
+                                child: photoUrl == null || photoUrl.toString().isEmpty
+                                    ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                                    : null,
                               ),
                               title: Text(member['full_name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
                               subtitle: Text("${t.originPrefix ?? 'Asal'}: ${member['conventus']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),

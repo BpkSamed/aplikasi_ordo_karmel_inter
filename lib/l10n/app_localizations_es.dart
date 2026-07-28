@@ -1196,7 +1196,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get typeMemberNameHint => 'Escriba el Nombre del Miembro...';
 
   @override
-  String get episcopiListTitle => 'Lista de Obispos';
+  String get episcopiListTitle => 'Obispos Ex Ordine Assumpti';
 
   @override
   String get deleteEpiscopusConfirmTitle => 'Confirmar Eliminación de Obispo';
@@ -1514,4 +1514,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get memberDeleteSuccess => '¡Datos del miembro eliminados con éxito!';
+
+  @override
+  String get addEpiscopiBtn => 'Añadir Obispo';
 }

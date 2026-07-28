@@ -625,5 +625,7 @@
 "memberDeleteSuccess": "Data sodalis feliciter deleta est!",
 "usernameLabel": "Nomen utentis",
 "passwordLabel": "Tessera",
-"selectEntityFirstPrompt": "Elige Entitatem/Provinciam prius!"
+"selectEntityFirstPrompt": "Elige Entitatem/Provinciam prius!",
+"episcopiListTitle": "Episcopi Ex Ordine Assumpti",
+"addEpiscopiBtn": "Addere Episcopum"
 }

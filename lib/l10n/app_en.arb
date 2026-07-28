@@ -625,5 +625,7 @@
 "memberDeleteSuccess": "Member data successfully deleted!",
 "usernameLabel": "Username",
 "passwordLabel": "Password",
-"selectEntityFirstPrompt": "Please select an Entity/Province first!"
+"selectEntityFirstPrompt": "Please select an Entity/Province first!",
+"episcopiListTitle": "Bishops Ex Ordine Assumpti",
+"addEpiscopiBtn": "Add Bishop"
 }

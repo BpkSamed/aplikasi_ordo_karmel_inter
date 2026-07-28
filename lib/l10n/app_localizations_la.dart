@@ -1189,7 +1189,7 @@ class AppLocalizationsLa extends AppLocalizations {
   String get typeMemberNameHint => 'Scribe Nomen Sodalis...';
 
   @override
-  String get episcopiListTitle => 'Index Episcoporum';
+  String get episcopiListTitle => 'Episcopi Ex Ordine Assumpti';
 
   @override
   String get deleteEpiscopusConfirmTitle => 'Confirmatio Deletionis Episcopi';
@@ -1503,4 +1503,7 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get memberDeleteSuccess => 'Data sodalis feliciter deleta est!';
+
+  @override
+  String get addEpiscopiBtn => 'Addere Episcopum';
 }

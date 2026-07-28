@@ -625,5 +625,7 @@
 "memberDeleteSuccess": "¡Datos del miembro eliminados con éxito!",
 "usernameLabel": "Nombre de usuario",
 "passwordLabel": "Contraseña",
-"selectEntityFirstPrompt": "¡Seleccione una Entidad/Provincia primero!"
+"selectEntityFirstPrompt": "¡Seleccione una Entidad/Provincia primero!",
+"episcopiListTitle": "Obispos Ex Ordine Assumpti",
+"addEpiscopiBtn": "Añadir Obispo"
 }

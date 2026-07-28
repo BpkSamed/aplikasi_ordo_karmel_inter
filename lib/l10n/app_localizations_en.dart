@@ -1178,7 +1178,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get typeMemberNameHint => 'Type Member Name...';
 
   @override
-  String get episcopiListTitle => 'Bishop List';
+  String get episcopiListTitle => 'Bishops Ex Ordine Assumpti';
 
   @override
   String get deleteEpiscopusConfirmTitle => 'Confirm Bishop Deletion';
@@ -1491,4 +1491,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberDeleteSuccess => 'Member data successfully deleted!';
+
+  @override
+  String get addEpiscopiBtn => 'Add Bishop';
 }

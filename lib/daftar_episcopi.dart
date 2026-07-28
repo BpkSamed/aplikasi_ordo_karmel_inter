@@ -104,10 +104,20 @@ class _HalamanDaftarEpiscopiState extends State<HalamanDaftarEpiscopi> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // --- BAGIAN YANG DIPERBAIKI: Tombol Edit ---
                       IconButton(
                         icon: Icon(Icons.edit, color: Colors.blue, size: baseWidth * 0.05),
-                        onPressed: () { /* Navigasi ke edit */ },
+                        onPressed: () async {
+                          final refresh = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HalamanTambahEpiscopi(initialData: epi),
+                            ),
+                          );
+                          if (refresh == true) _fetchEpiscopi();
+                        },
                       ),
+                      // -------------------------------------------
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red, size: baseWidth * 0.05),
                         onPressed: () => _hapusEpiscopus(epi['id'], epi['name'], t, baseWidth),

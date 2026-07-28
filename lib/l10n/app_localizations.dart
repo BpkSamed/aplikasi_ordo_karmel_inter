@@ -2295,7 +2295,7 @@ abstract class AppLocalizations {
   /// No description provided for @episcopiListTitle.
   ///
   /// In la, this message translates to:
-  /// **'Index Episcoporum'**
+  /// **'Episcopi Ex Ordine Assumpti'**
   String get episcopiListTitle;
 
   /// No description provided for @deleteEpiscopusConfirmTitle.
@@ -2873,6 +2873,12 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Data sodalis feliciter deleta est!'**
   String get memberDeleteSuccess;
+
+  /// No description provided for @addEpiscopiBtn.
+  ///
+  /// In la, this message translates to:
+  /// **'Addere Episcopum'**
+  String get addEpiscopiBtn;
 }
 
 class _AppLocalizationsDelegate
