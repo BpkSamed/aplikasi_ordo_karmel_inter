@@ -1,12 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // UNTUK CLIPBOARD (SALIN TEKS)
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart'; // UNTUK LINK WEBSITE
 import 'l10n/app_localizations.dart'; // Import lokalisasi
 
 /// =================================================================
-/// HALAMAN UTAMA: DIKTORI MONASTERIA ORDINIS (PROPRIIS UTUNTUR)
+/// WIDGET HELPER GLOBAL: ROW INFORMASI DENGAN FITUR LONG PRESS COPY
 /// =================================================================
-class HalamanMonasteriaOrdiniss extends StatelessWidget {
-  const HalamanMonasteriaOrdiniss({super.key});
+Widget _buildCopyableRow({
+  required BuildContext context,
+  required String label,
+  required String value,
+  required double baseWidth,
+  bool isCopyable = true,
+}) {
+  final bool canCopy = isCopyable && value != '-' && value.trim().isNotEmpty;
+
+  return InkWell(
+    onLongPress: canCopy
+        ? () {
+            Clipboard.setData(ClipboardData(text: value));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("$label $value berhasil disalin"),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        : null,
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.012),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: baseWidth * 0.28,
+            child: Text(
+              "$label: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade700,
+                fontSize: baseWidth * 0.035,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: baseWidth * 0.035,
+                      color: canCopy ? Colors.brown.shade900 : Colors.black87,
+                      fontWeight: canCopy ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                if (canCopy)
+                  Padding(
+                    padding: EdgeInsets.only(left: baseWidth * 0.01),
+                    child: Icon(Icons.copy, size: baseWidth * 0.035, color: Colors.grey),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// =================================================================
+/// HALAMAN UTAMA: MENU UTAMA DATA MONASTERIA ORDINIS
+/// =================================================================
+class HalamanMonasteriaOrdinis extends StatelessWidget {
+  const HalamanMonasteriaOrdinis({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +83,7 @@ class HalamanMonasteriaOrdiniss extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.monasteriaOrdinisTitle ?? "Monasteria Ordinis"),
+        title: Text(t.monasteriaOrdinisTitle ?? "Direktori Monasteria Ordinis"),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -25,28 +94,28 @@ class HalamanMonasteriaOrdiniss extends StatelessWidget {
             children: [
               _buildMenuCard(
                 context,
-                title: t.entitiesCongregatioTitle ?? "Entities / Congregatio",
-                icon: Icons.account_balance_wallet,
-                subtitle: t.entitiesCongregatioSubtitle ?? "Daftar Entitas Induk, Sejarah, & Website Resmi",
-                page: const HalamanMonasteriaEntities(),
+                title: t.federatioEntitiesTitle ?? "Federatio / Entities",
+                icon: Icons.account_balance,
+                subtitle: t.federatioEntitiesSubtitle ?? "Daftar Federasi, Sejarah, & Website Resmi",
+                page: const HalamanMonasteriaOrdinisEntities(),
                 baseWidth: baseWidth,
               ),
               SizedBox(height: baseWidth * 0.04),
               _buildMenuCard(
                 context,
-                title: t.monasteriaConventusTitle ?? "Monasteria / Conventus",
-                icon: Icons.gite_rounded,
-                subtitle: t.monasteriaConventusSubtitle ?? "Daftar Rumah Biara Mandiri dan Kontak Resmi",
-                page: const HalamanMonasteriaConventus(),
+                title: t.monialesConventusTitle ?? "Monasteria / Conventus (Biara)",
+                icon: Icons.church,
+                subtitle: t.monialesConventusSubtitle ?? "Daftar Rumah Biara dan Alamat Kontak",
+                page: const HalamanMonasteriaOrdinisConventus(),
                 baseWidth: baseWidth,
               ),
               SizedBox(height: baseWidth * 0.04),
               _buildMenuCard(
                 context,
-                title: t.sororesMonialTitle ?? "Sorores (Anggota Suster Monial)",
-                icon: Icons.woman_2,
-                subtitle: t.sororesMonialSubtitle ?? "Daftar Suster, Tempat Lahir, & Tanggal Kaul",
-                page: const HalamanMonasteriaSorores(),
+                title: t.sororesTitle ?? "Sorores (Anggota Suster)",
+                icon: Icons.face_3,
+                subtitle: t.sororesSubtitle ?? "Daftar Suster, Asal Lahir, & Tanggal Kaul",
+                page: const HalamanMonasteriaOrdinisSorores(),
                 baseWidth: baseWidth,
               ),
             ],
@@ -88,16 +157,16 @@ class HalamanMonasteriaOrdiniss extends StatelessWidget {
 }
 
 /// =================================================================
-/// SUB-HALAMAN 1: DATA MONASTERIA – ENTITIES / CONGREGATIO
+/// SUB-HALAMAN 1: DATA ENTITIES / FEDERATIO
 /// =================================================================
-class HalamanMonasteriaEntities extends StatefulWidget {
-  const HalamanMonasteriaEntities({super.key});
+class HalamanMonasteriaOrdinisEntities extends StatefulWidget {
+  const HalamanMonasteriaOrdinisEntities({super.key});
 
   @override
-  State<HalamanMonasteriaEntities> createState() => _HalamanMonasteriaEntitiesState();
+  State<HalamanMonasteriaOrdinisEntities> createState() => _HalamanMonasteriaOrdinisEntitiesState();
 }
 
-class _HalamanMonasteriaEntitiesState extends State<HalamanMonasteriaEntities> {
+class _HalamanMonasteriaOrdinisEntitiesState extends State<HalamanMonasteriaOrdinisEntities> {
   String _query = "";
 
   Future<List<dynamic>> _fetchEntities() async {
@@ -109,26 +178,45 @@ class _HalamanMonasteriaEntitiesState extends State<HalamanMonasteriaEntities> {
     return response as List<dynamic>;
   }
 
+  Future<void> _launchExternalURL(BuildContext context, String urlString) async {
+    String finalUrl = urlString.trim();
+    if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+      finalUrl = 'https://$finalUrl';
+    }
+    final Uri url = Uri.parse(finalUrl);
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Gagal membuka tautan web: $finalUrl")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.entitiesCongregatioTitle ?? "Entities & Congregatio")),
+      appBar: AppBar(title: Text(t.federatioAndEntities ?? "Federatio & Entities")),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
 
           return Column(
             children: [
-              _buildSearchBar(t.searchParentEntity ?? "Cari Entitas Induk...", (val) => setState(() => _query = val.toLowerCase()), baseWidth),
+              _buildSearchBar(t.searchFederation ?? "Cari Federasi / Entitas...", (val) => setState(() => _query = val.toLowerCase()), baseWidth),
               Expanded(
                 child: FutureBuilder<List<dynamic>>(
                   future: _fetchEntities(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
                     if (snapshot.hasError) return _buildError(snapshot.error, baseWidth);
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noMonasteriaEntitiesData ?? "Tidak ada data Entitas Monasteria Ordinis.", baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noMonialesEntitiesData ?? "Tidak ada data Entitas.", baseWidth);
 
                     final filtered = snapshot.data!.where((item) {
                       return (item['name'] ?? '').toString().toLowerCase().contains(_query);
@@ -140,26 +228,48 @@ class _HalamanMonasteriaEntitiesState extends State<HalamanMonasteriaEntities> {
                       itemBuilder: (context, index) {
                         final entity = filtered[index];
                         final address = entity['addresses'];
+                        final String? webUrl = entity['website_url'];
+
                         return Card(
                           child: ExpansionTile(
+                            leading: Icon(Icons.account_balance, color: Colors.brown, size: baseWidth * 0.06),
                             title: Text(entity['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
-                            subtitle: Text(entity['website_url'] ?? (t.noWebsite ?? 'Tidak ada Website'), style: TextStyle(fontSize: baseWidth * 0.032)),
+                            subtitle: Text(address?['city'] ?? (t.locationNotSet ?? 'Lokasi belum diatur'), style: TextStyle(fontSize: baseWidth * 0.032)),
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(baseWidth * 0.04),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(t.historiaConstitution ?? "Historia / Konstitusi Khusus:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    Text("${t.historia ?? 'Historia'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
                                     SizedBox(height: baseWidth * 0.01),
-                                    Text(entity['historia'] ?? (t.noHistoriaConstitution ?? 'Belum ada data sejarah/catatan konstitusi.'), style: TextStyle(fontSize: baseWidth * 0.035)),
+                                    Text(entity['historia'] ?? (t.noHistory ?? 'Belum ada data sejarah.'), style: TextStyle(fontSize: baseWidth * 0.035)),
                                     const Divider(),
-                                    Text("${t.domusAddress ?? 'Domus / Kantor Pusat'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    
+                                    if (webUrl != null && webUrl.trim().isNotEmpty) ...[
+                                      Text("${t.officialWebsite ?? 'Website Resmi'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                      SizedBox(height: baseWidth * 0.01),
+                                      InkWell(
+                                        onTap: () => _launchExternalURL(context, webUrl),
+                                        child: Text(
+                                          webUrl,
+                                          style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.blue, decoration: TextDecoration.underline, fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      const Divider(),
+                                    ],
+
+                                    Text("${t.domusAddress ?? 'Domus/Kantor Pusat'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
                                     SizedBox(height: baseWidth * 0.01),
                                     if (address != null) ...[
-                                      Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.telephone ?? 'Telp'}: ${address['telephone'] ?? '-'} • ${t.email ?? 'Email'}: ${address['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      _buildCopyableRow(context: context, label: t.houseName ?? 'Gedung/Rumah', value: address['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.street ?? 'Jalan/No', value: address['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.city ?? 'Kota', value: address['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.country ?? 'Negara', value: address['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.postalCode ?? 'Kode Pos', value: address['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.telephone ?? 'Telepon', value: address['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.faxcimile ?? 'Fax', value: address['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.email ?? 'Email', value: address['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
                                     ] else
                                       Text(t.addressNotAvailable ?? "Alamat tidak tersedia.", style: TextStyle(fontSize: baseWidth * 0.035)),
                                   ],
@@ -182,16 +292,16 @@ class _HalamanMonasteriaEntitiesState extends State<HalamanMonasteriaEntities> {
 }
 
 /// =================================================================
-/// SUB-HALAMAN 2: DATA MONASTERIA – MONASTERIA / CONVENTUS (BIARA)
+/// SUB-HALAMAN 2: DATA CONVENTUS (MONASTERIA / BIARA)
 /// =================================================================
-class HalamanMonasteriaConventus extends StatefulWidget {
-  const HalamanMonasteriaConventus({super.key});
+class HalamanMonasteriaOrdinisConventus extends StatefulWidget {
+  const HalamanMonasteriaOrdinisConventus({super.key});
 
   @override
-  State<HalamanMonasteriaConventus> createState() => _HalamanMonasteriaConventusState();
+  State<HalamanMonasteriaOrdinisConventus> createState() => _HalamanMonasteriaOrdinisConventusState();
 }
 
-class _HalamanMonasteriaConventusState extends State<HalamanMonasteriaConventus> {
+class _HalamanMonasteriaOrdinisConventusState extends State<HalamanMonasteriaOrdinisConventus> {
   String _query = "";
 
   Future<List<dynamic>> _fetchConventus() async {
@@ -208,7 +318,7 @@ class _HalamanMonasteriaConventusState extends State<HalamanMonasteriaConventus>
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.monasteriaConventusTitle ?? "Monasteria / Conventus")),
+      appBar: AppBar(title: Text(t.monasteriaTitle ?? "Monasteria (Biara)")),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
@@ -222,7 +332,7 @@ class _HalamanMonasteriaConventusState extends State<HalamanMonasteriaConventus>
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
                     if (snapshot.hasError) return _buildError(snapshot.error, baseWidth);
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noMonasteriaConventusData ?? "Tidak ada data Biara Pertapaan.", baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noMonialesMonasteryData ?? "Tidak ada data Biara.", baseWidth);
 
                     final filtered = snapshot.data!.where((item) {
                       final name = (item['name'] ?? '').toString().toLowerCase();
@@ -238,28 +348,28 @@ class _HalamanMonasteriaConventusState extends State<HalamanMonasteriaConventus>
                         final addr = conv['addresses'];
                         return Card(
                           child: ExpansionTile(
-                            leading: Icon(Icons.gite_rounded, color: Colors.brown, size: baseWidth * 0.06),
+                            leading: Icon(Icons.church, color: Colors.brown, size: baseWidth * 0.06),
                             title: Text(conv['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
-                            subtitle: Text("${t.affiliation ?? 'Afiliasi:'} ${conv['entities']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),
+                            subtitle: Text("${t.federationLabel ?? 'Federasi'}: ${conv['entities']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(baseWidth * 0.04),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(t.contactAndMonasteryDetail ?? "Detail Informasi Kontak & Rumah Biara:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                    Text(t.monasteryLocationDetail ?? "Detail Informasi Lokasi Biara:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
                                     SizedBox(height: baseWidth * 0.01),
                                     if (addr != null) ...[
-                                      Text("${t.houseName ?? 'Gedung/Rumah'}: ${addr['house_name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.street ?? 'Jalan/No'}: ${addr['street'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.city ?? 'Kota'}: ${addr['city'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.country ?? 'Negara'}: ${addr['country'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.postalCode ?? 'Kode Pos'}: ${addr['postal_code'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.telephone ?? 'Telepon'}: ${addr['telephone'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.faxcimile ?? 'Fax'}: ${addr['faxcimile'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.email ?? 'Email'}: ${addr['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      _buildCopyableRow(context: context, label: t.houseName ?? 'Gedung/Rumah', value: addr['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.street ?? 'Jalan/No', value: addr['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.city ?? 'Kota', value: addr['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.country ?? 'Negara', value: addr['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.postalCode ?? 'Kode Pos', value: addr['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.telephone ?? 'Telepon', value: addr['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.faxcimile ?? 'Fax', value: addr['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.email ?? 'Email', value: addr['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
                                     ] else
-                                      Text(t.addressNotCompleteInDb ?? "Data alamat belum dilengkapi di database.", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      Text(t.addressNotFilled ?? "Data alamat belum dilengkapi.", style: TextStyle(fontSize: baseWidth * 0.035)),
                                   ],
                                 ),
                               )
@@ -280,16 +390,16 @@ class _HalamanMonasteriaConventusState extends State<HalamanMonasteriaConventus>
 }
 
 /// =================================================================
-/// SUB-HALAMAN 3: DATA MONASTERIA – SORORES (ANGGOTA SUSTER)
+/// SUB-HALAMAN 3: DATA SORORES (ANGGOTA SUSTER)
 /// =================================================================
-class HalamanMonasteriaSorores extends StatefulWidget {
-  const HalamanMonasteriaSorores({super.key});
+class HalamanMonasteriaOrdinisSorores extends StatefulWidget {
+  const HalamanMonasteriaOrdinisSorores({super.key});
 
   @override
-  State<HalamanMonasteriaSorores> createState() => _HalamanMonasteriaSororesState();
+  State<HalamanMonasteriaOrdinisSorores> createState() => _HalamanMonasteriaOrdinisSororesState();
 }
 
-class _HalamanMonasteriaSororesState extends State<HalamanMonasteriaSorores> {
+class _HalamanMonasteriaOrdinisSororesState extends State<HalamanMonasteriaOrdinisSorores> {
   String _query = "";
 
   Future<List<dynamic>> _fetchSorores() async {
@@ -306,7 +416,7 @@ class _HalamanMonasteriaSororesState extends State<HalamanMonasteriaSorores> {
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.sororesMembersTitle ?? "Sorores (Anggota)")),
+      appBar: AppBar(title: Text(t.sororesTitle ?? "Sorores (Anggota Suster)")),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
@@ -320,7 +430,7 @@ class _HalamanMonasteriaSororesState extends State<HalamanMonasteriaSorores> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) return _buildLoading();
                     if (snapshot.hasError) return _buildError(snapshot.error, baseWidth);
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noSisterDataFound ?? "Tidak ada data Suster ditemukan.", baseWidth);
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) return _buildEmpty(t.noSororesData ?? "Tidak ada data Suster.", baseWidth);
 
                     final filtered = snapshot.data!.where((item) {
                       return (item['full_name'] ?? '').toString().toLowerCase().contains(_query);
@@ -331,13 +441,20 @@ class _HalamanMonasteriaSororesState extends State<HalamanMonasteriaSorores> {
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final member = filtered[index];
+                        final String? photoUrl = member['photo_url'];
+
                         return Card(
                           margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
                           child: ExpansionTile(
                             leading: CircleAvatar(
                               backgroundColor: Colors.brown,
                               radius: baseWidth * 0.05,
-                              child: Icon(Icons.woman, color: Colors.white, size: baseWidth * 0.05),
+                              backgroundImage: (photoUrl != null && photoUrl.trim().isNotEmpty)
+                                  ? NetworkImage(photoUrl)
+                                  : null,
+                              child: (photoUrl == null || photoUrl.trim().isEmpty)
+                                  ? Icon(Icons.woman, color: Colors.white, size: baseWidth * 0.05)
+                                  : null,
                             ),
                             title: Text(member['full_name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
                             subtitle: Text("${t.sisterMonastery ?? 'Biara'}: ${member['conventus']?['name'] ?? 'Belum ditentukan'}", style: TextStyle(fontSize: baseWidth * 0.032)),

@@ -1,7 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // UNTUK CLIPBOARD (SALIN TEKS)
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart'; // UNTUK LINK WEBSITE
 import 'tambah_anggota.dart'; 
 import 'l10n/app_localizations.dart'; // Import lokalisasi
+
+/// =================================================================
+/// WIDGET HELPER GLOBAL: ROW INFORMASI DENGAN FITUR LONG PRESS COPY
+/// =================================================================
+Widget _buildCopyableRow({
+  required BuildContext context,
+  required String label,
+  required String value,
+  required double baseWidth,
+  bool isCopyable = true,
+}) {
+  final bool canCopy = isCopyable && value != '-' && value.trim().isNotEmpty;
+
+  return InkWell(
+    onLongPress: canCopy
+        ? () {
+            Clipboard.setData(ClipboardData(text: value));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("$label $value berhasil disalin"),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        : null,
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.012),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: baseWidth * 0.28,
+            child: Text(
+              "$label: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade700,
+                fontSize: baseWidth * 0.035,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: baseWidth * 0.035,
+                      color: canCopy ? Colors.brown.shade900 : Colors.black87,
+                      fontWeight: canCopy ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                if (canCopy)
+                  Padding(
+                    padding: EdgeInsets.only(left: baseWidth * 0.01),
+                    child: Icon(Icons.copy, size: baseWidth * 0.035, color: Colors.grey),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 /// =================================================================
 /// HALAMAN UTAMA: MENU UTAMA DATA MONIALES
@@ -110,6 +179,25 @@ class _HalamanMonialesEntitiesState extends State<HalamanMonialesEntities> {
     return response as List<dynamic>;
   }
 
+  Future<void> _launchExternalURL(BuildContext context, String urlString) async {
+    String finalUrl = urlString.trim();
+    if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+      finalUrl = 'https://$finalUrl';
+    }
+    final Uri url = Uri.parse(finalUrl);
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Gagal membuka tautan web: $finalUrl")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
@@ -141,10 +229,14 @@ class _HalamanMonialesEntitiesState extends State<HalamanMonialesEntities> {
                       itemBuilder: (context, index) {
                         final entity = filtered[index];
                         final address = entity['addresses'];
+                        final String? webUrl = entity['website_url'];
+
                         return Card(
                           child: ExpansionTile(
+                            leading: Icon(Icons.account_balance, color: Colors.brown, size: baseWidth * 0.06),
                             title: Text(entity['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
-                            subtitle: Text(entity['website_url'] ?? (t.noWebsite ?? 'Tidak ada Website'), style: TextStyle(fontSize: baseWidth * 0.032)),
+                            // Subtitle Menampilkan Nama Kota, bukan Link web
+                            subtitle: Text(address?['city'] ?? (t.locationNotSet ?? 'Lokasi belum diatur'), style: TextStyle(fontSize: baseWidth * 0.032)),
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(baseWidth * 0.04),
@@ -155,12 +247,33 @@ class _HalamanMonialesEntitiesState extends State<HalamanMonialesEntities> {
                                     SizedBox(height: baseWidth * 0.01),
                                     Text(entity['historia'] ?? (t.noHistory ?? 'Belum ada data sejarah.'), style: TextStyle(fontSize: baseWidth * 0.035)),
                                     const Divider(),
+                                    
+                                    // LINK WEBSITE HANYA MUNCUL 1 KALI DI SINI DAN BISA DIKLIK
+                                    if (webUrl != null && webUrl.trim().isNotEmpty) ...[
+                                      Text("${t.officialWebsite ?? 'Website Resmi'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                      SizedBox(height: baseWidth * 0.01),
+                                      InkWell(
+                                        onTap: () => _launchExternalURL(context, webUrl),
+                                        child: Text(
+                                          webUrl,
+                                          style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.blue, decoration: TextDecoration.underline, fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      const Divider(),
+                                    ],
+
                                     Text("${t.domusAddress ?? 'Domus/Kantor Pusat'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
                                     SizedBox(height: baseWidth * 0.01),
                                     if (address != null) ...[
-                                      Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.telephone ?? 'Telp'}: ${address['telephone'] ?? '-'} • ${t.email ?? 'Email'}: ${address['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      _buildCopyableRow(context: context, label: t.houseName ?? 'Gedung/Rumah', value: address['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.street ?? 'Jalan/No', value: address['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.city ?? 'Kota', value: address['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.country ?? 'Negara', value: address['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      // KOLOM YANG MUDAH DI COPY PASTE SAAT DITAHAN (LONG PRESS)
+                                      _buildCopyableRow(context: context, label: t.postalCode ?? 'Kode Pos', value: address['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.telephone ?? 'Telepon', value: address['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.faxcimile ?? 'Fax', value: address['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.email ?? 'Email', value: address['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
                                     ] else
                                       Text(t.addressNotAvailable ?? "Alamat tidak tersedia.", style: TextStyle(fontSize: baseWidth * 0.035)),
                                   ],
@@ -239,7 +352,7 @@ class _HalamanMonialesConventusState extends State<HalamanMonialesConventus> {
                         final addr = conv['addresses'];
                         return Card(
                           child: ExpansionTile(
-                            leading: Icon(Icons.gite, color: Colors.brown, size: baseWidth * 0.06),
+                            leading: Icon(Icons.church, color: Colors.brown, size: baseWidth * 0.06),
                             title: Text(conv['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
                             subtitle: Text("${t.federationLabel ?? 'Federasi'}: ${conv['entities']?['name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.032)),
                             children: [
@@ -251,14 +364,15 @@ class _HalamanMonialesConventusState extends State<HalamanMonialesConventus> {
                                     Text(t.monasteryLocationDetail ?? "Detail Informasi Lokasi Biara:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
                                     SizedBox(height: baseWidth * 0.01),
                                     if (addr != null) ...[
-                                      Text("${t.houseName ?? 'Rumah/Gedung'}: ${addr['house_name'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.street ?? 'Jalan/No'}: ${addr['street'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.city ?? 'Kota'}: ${addr['city'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.country ?? 'Negara'}: ${addr['country'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.postalCode ?? 'Kode Pos'}: ${addr['postal_code'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.telephone ?? 'Telepon'}: ${addr['telephone'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.faxcimile ?? 'Fax'}: ${addr['faxcimile'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.email ?? 'Email'}: ${addr['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      _buildCopyableRow(context: context, label: t.houseName ?? 'Gedung/Rumah', value: addr['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.street ?? 'Jalan/No', value: addr['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.city ?? 'Kota', value: addr['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.country ?? 'Negara', value: addr['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      // KOLOM YANG MUDAH DI COPY PASTE SAAT DITAHAN (LONG PRESS)
+                                      _buildCopyableRow(context: context, label: t.postalCode ?? 'Kode Pos', value: addr['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.telephone ?? 'Telepon', value: addr['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.faxcimile ?? 'Fax', value: addr['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.email ?? 'Email', value: addr['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
                                     ] else
                                       Text(t.addressNotFilled ?? "Data alamat belum dilengkapi.", style: TextStyle(fontSize: baseWidth * 0.035)),
                                   ],
@@ -332,13 +446,21 @@ class _HalamanMonialesSororesState extends State<HalamanMonialesSorores> {
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final member = filtered[index];
+                        final String? photoUrl = member['photo_url'];
+
                         return Card(
                           margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
                           child: ExpansionTile(
+                            // MENAMPILKAN FOTO ANGGOTA SECARA DINAMIS
                             leading: CircleAvatar(
                               backgroundColor: Colors.brown,
                               radius: baseWidth * 0.05,
-                              child: Icon(Icons.woman, color: Colors.white, size: baseWidth * 0.05),
+                              backgroundImage: (photoUrl != null && photoUrl.trim().isNotEmpty)
+                                  ? NetworkImage(photoUrl)
+                                  : null,
+                              child: (photoUrl == null || photoUrl.trim().isEmpty)
+                                  ? Icon(Icons.woman, color: Colors.white, size: baseWidth * 0.05)
+                                  : null,
                             ),
                             title: Text(member['full_name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
                             subtitle: Text("${t.sisterMonastery ?? 'Biara'}: ${member['conventus']?['name'] ?? 'Belum ditentukan'}", style: TextStyle(fontSize: baseWidth * 0.032)),

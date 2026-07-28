@@ -450,7 +450,7 @@ class HalamanUtama extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMoniales()));
         }
         else if (routeKey.contains("MONASTERIA ORDINIS")) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMonasteriaOrdiniss()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanMonasteriaOrdinis()));
         }
         else if (routeKey == "HEREMITAE") {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanHeremitae()));
