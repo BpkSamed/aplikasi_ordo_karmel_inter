@@ -213,7 +213,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
   final _passwordCtrl = TextEditingController();
   bool _isLoading = false;
 
-  // Login khusus Admin
   Future<void> _loginAdmin(AppLocalizations t) async {
     if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
     setState(() => _isLoading = true);
@@ -251,13 +250,11 @@ class _HalamanLoginState extends State<HalamanLogin> {
     }
   }
 
-  // Login khusus Anggota biasa
   Future<void> _loginMember(AppLocalizations t) async {
     if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
     setState(() => _isLoading = true);
 
     try {
-      // Mengecek berdasarkan email atau full_name/name di tabel members
       final response = await Supabase.instance.client
           .from('members')
           .select()
@@ -267,7 +264,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
 
       if (response != null) {
         if (mounted) {
-          // Bawa data anggota ke HalamanUtama
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -403,7 +399,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
 }
 
 /// =================================================================
-/// 3. HALAMAN UTAMA (PROFIL ANGGOTA & NAVIGASI DRAWER)
+/// 3. HALAMAN UTAMA (PROFIL ANGGOTA BIASA)
 /// =================================================================
 class HalamanUtama extends StatelessWidget {
   final Map<String, dynamic>? memberData;
@@ -414,7 +410,6 @@ class HalamanUtama extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
 
-    // Ambil data anggota jika ada
     final String namaLengkap = memberData?['full_name'] ?? memberData?['name'] ?? 'Anggota Karmel';
     final String photoUrl = memberData?['photo_url'] ?? '';
     final String email = memberData?['email'] ?? '-';
@@ -477,7 +472,7 @@ class HalamanUtama extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  // Foto Profil
+                  // 1. FOTO PENGGUNA (Paling Atas)
                   CircleAvatar(
                     radius: baseWidth * 0.15,
                     backgroundColor: Colors.brown[100],
@@ -485,14 +480,15 @@ class HalamanUtama extends StatelessWidget {
                     child: photoUrl.isEmpty ? Icon(Icons.person, size: baseWidth * 0.15, color: Colors.brown) : null,
                   ),
                   const SizedBox(height: 15),
-                  // Nama Pengguna
+                  
+                  // 2. UCAPAN HALO "NAMA PENGGUNA" (Tepat di bawah foto)
                   Text(
-                    namaLengkap,
+                    "Halo, $namaLengkap",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: baseWidth * 0.055, fontWeight: FontWeight.bold, color: Colors.brown),
                   ),
                   const SizedBox(height: 5),
-                  // Status
+                  
                   Chip(
                     label: Text(status, style: const TextStyle(color: Colors.white)),
                     backgroundColor: Colors.brown,
@@ -500,7 +496,6 @@ class HalamanUtama extends StatelessWidget {
                   const SizedBox(height: 20),
                   const Divider(),
 
-                  // Kartu Detail Data Pengguna
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -630,18 +625,6 @@ class HalamanAdmin extends StatelessWidget {
               ),
               const SizedBox(height: 15),
 
-              // MENU EDIT PROFIL APLIKASI (INFORMASI AWAL)
-              _buildAdminMenuCard(
-                context: context,
-                title: "Edit Profil Aplikasi",
-                subtitle: "Kelola Alamat Kantor Pusat & Kontak Informasi",
-                icon: Icons.edit_attributes,
-                baseWidth: baseWidth,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanEditProfilAplikasi()));
-                },
-              ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageAdminTitle ?? "Kelola Admin",
@@ -750,83 +733,6 @@ class HalamanAdmin extends StatelessWidget {
         subtitle: Text(subtitle),
         trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
         onTap: onTap,
-      ),
-    );
-  }
-}
-
-/// =================================================================
-/// 5. HALAMAN EDIT PROFIL APLIKASI (INFORMASI AWAL KANTOR PUSAT & KONTAK)
-/// =================================================================
-class HalamanEditProfilAplikasi extends StatefulWidget {
-  const HalamanEditProfilAplikasi({super.key});
-
-  @override
-  State<HalamanEditProfilAplikasi> createState() => _HalamanEditProfilAplikasiState();
-}
-
-class _HalamanEditProfilAplikasiState extends State<HalamanEditProfilAplikasi> {
-  final _addressCtrl = TextEditingController(text: "Via Giovanni Lanza 138, 00184 Roma, Italia");
-  final _contactCtrl = TextEditingController(text: "Email: curia@ocarm.org\nPhone: +39 06 4620181");
-  bool _isLoading = false;
-
-  Future<void> _simpanPerubahan() async {
-    setState(() => _isLoading = true);
-    // Contoh simpan ke database atau state lokal
-    await Future.delayed(const Duration(milliseconds: 800));
-    if (mounted) {
-      setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Profil aplikasi berhasil diperbarui!")),
-      );
-      Navigator.pop(context);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Edit Profil Aplikasi")),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              "Kelola Informasi Awal Aplikasi",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _addressCtrl,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: "Alamat Kantor Pusat",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _contactCtrl,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: "Kontak Informasi / Person",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 30),
-            _isLoading
-                ? const Center(child: CircularProgressIndicator(color: Colors.brown))
-                : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.brown,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    onPressed: _simpanPerubahan,
-                    child: const Text("SIMPAN PERUBAHAN", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                  ),
-          ],
-        ),
       ),
     );
   }
