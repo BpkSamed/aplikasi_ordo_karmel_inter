@@ -121,7 +121,7 @@ class _AplikasiOrdoKarmelState extends State<AplikasiOrdoKarmel> {
 }
 
 /// =================================================================
-/// 1. HALAMAN INFORMASI (Gabungan Halaman 1, 2, & 3)
+/// 1. HALAMAN INFORMASI (Tampilan Awal Aplikasi)
 /// =================================================================
 class HalamanInformasi extends StatelessWidget {
   const HalamanInformasi({super.key});
@@ -134,7 +134,6 @@ class HalamanInformasi extends StatelessWidget {
       appBar: AppBar(title: Text(t.appInfoTitle)),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          // Menggunakan basis lebar layar untuk kalkulasi ukuran dinamis
           final double baseWidth = constraints.maxWidth;
           
           return SingleChildScrollView(
@@ -148,15 +147,13 @@ class HalamanInformasi extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: constraints.maxHeight * 0.03),
-                    // Icon mengikuti persentase ukuran layar
                     Icon(Icons.church, size: baseWidth * 0.25, color: Colors.brown),
                     const SizedBox(height: 15),
-                    // Font dinamis
                     Text(
                       t.appName, 
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: baseWidth * 0.055, // Proporsional ~22pt
+                        fontSize: baseWidth * 0.055,
                         fontWeight: FontWeight.bold, 
                         color: Colors.brown
                       ),
@@ -180,7 +177,7 @@ class HalamanInformasi extends StatelessWidget {
                     const SizedBox(height: 30),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, constraints.maxHeight * 0.07), // Tinggi responsif
+                        minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
                         backgroundColor: Colors.brown,
                         foregroundColor: Colors.white,
                       ),
@@ -202,7 +199,7 @@ class HalamanInformasi extends StatelessWidget {
 }
 
 /// =================================================================
-/// 2. HALAMAN LOGIN DENGAN PILIHAN BAHASA & TEKS SELAMAT DATANG
+/// 2. HALAMAN LOGIN DENGAN AUTENTIKASI SUPABASE
 /// =================================================================
 class HalamanLogin extends StatefulWidget {
   const HalamanLogin({super.key});
@@ -216,7 +213,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
   final _passwordCtrl = TextEditingController();
   bool _isLoading = false;
 
-  // Fungsi Login untuk Admin
+  // Login khusus Admin
   Future<void> _loginAdmin(AppLocalizations t) async {
     if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
     setState(() => _isLoading = true);
@@ -231,7 +228,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
 
       if (response != null) {
         if (mounted) {
-          // Bawa ID admin yang sedang login ke HalamanAdmin
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -242,7 +238,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Login gagal: Username atau Password admin salah!")),
+            const SnackBar(content: Text("Login Admin gagal: Username atau Password salah!")),
           );
         }
       }
@@ -255,32 +251,34 @@ class _HalamanLoginState extends State<HalamanLogin> {
     }
   }
 
-  // Fungsi Login untuk Pengguna Biasa (Anggota)
- // Fungsi Login untuk Pengguna Biasa (Anggota)
+  // Login khusus Anggota biasa
   Future<void> _loginMember(AppLocalizations t) async {
     if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
     setState(() => _isLoading = true);
 
     try {
-      // Ubah .eq('name', ...) menjadi .eq('email', ...) atau sesuai nama kolom di tabel Anda
+      // Mengecek berdasarkan email atau full_name/name di tabel members
       final response = await Supabase.instance.client
           .from('members')
           .select()
-          .eq('username', _usernameCtrl.text) // <--- UBAH DI SINI
+          .or('username.eq.${_usernameCtrl.text},full_name.eq.${_usernameCtrl.text}')
           .eq('password', _passwordCtrl.text)
           .maybeSingle();
 
       if (response != null) {
         if (mounted) {
+          // Bawa data anggota ke HalamanUtama
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HalamanUtama()),
+            MaterialPageRoute(
+              builder: (context) => HalamanUtama(memberData: response),
+            ),
           );
         }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Login gagal: Username/Email atau Password salah!")),
+            const SnackBar(content: Text("Login Anggota gagal: Username/Email atau Password salah!")),
           );
         }
       }
@@ -305,7 +303,10 @@ class _HalamanLoginState extends State<HalamanLogin> {
           final double baseWidth = constraints.maxWidth;
 
           return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.06, vertical: 20.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: baseWidth * 0.06,
+              vertical: 20.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -338,24 +339,34 @@ class _HalamanLoginState extends State<HalamanLogin> {
                 Text(
                   t.welcomeMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: baseWidth * 0.06, fontWeight: FontWeight.bold, color: Colors.brown),
+                  style: TextStyle(
+                    fontSize: baseWidth * 0.06,
+                    fontWeight: FontWeight.bold, 
+                    color: Colors.brown
+                  ),
                 ),
                 SizedBox(height: constraints.maxHeight * 0.04),
 
                 TextField(
                   controller: _usernameCtrl,
-                  decoration: InputDecoration(labelText: t.usernameEmailLabel, border: const OutlineInputBorder()),
+                  decoration: InputDecoration(
+                    labelText: t.usernameEmailLabel, 
+                    border: const OutlineInputBorder()
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextField(
                   controller: _passwordCtrl,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: t.passwordLabel, border: const OutlineInputBorder()),
+                  decoration: InputDecoration(
+                    labelText: t.passwordLabel, 
+                    border: const OutlineInputBorder()
+                  ),
                 ),
                 SizedBox(height: constraints.maxHeight * 0.04),
                 
                 if (_isLoading)
-                  const Center(child: CircularProgressIndicator())
+                  const Center(child: CircularProgressIndicator(color: Colors.brown))
                 else ...[
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -375,7 +386,10 @@ class _HalamanLoginState extends State<HalamanLogin> {
                       side: const BorderSide(color: Colors.brown, width: 2),
                     ),
                     onPressed: () => _loginAdmin(t),
-                    child: Text(t.loginAsAdmin, style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)),
+                    child: Text(
+                      t.loginAsAdmin, 
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
+                    ),
                   ),
                 ],
                 SizedBox(height: constraints.maxHeight * 0.05),
@@ -389,14 +403,24 @@ class _HalamanLoginState extends State<HalamanLogin> {
 }
 
 /// =================================================================
-/// 3. HALAMAN UTAMA (PROFIL) DENGAN DRAWER (MENU GARIS 3)
+/// 3. HALAMAN UTAMA (PROFIL ANGGOTA & NAVIGASI DRAWER)
 /// =================================================================
 class HalamanUtama extends StatelessWidget {
-  const HalamanUtama({super.key});
+  final Map<String, dynamic>? memberData;
+
+  const HalamanUtama({super.key, this.memberData});
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+
+    // Ambil data anggota jika ada
+    final String namaLengkap = memberData?['full_name'] ?? memberData?['name'] ?? 'Anggota Karmel';
+    final String photoUrl = memberData?['photo_url'] ?? '';
+    final String email = memberData?['email'] ?? '-';
+    final String phone = memberData?['phone'] ?? '-';
+    final String status = memberData?['status'] ?? 'Anggota';
+    final String address = memberData?['address'] ?? '-';
 
     return Scaffold(
       appBar: AppBar(
@@ -406,19 +430,22 @@ class HalamanUtama extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
+            UserAccountsDrawerHeader(
               decoration: const BoxDecoration(color: Colors.brown),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(radius: 30, backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.brown)),
-                  const SizedBox(height: 10),
-                  const Text("Abraham", style: TextStyle(color: Colors.white, fontSize: 18)),
-                  Text(t.studentRole, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                ],
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
+                child: photoUrl.isEmpty ? const Icon(Icons.person, size: 40, color: Colors.brown) : null,
+              ),
+              accountName: Text(
+                namaLengkap,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              accountEmail: Text(
+                email.isNotEmpty ? email : status,
+                style: const TextStyle(color: Colors.white70),
               ),
             ),
-            // Menu dipanggil dengan _buildMenuItem(context, routeKey, displayTitle yang bisa ditranslate)
             _buildMenuItem(context, "Curia Generalis", t.curiaGeneralisTitle ?? "Curia Generalis"),
             _buildMenuItem(context, "Episcopi Ex Ordines Assumpti", t.episcopiExOrdinesTitle ?? "Episcopi Ex Ordine Assumpti"),
             _buildMenuItem(context, "Sub Immediata Jurisdictione Prioris Generalis", t.subJurisdictioneTitle ?? "Sub Immediata Jurisdictione"),
@@ -433,8 +460,8 @@ class HalamanUtama extends StatelessWidget {
             _buildMenuItem(context, "Ministries", t.ministriesTitle ?? "Ministries"),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(t.logout),
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: Text(t.logout, style: const TextStyle(color: Colors.red)),
               onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanLogin())),
             ),
           ],
@@ -445,33 +472,70 @@ class HalamanUtama extends StatelessWidget {
           final double baseWidth = constraints.maxWidth;
 
           return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(radius: baseWidth * 0.12, child: Icon(Icons.person, size: baseWidth * 0.12)),
-                    const SizedBox(height: 20),
-                    Text(
-                      t.welcomeMessage, 
-                      style: TextStyle(fontSize: baseWidth * 0.05, fontWeight: FontWeight.bold)
-                    ),
-                    const SizedBox(height: 10),
-                    Text(t.universityStudent, style: const TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        t.drawerInstruction, 
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: baseWidth * 0.038),
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  // Foto Profil
+                  CircleAvatar(
+                    radius: baseWidth * 0.15,
+                    backgroundColor: Colors.brown[100],
+                    backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
+                    child: photoUrl.isEmpty ? Icon(Icons.person, size: baseWidth * 0.15, color: Colors.brown) : null,
+                  ),
+                  const SizedBox(height: 15),
+                  // Nama Pengguna
+                  Text(
+                    namaLengkap,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: baseWidth * 0.055, fontWeight: FontWeight.bold, color: Colors.brown),
+                  ),
+                  const SizedBox(height: 5),
+                  // Status
+                  Chip(
+                    label: Text(status, style: const TextStyle(color: Colors.white)),
+                    backgroundColor: Colors.brown,
+                  ),
+                  const SizedBox(height: 20),
+                  const Divider(),
+
+                  // Kartu Detail Data Pengguna
+                  Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.email, color: Colors.brown),
+                            title: const Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
+                            subtitle: Text(email),
+                          ),
+                          const Divider(),
+                          ListTile(
+                            leading: const Icon(Icons.phone, color: Colors.brown),
+                            title: const Text("Nomor Telepon", style: TextStyle(fontWeight: FontWeight.bold)),
+                            subtitle: Text(phone),
+                          ),
+                          const Divider(),
+                          ListTile(
+                            leading: const Icon(Icons.home, color: Colors.brown),
+                            title: const Text("Alamat", style: TextStyle(fontWeight: FontWeight.bold)),
+                            subtitle: Text(address),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    t.drawerInstruction, 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.grey[700]),
+                  ),
+                ],
               ),
             ),
           );
@@ -480,7 +544,6 @@ class HalamanUtama extends StatelessWidget {
     );
   }
 
-  // Fungsi diperbarui untuk memisahkan routeKey dan displayTitle agar logika navigasi tidak rusak
   Widget _buildMenuItem(BuildContext context, String routeKey, String displayTitle) {
     final t = AppLocalizations.of(context)!;
 
@@ -488,10 +551,8 @@ class HalamanUtama extends StatelessWidget {
       title: Text(displayTitle),
       onTap: () {
         Navigator.pop(context); 
-        // Snackbar memanggil displayTitle untuk notifikasi
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.openingMenu(displayTitle))));
 
-        // Logika perpindahan halaman tetap menggunakan routeKey asli
         if (routeKey == "Curia Generalis") {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanCuriaGeneralis()));
         } 
@@ -537,7 +598,7 @@ class HalamanUtama extends StatelessWidget {
 /// 4. HALAMAN DASBOR ADMIN
 /// =================================================================
 class HalamanAdmin extends StatelessWidget {
-  final int currentAdminId; // Menyimpan ID admin yang saat ini login
+  final int currentAdminId;
 
   const HalamanAdmin({super.key, required this.currentAdminId});
 
@@ -546,18 +607,40 @@ class HalamanAdmin extends StatelessWidget {
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(t.adminDashboardTitle)),
+      appBar: AppBar(
+        title: Text(t.adminDashboardTitle),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
+
           return ListView(
-            padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: 16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: baseWidth * 0.04,
+              vertical: 16.0,
+            ),
             children: [
               Text(
                 t.directoryManagementMenu,
-                style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold, color: Colors.brown),
+                style: TextStyle(
+                  fontSize: baseWidth * 0.045, 
+                  fontWeight: FontWeight.bold, 
+                  color: Colors.brown
+                ),
               ),
               const SizedBox(height: 15),
+
+              // MENU EDIT PROFIL APLIKASI (INFORMASI AWAL)
+              _buildAdminMenuCard(
+                context: context,
+                title: "Edit Profil Aplikasi",
+                subtitle: "Kelola Alamat Kantor Pusat & Kontak Informasi",
+                icon: Icons.edit_attributes,
+                baseWidth: baseWidth,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanEditProfilAplikasi()));
+                },
+              ),
 
               _buildAdminMenuCard(
                 context: context,
@@ -566,12 +649,10 @@ class HalamanAdmin extends StatelessWidget {
                 icon: Icons.admin_panel_settings,
                 baseWidth: baseWidth,
                 onTap: () {
-                  // Kirim ID admin ke halaman daftar admin
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HalamanDaftarAdmin(currentAdminId: currentAdminId)));
                 },
               ),
 
-              // ... (Sisa kode _buildAdminMenuCard lainnya tetap sama seperti sebelumnya)
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageMasterData,
@@ -582,6 +663,7 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarDataNonAnggota()));
                 },
               ),
+
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageMemberData,
@@ -592,6 +674,7 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()));
                 },
               ),
+
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageCentralOfficials,
@@ -602,6 +685,7 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaPejabatPusat()));
                 },
               ),
+
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageBishopData,
@@ -612,6 +696,7 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarEpiscopi()));
                 },
               ),
+
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageCitocNews,
@@ -622,6 +707,7 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaCitoc()));
                 },
               ),
+
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageGeneralCommissions,
@@ -653,11 +739,94 @@ class HalamanAdmin extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        leading: CircleAvatar(backgroundColor: Colors.brown, child: Icon(icon, color: Colors.white, size: baseWidth * 0.055)),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
+        leading: CircleAvatar(
+          backgroundColor: Colors.brown,
+          child: Icon(icon, color: Colors.white, size: baseWidth * 0.055),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+        ),
         subtitle: Text(subtitle),
         trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+/// =================================================================
+/// 5. HALAMAN EDIT PROFIL APLIKASI (INFORMASI AWAL KANTOR PUSAT & KONTAK)
+/// =================================================================
+class HalamanEditProfilAplikasi extends StatefulWidget {
+  const HalamanEditProfilAplikasi({super.key});
+
+  @override
+  State<HalamanEditProfilAplikasi> createState() => _HalamanEditProfilAplikasiState();
+}
+
+class _HalamanEditProfilAplikasiState extends State<HalamanEditProfilAplikasi> {
+  final _addressCtrl = TextEditingController(text: "Via Giovanni Lanza 138, 00184 Roma, Italia");
+  final _contactCtrl = TextEditingController(text: "Email: curia@ocarm.org\nPhone: +39 06 4620181");
+  bool _isLoading = false;
+
+  Future<void> _simpanPerubahan() async {
+    setState(() => _isLoading = true);
+    // Contoh simpan ke database atau state lokal
+    await Future.delayed(const Duration(milliseconds: 800));
+    if (mounted) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Profil aplikasi berhasil diperbarui!")),
+      );
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Edit Profil Aplikasi")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              "Kelola Informasi Awal Aplikasi",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _addressCtrl,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: "Alamat Kantor Pusat",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _contactCtrl,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: "Kontak Informasi / Person",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 30),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator(color: Colors.brown))
+                : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.brown,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    onPressed: _simpanPerubahan,
+                    child: const Text("SIMPAN PERUBAHAN", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  ),
+          ],
+        ),
       ),
     );
   }
