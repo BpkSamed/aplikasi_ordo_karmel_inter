@@ -212,6 +212,87 @@ class HalamanLogin extends StatefulWidget {
 }
 
 class _HalamanLoginState extends State<HalamanLogin> {
+  final _usernameCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  bool _isLoading = false;
+
+  // Fungsi Login untuk Admin
+  Future<void> _loginAdmin(AppLocalizations t) async {
+    if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
+    setState(() => _isLoading = true);
+
+    try {
+      final response = await Supabase.instance.client
+          .from('admins')
+          .select()
+          .eq('name', _usernameCtrl.text)
+          .eq('password', _passwordCtrl.text)
+          .maybeSingle();
+
+      if (response != null) {
+        if (mounted) {
+          // Bawa ID admin yang sedang login ke HalamanAdmin
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HalamanAdmin(currentAdminId: response['id']),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login gagal: Username atau Password admin salah!")),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  // Fungsi Login untuk Pengguna Biasa (Anggota)
+ // Fungsi Login untuk Pengguna Biasa (Anggota)
+  Future<void> _loginMember(AppLocalizations t) async {
+    if (_usernameCtrl.text.isEmpty || _passwordCtrl.text.isEmpty) return;
+    setState(() => _isLoading = true);
+
+    try {
+      // Ubah .eq('name', ...) menjadi .eq('email', ...) atau sesuai nama kolom di tabel Anda
+      final response = await Supabase.instance.client
+          .from('members')
+          .select()
+          .eq('username', _usernameCtrl.text) // <--- UBAH DI SINI
+          .eq('password', _passwordCtrl.text)
+          .maybeSingle();
+
+      if (response != null) {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HalamanUtama()),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login gagal: Username/Email atau Password salah!")),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
@@ -224,16 +305,12 @@ class _HalamanLoginState extends State<HalamanLogin> {
           final double baseWidth = constraints.maxWidth;
 
           return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: baseWidth * 0.06,
-              vertical: 20.0,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.06, vertical: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: constraints.maxHeight * 0.03),
-                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -261,59 +338,46 @@ class _HalamanLoginState extends State<HalamanLogin> {
                 Text(
                   t.welcomeMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: baseWidth * 0.06, // Ukuran font responsif
-                    fontWeight: FontWeight.bold, 
-                    color: Colors.brown
-                  ),
+                  style: TextStyle(fontSize: baseWidth * 0.06, fontWeight: FontWeight.bold, color: Colors.brown),
                 ),
                 SizedBox(height: constraints.maxHeight * 0.04),
 
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: t.usernameEmailLabel, 
-                    border: const OutlineInputBorder()
-                  ),
+                  controller: _usernameCtrl,
+                  decoration: InputDecoration(labelText: t.usernameEmailLabel, border: const OutlineInputBorder()),
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  controller: _passwordCtrl,
                   obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: t.passwordLabel, 
-                    border: const OutlineInputBorder()
-                  ),
+                  decoration: InputDecoration(labelText: t.passwordLabel, border: const OutlineInputBorder()),
                 ),
                 SizedBox(height: constraints.maxHeight * 0.04),
                 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
-                    backgroundColor: Colors.brown,
-                    foregroundColor: Colors.white,
+                if (_isLoading)
+                  const Center(child: CircularProgressIndicator())
+                else ...[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
+                      backgroundColor: Colors.brown,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () => _loginMember(t),
+                    child: Text(t.loginAsMember, style: TextStyle(fontSize: baseWidth * 0.04)),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanUtama()));
-                  },
-                  child: Text(t.loginAsMember, style: TextStyle(fontSize: baseWidth * 0.04)),
-                ),
-                
-                const SizedBox(height: 15),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.brown,
-                    side: const BorderSide(color: Colors.brown, width: 2),
+                  const SizedBox(height: 15),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, constraints.maxHeight * 0.07),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.brown,
+                      side: const BorderSide(color: Colors.brown, width: 2),
+                    ),
+                    onPressed: () => _loginAdmin(t),
+                    child: Text(t.loginAsAdmin, style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HalamanAdmin()));
-                  },
-                  child: Text(
-                    t.loginAsAdmin, 
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)
-                  ),
-                ),
+                ],
                 SizedBox(height: constraints.maxHeight * 0.05),
               ],
             ),
@@ -473,39 +537,28 @@ class HalamanUtama extends StatelessWidget {
 /// 4. HALAMAN DASBOR ADMIN
 /// =================================================================
 class HalamanAdmin extends StatelessWidget {
-  const HalamanAdmin({super.key});
+  final int currentAdminId; // Menyimpan ID admin yang saat ini login
+
+  const HalamanAdmin({super.key, required this.currentAdminId});
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(t.adminDashboardTitle),
-      ),
+      appBar: AppBar(title: Text(t.adminDashboardTitle)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double baseWidth = constraints.maxWidth;
-
           return ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: baseWidth * 0.04,
-              vertical: 16.0,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: baseWidth * 0.04, vertical: 16.0),
             children: [
               Text(
                 t.directoryManagementMenu,
-                style: TextStyle(
-                  fontSize: baseWidth * 0.045, 
-                  fontWeight: FontWeight.bold, 
-                  color: Colors.brown
-                ),
+                style: TextStyle(fontSize: baseWidth * 0.045, fontWeight: FontWeight.bold, color: Colors.brown),
               ),
               const SizedBox(height: 15),
 
-              // ==========================================
-              // MENU DAFTAR ADMIN DITAMBAHKAN DI SINI
-              // ==========================================
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageAdminTitle ?? "Kelola Admin",
@@ -513,10 +566,12 @@ class HalamanAdmin extends StatelessWidget {
                 icon: Icons.admin_panel_settings,
                 baseWidth: baseWidth,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarAdmin()));
+                  // Kirim ID admin ke halaman daftar admin
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HalamanDaftarAdmin(currentAdminId: currentAdminId)));
                 },
               ),
 
+              // ... (Sisa kode _buildAdminMenuCard lainnya tetap sama seperti sebelumnya)
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageMasterData,
@@ -527,7 +582,6 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarDataNonAnggota()));
                 },
               ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageMemberData,
@@ -538,7 +592,6 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarAnggota()));
                 },
               ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageCentralOfficials,
@@ -549,7 +602,6 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaPejabatPusat()));
                 },
               ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageBishopData,
@@ -560,7 +612,6 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanDaftarEpiscopi()));
                 },
               ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageCitocNews,
@@ -571,7 +622,6 @@ class HalamanAdmin extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const HalamanKelolaCitoc()));
                 },
               ),
-
               _buildAdminMenuCard(
                 context: context,
                 title: t.manageGeneralCommissions,
@@ -603,14 +653,8 @@ class HalamanAdmin extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        leading: CircleAvatar(
-          backgroundColor: Colors.brown,
-          child: Icon(icon, color: Colors.white, size: baseWidth * 0.055),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
-        ),
+        leading: CircleAvatar(backgroundColor: Colors.brown, child: Icon(icon, color: Colors.white, size: baseWidth * 0.055)),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.brown)),
         subtitle: Text(subtitle),
         trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
         onTap: onTap,

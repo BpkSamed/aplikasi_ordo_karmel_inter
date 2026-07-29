@@ -4,7 +4,9 @@ import 'tambah_admin.dart';
 import 'l10n/app_localizations.dart';
 
 class HalamanDaftarAdmin extends StatefulWidget {
-  const HalamanDaftarAdmin({super.key});
+  final int currentAdminId; // ID dari Admin yang sedang login
+
+  const HalamanDaftarAdmin({super.key, required this.currentAdminId});
 
   @override
   State<HalamanDaftarAdmin> createState() => _HalamanDaftarAdminState();
@@ -14,6 +16,9 @@ class _HalamanDaftarAdminState extends State<HalamanDaftarAdmin> {
   final _supabase = Supabase.instance.client;
   bool _isLoading = true;
   List<dynamic> _admins = [];
+
+  // Konstanta untuk mengidentifikasi Master Admin di Database (Biasanya ID yang pertama dibuat)
+  final int _masterAdminId = 1; 
 
   @override
   void initState() {
@@ -69,15 +74,56 @@ class _HalamanDaftarAdminState extends State<HalamanDaftarAdmin> {
           itemCount: _admins.length,
           itemBuilder: (context, index) {
             final admin = _admins[index];
+            
+            final bool isThisMasterAdmin = admin['id'] == _masterAdminId;
+            final bool isMe = admin['id'] == widget.currentAdminId;
+            
+            // Logika: 
+            // - Jika data ini adalah Master Admin, HANYA pengguna itu sendiri (isMe) yang bisa menghapusnya/mengubahnya.
+            // - Jika ini admin biasa, maka bisa dihapus.
+            final bool canEditOrDelete = !isThisMasterAdmin || isMe;
+
             return Card(
               margin: EdgeInsets.only(bottom: baseWidth * 0.03),
               child: ListTile(
-                leading: const CircleAvatar(backgroundColor: Colors.brown, child: Icon(Icons.person, color: Colors.white)),
-                title: Text(admin['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.04)),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _hapusAdmin(admin['id'], t, baseWidth),
+                leading: CircleAvatar(
+                  backgroundColor: isThisMasterAdmin ? Colors.amber : Colors.brown, 
+                  child: Icon(
+                    isThisMasterAdmin ? Icons.workspace_premium : Icons.person, 
+                    color: Colors.white
+                  )
                 ),
+                title: Row(
+                  children: [
+                    Text(
+                      admin['name'], 
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold, 
+                        fontSize: baseWidth * 0.04,
+                        color: isThisMasterAdmin ? Colors.amber[900] : Colors.black
+                      )
+                    ),
+                    if (isThisMasterAdmin) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.amber[100],
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.amber)
+                        ),
+                        child: const Text('Master', style: TextStyle(fontSize: 10, color: Colors.brown, fontWeight: FontWeight.bold)),
+                      )
+                    ]
+                  ],
+                ),
+                // Tombol aksi hanya akan dimunculkan jika yang sedang dilooping boleh diubah oleh user yang aktif
+                trailing: canEditOrDelete 
+                  ? IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _hapusAdmin(admin['id'], t, baseWidth),
+                    )
+                  : null, 
               ),
             );
           },
