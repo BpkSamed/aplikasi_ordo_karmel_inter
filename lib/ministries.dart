@@ -1,12 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // UNTUK CLIPBOARD (SALIN TEKS)
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart'; // UNTUK LINK WEBSITE
 import 'l10n/app_localizations.dart'; // Import lokalisasi
+
+/// =================================================================
+/// WIDGET HELPER GLOBAL: ROW INFORMASI DENGAN FITUR LONG PRESS COPY
+/// =================================================================
+Widget _buildCopyableRow({
+  required BuildContext context,
+  required String label,
+  required String value,
+  required double baseWidth,
+  bool isCopyable = true,
+}) {
+  final bool canCopy = isCopyable && value != '-' && value.trim().isNotEmpty;
+
+  return InkWell(
+    onLongPress: canCopy
+        ? () {
+            Clipboard.setData(ClipboardData(text: value));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("$label $value berhasil disalin"),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        : null,
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: baseWidth * 0.012),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: baseWidth * 0.28,
+            child: Text(
+              "$label: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade700,
+                fontSize: baseWidth * 0.035,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: baseWidth * 0.035,
+                      color: canCopy ? Colors.brown.shade900 : Colors.black87,
+                      fontWeight: canCopy ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                if (canCopy)
+                  Padding(
+                    padding: EdgeInsets.only(left: baseWidth * 0.01),
+                    child: Icon(Icons.copy, size: baseWidth * 0.035, color: Colors.grey),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 /// =================================================================
 /// HALAMAN UTAMA: MENU DATA MINISTRIES (KARYA KERASULAN)
 /// =================================================================
-class HalamanMinistries extends StatelessWidget {
+class HalamanMinistries extends StatefulWidget {
   const HalamanMinistries({super.key});
+
+  @override
+  State<HalamanMinistries> createState() => _HalamanMinistriesState();
+}
+
+class _HalamanMinistriesState extends State<HalamanMinistries> {
+  bool _isSchoolsExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +111,30 @@ class HalamanMinistries extends StatelessWidget {
               
               _buildMenuCard(context, t.parishes ?? "Parishes", Icons.church, 'Parishes', baseWidth),
               
-              // Menu Schools menggunakan ExpansionTile karena memiliki sub-kategori
+              // Menu Schools (Scholae) - Disamakan ukuran & panah mengarah ke kanan saat tertutup
               Card(
                 elevation: 3,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 child: ExpansionTile(
+                  tilePadding: EdgeInsets.symmetric(vertical: baseWidth * 0.015, horizontal: baseWidth * 0.04),
                   leading: CircleAvatar(
                     backgroundColor: Colors.brown, 
-                    child: Icon(Icons.school, color: Colors.white, size: baseWidth * 0.05)
+                    child: Icon(Icons.school, color: Colors.white, size: baseWidth * 0.055)
                   ),
                   title: Text(
                     t.schools ?? "Schools", 
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.038)
                   ),
+                  trailing: Icon(
+                    _isSchoolsExpanded ? Icons.keyboard_arrow_down : Icons.arrow_forward_ios,
+                    size: baseWidth * 0.04,
+                    color: Colors.brown,
+                  ),
+                  onExpansionChanged: (expanded) {
+                    setState(() {
+                      _isSchoolsExpanded = expanded;
+                    });
+                  },
                   children: [
                     _buildSubMenuCard(context, t.elementarySchool ?? "Elementary School", 'Elementary School', baseWidth),
                     _buildSubMenuCard(context, t.secondarySchool ?? "Secondary School", 'Secondary School', baseWidth),
@@ -73,9 +160,10 @@ class HalamanMinistries extends StatelessWidget {
                 color: Colors.brown.shade50,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: baseWidth * 0.02, horizontal: baseWidth * 0.04),
                   leading: CircleAvatar(
                     backgroundColor: Colors.brown, 
-                    child: Icon(Icons.group_work, color: Colors.white, size: baseWidth * 0.05)
+                    child: Icon(Icons.group_work, color: Colors.white, size: baseWidth * 0.055)
                   ),
                   title: Text(
                     t.allMinistriesPersonnel ?? "Seluruh Personalia Ministries", 
@@ -103,16 +191,16 @@ class HalamanMinistries extends StatelessWidget {
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(vertical: baseWidth * 0.02, horizontal: baseWidth * 0.04),
+        contentPadding: EdgeInsets.symmetric(vertical: baseWidth * 0.015, horizontal: baseWidth * 0.04),
         leading: CircleAvatar(
           backgroundColor: Colors.brown, 
-          child: Icon(icon, color: Colors.white, size: baseWidth * 0.05)
+          child: Icon(icon, color: Colors.white, size: baseWidth * 0.055)
         ),
         title: Text(
           title,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown, fontSize: baseWidth * 0.038),
         ),
-        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04),
+        trailing: Icon(Icons.arrow_forward_ios, size: baseWidth * 0.04, color: Colors.brown),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => HalamanMinistriesEntities(kategori: filterKategori, kategoriTampil: title)));
         },
@@ -136,8 +224,8 @@ class HalamanMinistries extends StatelessWidget {
 /// SUB-HALAMAN 1: DATA MINISTRIES – LEMBAGA / KARYA (ENTITIES)
 /// =================================================================
 class HalamanMinistriesEntities extends StatefulWidget {
-  final String kategori; // Key untuk filter di database
-  final String kategoriTampil; // Teks yang sudah dilokalisasi untuk di-display
+  final String kategori;
+  final String kategoriTampil;
 
   const HalamanMinistriesEntities({super.key, required this.kategori, required this.kategoriTampil});
 
@@ -156,6 +244,25 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
         .eq('ministry_type', widget.kategori) 
         .order('name', ascending: true);
     return response as List<dynamic>;
+  }
+
+  Future<void> _launchExternalURL(BuildContext context, String urlString) async {
+    String finalUrl = urlString.trim();
+    if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+      finalUrl = 'https://$finalUrl';
+    }
+    final Uri url = Uri.parse(finalUrl);
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Gagal membuka tautan web: $finalUrl")),
+        );
+      }
+    }
   }
 
   @override
@@ -193,12 +300,14 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
                       itemBuilder: (context, index) {
                         final entity = filtered[index];
                         final address = entity['addresses'];
+                        final String? webUrl = entity['website_url'];
+
                         return Card(
                           margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
                           child: ExpansionTile(
                             leading: Icon(Icons.domain, color: Colors.brown, size: baseWidth * 0.06),
                             title: Text(entity['name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
-                            subtitle: Text(entity['website_url'] ?? (t.noWebsite ?? 'Tidak ada Website'), style: TextStyle(fontSize: baseWidth * 0.032)),
+                            subtitle: Text(address?['city'] ?? (t.locationNotSet ?? 'Lokasi belum diatur'), style: TextStyle(fontSize: baseWidth * 0.032)),
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(baseWidth * 0.04),
@@ -212,15 +321,34 @@ class _HalamanMinistriesEntitiesState extends State<HalamanMinistriesEntities> {
                                     SizedBox(height: baseWidth * 0.01),
                                     Text(entity['historia'] ?? (t.noDescriptionData ?? 'Belum ada data deskripsi.'), style: TextStyle(fontSize: baseWidth * 0.035)),
                                     const Divider(),
+                                    
+                                    if (webUrl != null && webUrl.trim().isNotEmpty) ...[
+                                      Text("${t.officialWebsite ?? 'Website Resmi'}:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)),
+                                      SizedBox(height: baseWidth * 0.01),
+                                      InkWell(
+                                        onTap: () => _launchExternalURL(context, webUrl),
+                                        child: Text(
+                                          webUrl,
+                                          style: TextStyle(fontSize: baseWidth * 0.035, color: Colors.blue, decoration: TextDecoration.underline, fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      const Divider(),
+                                    ],
+
                                     Text(
                                       t.officialMinistryAddress ?? "Alamat Resmi Pelayanan:", 
                                       style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown.shade700, fontSize: baseWidth * 0.035)
                                     ),
                                     SizedBox(height: baseWidth * 0.01),
                                     if (address != null) ...[
-                                      Text("${address['house_name'] ?? ''} ${address['street'] ?? ''}", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${address['city'] ?? ''}, ${address['country'] ?? ''} (${address['postal_code'] ?? ''})", style: TextStyle(fontSize: baseWidth * 0.035)),
-                                      Text("${t.telephone ?? 'Telp'}: ${address['telephone'] ?? '-'} • ${t.email ?? 'Email'}: ${address['email'] ?? '-'}", style: TextStyle(fontSize: baseWidth * 0.035)),
+                                      _buildCopyableRow(context: context, label: t.houseName ?? 'Gedung/Rumah', value: address['house_name'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.street ?? 'Jalan/No', value: address['street'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.city ?? 'Kota', value: address['city'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.country ?? 'Negara', value: address['country'] ?? '-', baseWidth: baseWidth, isCopyable: false),
+                                      _buildCopyableRow(context: context, label: t.postalCode ?? 'Kode Pos', value: address['postal_code'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.telephone ?? 'Telepon', value: address['telephone'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.faxcimile ?? 'Fax', value: address['faxcimile'] ?? '-', baseWidth: baseWidth, isCopyable: true),
+                                      _buildCopyableRow(context: context, label: t.email ?? 'Email', value: address['email'] ?? '-', baseWidth: baseWidth, isCopyable: true),
                                     ] else
                                       Text(t.addressNotAvailable ?? "Alamat tidak tersedia.", style: TextStyle(fontSize: baseWidth * 0.035)),
                                   ],
@@ -294,13 +422,20 @@ class _HalamanMinistriesMembersState extends State<HalamanMinistriesMembers> {
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final member = filtered[index];
+                        final String? photoUrl = member['photo_url'];
+
                         return Card(
                           margin: EdgeInsets.symmetric(vertical: baseWidth * 0.015),
                           child: ExpansionTile(
                             leading: CircleAvatar(
                               backgroundColor: Colors.brown,
                               radius: baseWidth * 0.05,
-                              child: Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05),
+                              backgroundImage: (photoUrl != null && photoUrl.trim().isNotEmpty)
+                                  ? NetworkImage(photoUrl)
+                                  : null,
+                              child: (photoUrl == null || photoUrl.trim().isEmpty)
+                                  ? Icon(Icons.person, color: Colors.white, size: baseWidth * 0.05)
+                                  : null,
                             ),
                             title: Text(member['full_name'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: baseWidth * 0.038)),
                             subtitle: Text("${t.ministryWork ?? 'Karya:'} ${member['entities']?['name'] ?? (t.notDetermined ?? 'Belum ditentukan')}", style: TextStyle(fontSize: baseWidth * 0.032)),
