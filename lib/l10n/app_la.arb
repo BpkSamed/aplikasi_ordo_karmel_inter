@@ -683,5 +683,31 @@
 
   "heremitiEntitiesSubtitle": "Elenchus Eremorum, Historia, et Situs Interretialis",
   "heremitiConventusSubtitle": "Elenchus Domorum Eremiticorum et Contactus Publici",
-  "heremitiMembersSubtitle": "Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis"
+  "heremitiMembersSubtitle": "Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis",
+
+  "welcomeUser": "Salve, {username}",
+  "@welcomeUser": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "headquarters": "Sedes Principalis",
+  "headquartersAddress": "Curia Generalizia dei Carmelitani\nVia Giovanni Lanza, 138\n00184 Roma, Italia",
+  "contactUs": "Contactus",
+  "contactDetails": "Segretario Generalis\nTel: +39.06 4620 181\nFax: +39.06 4620 1847\nEmail: seggen@ocarm.org",
+
+  "adminLoginFailed": "Accessus Admin defecit: Nomen vel Tessera perperam est!",
+  "memberLoginFailed": "Accessus Sodalis defecit: Nomen/Electronicus epistula vel Tessera perperam est!",
+
+  "exitConfirmTitle": "Confirmatio Exitus",
+  "exitConfirmMessage": "Visne exire ab applicatione?",
+  "btnNo": "Non",
+  "btnYes": "Ita",
+
+  "logoutConfirmTitle": "Confirmatio Exitus",
+  "logoutConfirmMessage": "Visne rationem tuam exire?",
+  "btnNo": "Non",
+  "btnYes": "Ita"
 }

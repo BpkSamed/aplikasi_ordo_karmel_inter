@@ -19,13 +19,14 @@ class AppLocalizationsLa extends AppLocalizations {
 
   @override
   String get headquartersAddress =>
-      'Curia Generalitia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia';
+      'Curia Generalizia dei Carmelitani\nVia Giovanni Lanza, 138\n00184 Roma, Italia';
 
   @override
   String get contactUs => 'Contactus';
 
   @override
-  String get contactDetails => 'Email: info@ocarm.org\nTel: +39 06 4620181';
+  String get contactDetails =>
+      'Segretario Generalis\nTel: +39.06 4620 181\nFax: +39.06 4620 1847\nEmail: seggen@ocarm.org';
 
   @override
   String get continueToLogin => 'Perge ad Login';
@@ -1533,4 +1534,35 @@ class AppLocalizationsLa extends AppLocalizations {
   @override
   String get heremitiMembersSubtitle =>
       'Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis';
+
+  @override
+  String welcomeUser(String username) {
+    return 'Salve, $username';
+  }
+
+  @override
+  String get adminLoginFailed =>
+      'Accessus Admin defecit: Nomen vel Tessera perperam est!';
+
+  @override
+  String get memberLoginFailed =>
+      'Accessus Sodalis defecit: Nomen/Electronicus epistula vel Tessera perperam est!';
+
+  @override
+  String get exitConfirmTitle => 'Confirmatio Exitus';
+
+  @override
+  String get exitConfirmMessage => 'Visne exire ab applicatione?';
+
+  @override
+  String get btnNo => 'Non';
+
+  @override
+  String get btnYes => 'Ita';
+
+  @override
+  String get logoutConfirmTitle => 'Confirmatio Exitus';
+
+  @override
+  String get logoutConfirmMessage => 'Visne rationem tuam exire?';
 }

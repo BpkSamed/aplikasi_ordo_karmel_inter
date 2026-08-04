@@ -15,17 +15,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appName => 'APLICACIÓN ORDEN CARMELITA';
 
   @override
-  String get headquarters => 'Sede Central';
+  String get headquarters => 'Sede Principal';
 
   @override
   String get headquartersAddress =>
-      'Curia Generalizia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia';
+      'Curia Generalizia dei Carmelitani\nVia Giovanni Lanza, 138\n00184 Roma, Italia';
 
   @override
-  String get contactUs => 'Contáctanos';
+  String get contactUs => 'Contáctenos';
 
   @override
-  String get contactDetails => 'Email: info@ocarm.org\nTel: +39 06 4620181';
+  String get contactDetails =>
+      'Secretaría General\nTel: +39.06 4620 181\nFax: +39.06 4620 1847\nEmail: seggen@ocarm.org';
 
   @override
   String get continueToLogin => 'Continuar al Login';
@@ -1544,4 +1545,37 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get heremitiMembersSubtitle =>
       'Lista de Miembros, Fechas de Votos y Ordenación Sacerdotal';
+
+  @override
+  String welcomeUser(String username) {
+    return 'Bienvenido, $username';
+  }
+
+  @override
+  String get adminLoginFailed =>
+      '¡Inicio de sesión de Admin fallido: Nombre de usuario o contraseña incorrectos!';
+
+  @override
+  String get memberLoginFailed =>
+      '¡Inicio de sesión de Miembro fallido: Nombre de usuario/Correo o contraseña incorrectos!';
+
+  @override
+  String get exitConfirmTitle => 'Confirmación de Salida';
+
+  @override
+  String get exitConfirmMessage =>
+      '¿Estás seguro de que deseas salir de la aplicación?';
+
+  @override
+  String get btnNo => 'No';
+
+  @override
+  String get btnYes => 'Sí';
+
+  @override
+  String get logoutConfirmTitle => 'Confirmación de Cierre';
+
+  @override
+  String get logoutConfirmMessage =>
+      '¿Estás seguro de que deseas cerrar sesión?';
 }

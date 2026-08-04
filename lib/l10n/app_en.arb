@@ -655,5 +655,32 @@
 
   "heremitiEntitiesSubtitle": "List of Hermitages, History, & Official Website",
   "heremitiConventusSubtitle": "List of Hermitage Houses/Buildings and Official Contacts",
-  "heremitiMembersSubtitle": "List of Members, Vow Dates, & Priestly Ordination"
+  "heremitiMembersSubtitle": "List of Members, Vow Dates, & Priestly Ordination",
+
+  "welcomeUser": "Welcome, {username}",
+  "@welcomeUser": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+
+  "headquarters": "Headquarters / Sedes Principalis",
+  "headquartersAddress": "Curia Generalizia dei Carmelitani\nVia Giovanni Lanza, 138\n00184 Roma, Italy",
+  "contactUs": "Contact Us",
+  "contactDetails": "General Secretariat\nTel: +39.06 4620 181\nFax: +39.06 4620 1847\nEmail: seggen@ocarm.org",
+
+  "adminLoginFailed": "Admin login failed: Incorrect Username or Password!",
+  "memberLoginFailed": "Member login failed: Incorrect Username/Email or Password!",
+
+  "exitConfirmTitle": "Exit Confirmation",
+  "exitConfirmMessage": "Are you sure you want to exit the app?",
+  "btnNo": "No",
+  "btnYes": "Yes",
+
+  "logoutConfirmTitle": "Logout Confirmation",
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "btnNo": "No",
+  "btnYes": "Yes"
 }

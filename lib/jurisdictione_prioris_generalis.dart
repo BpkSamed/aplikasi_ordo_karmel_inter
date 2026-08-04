@@ -116,10 +116,10 @@ class _HalamanSubImmediataState extends State<HalamanSubImmediata> {
               final namaKategori = _kategoriSubImmediata[index];
 
               // Cari entitas yang cocok di database
-              final entitasMatch = _entitasSubImmediata.firstWhere(
-                (e) => (e['name'] ?? '').toString().toLowerCase().contains(namaKategori.toLowerCase()),
-                orElse: () => null,
+              final entitasMatches = _entitasSubImmediata.where(
+                (e) => (e['name'] ?? '').toString().toLowerCase().contains(namaKategori.toLowerCase())
               );
+              final entitasMatch = entitasMatches.isNotEmpty ? entitasMatches.first : null;
 
               // Cari pimpinan/pejabat yang cocok di database
               final pejabatMatch = _pejabatSubImmediata.where(

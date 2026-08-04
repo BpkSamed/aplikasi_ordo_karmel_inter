@@ -123,7 +123,7 @@ abstract class AppLocalizations {
   /// No description provided for @headquartersAddress.
   ///
   /// In la, this message translates to:
-  /// **'Curia Generalitia\nVia di San Martino ai Monti, 8\n00184 Roma, Italia'**
+  /// **'Curia Generalizia dei Carmelitani\nVia Giovanni Lanza, 138\n00184 Roma, Italia'**
   String get headquartersAddress;
 
   /// No description provided for @contactUs.
@@ -135,7 +135,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactDetails.
   ///
   /// In la, this message translates to:
-  /// **'Email: info@ocarm.org\nTel: +39 06 4620181'**
+  /// **'Segretario Generalis\nTel: +39.06 4620 181\nFax: +39.06 4620 1847\nEmail: seggen@ocarm.org'**
   String get contactDetails;
 
   /// No description provided for @continueToLogin.
@@ -2927,6 +2927,60 @@ abstract class AppLocalizations {
   /// In la, this message translates to:
   /// **'Elenchus Sodalium, Dies Votorum, et Ordinatio Sacerdotalis'**
   String get heremitiMembersSubtitle;
+
+  /// No description provided for @welcomeUser.
+  ///
+  /// In la, this message translates to:
+  /// **'Salve, {username}'**
+  String welcomeUser(String username);
+
+  /// No description provided for @adminLoginFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Accessus Admin defecit: Nomen vel Tessera perperam est!'**
+  String get adminLoginFailed;
+
+  /// No description provided for @memberLoginFailed.
+  ///
+  /// In la, this message translates to:
+  /// **'Accessus Sodalis defecit: Nomen/Electronicus epistula vel Tessera perperam est!'**
+  String get memberLoginFailed;
+
+  /// No description provided for @exitConfirmTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Exitus'**
+  String get exitConfirmTitle;
+
+  /// No description provided for @exitConfirmMessage.
+  ///
+  /// In la, this message translates to:
+  /// **'Visne exire ab applicatione?'**
+  String get exitConfirmMessage;
+
+  /// No description provided for @btnNo.
+  ///
+  /// In la, this message translates to:
+  /// **'Non'**
+  String get btnNo;
+
+  /// No description provided for @btnYes.
+  ///
+  /// In la, this message translates to:
+  /// **'Ita'**
+  String get btnYes;
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In la, this message translates to:
+  /// **'Confirmatio Exitus'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In la, this message translates to:
+  /// **'Visne rationem tuam exire?'**
+  String get logoutConfirmMessage;
 }
 
 class _AppLocalizationsDelegate
