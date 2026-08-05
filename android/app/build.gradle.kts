@@ -39,7 +39,24 @@ android {
         versionName = flutter.versionName
     }
 
-    // Menambahkan blok signingConfigs untuk release
+    // --- BLOK ANTI-ERROR STRIPPING (DO NOT STRIP) ---
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**/*.so")
+            useLegacyPackaging = true
+        }
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
+    
+    // Memaksa seluruh modul native untuk tidak di-strip oleh Gradle toolchain
+    androidResources {
+        @Suppress("UnstableApiUsage")
+        ignoreAssetsPattern = ""
+    }
+    // ------------------------------------------------
+
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties.getProperty("keyAlias")
@@ -51,8 +68,13 @@ android {
 
     buildTypes {
         release {
-            // Mengubah getByName dari "debug" menjadi "release"
             signingConfig = signingConfigs.getByName("release")
+            // Menambahkan instruksi doNotStrip secara eksplisit pada kompilasi native
+            packaging {
+                jniLibs {
+                    keepDebugSymbols.add("**/*.so")
+                }
+            }
         }
     }
 }
